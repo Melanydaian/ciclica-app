@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  ciclica-web:
+    image: ciclica-web:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_KEY=${SUPABASE_SERVICE_KEY}
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+      - STRIPE_PRICE_ID=${STRIPE_PRICE_ID}
+      - MP_ACCESS_TOKEN=${MP_ACCESS_TOKEN}
+      - MP_PLAN_AMOUNT=${MP_PLAN_AMOUNT}
+      - MP_CURRENCY=${MP_CURRENCY}
+    networks:
+      - flip
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.ciclica.rule=Host(`ciclica.pro`)
+        - traefik.http.routers.ciclica.entrypoints=websecure
+        - traefik.http.routers.ciclica.tls.certresolver=letsencrypt
+        - traefik.http.services.ciclica.loadbalancer.server.port=3000
+        - traefik.docker.network=flip
+
+networks:
+  flip:
+    external: true
