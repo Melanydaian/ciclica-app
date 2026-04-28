@@ -37,63 +37,56 @@ export default async function DashboardPage() {
   let suscripcionActiva = false
 
   if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
-    const { createServerSupabase } = await import('@/lib/supabase-server')
+    const { createServerSupabase, createAdminSupabase } = await import('@/lib/supabase-server')
     const supabase = await createServerSupabase()
+    const admin = createAdminSupabase()
+
     const { data: { user } } = await supabase.auth.getUser()
 
-    const { data: webUser } = await supabase
-      .from('usuarias_web')
-      .select('telefono, nombre, suscripcion_activa, suscripcion_plan')
-      .eq('email', user?.email ?? '')
-      .single()
-
-    const telefono = webUser?.telefono
-    suscripcionActiva = webUser?.suscripcion_activa ?? false
-
-    if (telefono) {
-      const { data: u } = await supabase
-        .from('usuarias')
-        .select('nombre, fecha_inicio_ciclo, duracion_ciclo, promedio_duracion_ciclo, puntos, codigo_referido, objetivo')
-        .eq('telefono', telefono)
+    if (user?.email) {
+      const { data: webUser } = await admin
+        .from('usuarias_web')
+        .select('telefono, nombre, suscripcion_activa, suscripcion_plan')
+        .eq('email', user.email)
         .single()
-      usuaria = u
-      nombre = u?.nombre ?? webUser?.nombre ?? 'vos'
 
-      const { data: regs } = await supabase
-        .from('registros_ciclo')
-        .select('created_at, fase_actual, sintoma')
-        .eq('telefono', telefono)
-        .order('created_at', { ascending: false })
-        .limit(14)
+      const telefono = webUser?.telefono
+      suscripcionActiva = webUser?.suscripcion_activa ?? false
 
-      if (regs?.length) {
-        registros = regs.map(r => ({
+      if (telefono) {
+        const [
+          { data: u },
+          { data: regs },
+          { data: ciclos },
+          { data: log },
+        ] = await Promise.all([
+          admin.from('usuarias')
+            .select('nombre, fecha_inicio_ciclo, duracion_ciclo, promedio_duracion_ciclo, puntos, codigo_referido, objetivo')
+            .eq('telefono', telefono).single(),
+          admin.from('registros_ciclo')
+            .select('created_at, fase_actual, sintoma')
+            .eq('telefono', telefono)
+            .order('created_at', { ascending: false }).limit(14),
+          admin.from('historial_ciclos')
+            .select('duracion_dias')
+            .eq('telefono', telefono)
+            .order('fecha_inicio', { ascending: false }).limit(6),
+          admin.from('puntos_log')
+            .select('puntos, concepto, descripcion, created_at')
+            .eq('telefono', telefono)
+            .order('created_at', { ascending: false }).limit(4),
+        ])
+
+        usuaria = u
+        nombre = u?.nombre ?? webUser?.nombre ?? 'vos'
+        if (regs?.length) registros = regs.map(r => ({
           fecha: r.created_at?.split('T')[0] ?? '',
           sintomas: r.sintoma ? [r.sintoma] : [],
-          estado_animo: '',
-          notas: '',
+          estado_animo: '', notas: '',
         }))
+        if (ciclos?.length) pastCycles = ciclos.map(c => ({ length: c.duracion_dias ?? 28 }))
+        if (log?.length) puntosLog = log
       }
-
-      const { data: ciclos } = await supabase
-        .from('historial_ciclos')
-        .select('duracion_dias')
-        .eq('telefono', telefono)
-        .order('fecha_inicio', { ascending: false })
-        .limit(6)
-
-      if (ciclos?.length) {
-        pastCycles = ciclos.map(c => ({ length: c.duracion_dias ?? 28 }))
-      }
-
-      const { data: log } = await supabase
-        .from('puntos_log')
-        .select('puntos, concepto, descripcion, created_at')
-        .eq('telefono', telefono)
-        .order('created_at', { ascending: false })
-        .limit(4)
-
-      if (log?.length) puntosLog = log
     }
   }
 
