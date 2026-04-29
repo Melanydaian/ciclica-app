@@ -39,12 +39,14 @@ export const PHASE_INFO: Record<CyclePhase, PhaseInfo> = {
   },
 }
 
+const MIN_CICLOS_PARA_PROMEDIO = 3
+
 export function calcularPromedioCiclo(
   historial: { length: number }[],
   fallback = 28
 ): number {
   const validos = historial.filter(c => c.length >= 21 && c.length <= 45)
-  if (!validos.length) return fallback
+  if (validos.length < MIN_CICLOS_PARA_PROMEDIO) return fallback
   return Math.round(validos.reduce((acc, c) => acc + c.length, 0) / validos.length)
 }
 
