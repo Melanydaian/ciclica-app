@@ -1,4 +1,4 @@
-import { getCurrentPhase, PHASE_INFO } from '@/lib/cycle-utils'
+import { getCurrentPhase, calcularPromedioCiclo, PHASE_INFO } from '@/lib/cycle-utils'
 import PhaseCard from '@/components/cycle/PhaseCard'
 import StatsRow from '@/components/cycle/StatsRow'
 import RecentSymptoms from '@/components/cycle/RecentSymptoms'
@@ -94,7 +94,10 @@ export default async function DashboardPage() {
     ? new Date(usuaria.fecha_inicio_ciclo)
     : new Date('2026-04-18')
 
-  const cycleLength = usuaria?.duracion_ciclo ?? usuaria?.promedio_duracion_ciclo ?? 28
+  // Preferir el promedio calculado sobre el valor por defecto; calcularPromedioCiclo
+  // filtra ciclos anómalos (<21 o >45 días) para no distorsionar el resultado
+  const promedioHistorial = calcularPromedioCiclo(pastCycles)
+  const cycleLength = usuaria?.promedio_duracion_ciclo ?? usuaria?.duracion_ciclo ?? promedioHistorial
 
   const { phase, dayOfCycle, daysUntilNextPeriod } = getCurrentPhase(lastPeriod, cycleLength, 5)
   const info = PHASE_INFO[phase]
