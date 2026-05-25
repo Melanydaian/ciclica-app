@@ -6,6 +6,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+        NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
     environment:
       - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
       - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
@@ -17,6 +21,7 @@ services:
       - MP_ACCESS_TOKEN=${MP_ACCESS_TOKEN}
       - MP_PLAN_AMOUNT=${MP_PLAN_AMOUNT}
       - MP_CURRENCY=${MP_CURRENCY}
+      - MP_WEBHOOK_SECRET=${MP_WEBHOOK_SECRET}
     networks:
       - flip
     deploy:
@@ -25,10 +30,10 @@ services:
         condition: on-failure
       labels:
         - traefik.enable=true
-        - traefik.http.routers.ciclica.rule=Host(`ciclica.pro`)
-        - traefik.http.routers.ciclica.entrypoints=websecure
-        - traefik.http.routers.ciclica.tls.certresolver=letsencrypt
-        - traefik.http.services.ciclica.loadbalancer.server.port=3000
+        - traefik.http.routers.ciclica-app.rule=Host(`app.ciclica.pro`)
+        - traefik.http.routers.ciclica-app.entrypoints=websecure
+        - traefik.http.routers.ciclica-app.tls.certresolver=letsencrypt
+        - traefik.http.services.ciclica-app.loadbalancer.server.port=3000
         - traefik.docker.network=flip
 
 networks:

@@ -76,13 +76,13 @@ export default function RegularidadCard({
         </div>
 
         {/* Period length */}
-        <div className="flex items-center justify-between py-2 border-t border-gray-50">
-          <div>
+        <div className="flex items-start justify-between gap-2 py-2 border-t border-gray-50">
+          <div className="min-w-0">
             <p className="text-sm text-gray-600">Duración del período</p>
             <p className="text-xs text-gray-400">{periodLength} días · normal: 2-7 días</p>
           </div>
           <span
-            className="text-xs font-medium px-2 py-0.5 rounded-full"
+            className="shrink-0 text-xs font-medium px-2 py-0.5 rounded-full"
             style={{ color: periodStatus.color, background: periodStatus.bg }}
           >
             {periodStatus.label}
@@ -91,21 +91,21 @@ export default function RegularidadCard({
 
         {/* Variability */}
         {variability !== null && (
-          <div className="flex items-center justify-between py-2 border-t border-gray-50">
-            <div>
+          <div className="flex items-start justify-between gap-2 py-2 border-t border-gray-50">
+            <div className="min-w-0">
               <p className="text-sm text-gray-600">Variabilidad entre ciclos</p>
               <p className="text-xs text-gray-400">
-                {variability <= 2 ? 'Muy regular' : variability <= 5 ? 'Moderadamente regular' : 'Variable'} · diferencia de {variability} días
+                {variability <= 2 ? 'Muy regular' : variability <= 5 ? 'Moderadamente regular' : 'Variable'} · {variability} días de diferencia
               </p>
             </div>
             <span
-              className="text-xs font-medium px-2 py-0.5 rounded-full"
+              className="shrink-0 text-xs font-medium px-2 py-0.5 rounded-full"
               style={{
                 color: variability <= 2 ? '#34D399' : variability <= 5 ? '#FBBF24' : '#F87171',
                 background: variability <= 2 ? '#F0FDF4' : variability <= 5 ? '#FFFBEB' : '#FEF2F2',
               }}
             >
-              {variability <= 2 ? '✓ Muy regular' : variability <= 5 ? 'Regular' : 'Irregular'}
+              {variability <= 2 ? '✓ Regular' : variability <= 5 ? 'Regular' : 'Irregular'}
             </span>
           </div>
         )}

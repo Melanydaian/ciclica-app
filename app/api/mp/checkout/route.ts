@@ -2,9 +2,17 @@ import { NextResponse } from 'next/server'
 import { createServerSupabase } from '@/lib/supabase-server'
 import { MercadoPagoConfig, PreApproval } from 'mercadopago'
 
-const mp = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN! })
-
 export async function POST() {
+  const mpToken = process.env.MP_ACCESS_TOKEN
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL
+
+  if (!mpToken) {
+    return NextResponse.json(
+      { error: 'Mercado Pago no está configurado en el servidor.' },
+      { status: 503 },
+    )
+  }
+
   const supabase = await createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -12,6 +20,7 @@ export async function POST() {
     return NextResponse.json({ error: 'No autenticada' }, { status: 401 })
   }
 
+  const mp = new MercadoPagoConfig({ accessToken: mpToken })
   const preApproval = new PreApproval(mp)
 
   const result = await preApproval.create({
@@ -24,7 +33,7 @@ export async function POST() {
         transaction_amount: Number(process.env.MP_PLAN_AMOUNT ?? 4.99),
         currency_id: process.env.MP_CURRENCY ?? 'USD',
       },
-      back_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?plan=activado`,
+      back_url: `${appUrl}/dashboard?plan=activado`,
       status: 'pending',
     },
   })

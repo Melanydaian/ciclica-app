@@ -10,7 +10,7 @@ export default function StatsRow({
   const progress = Math.round((dayOfCycle / cycleLength) * 100)
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-3 gap-2">
       <div className="bg-white rounded-2xl p-4 border border-pink-100 text-center">
         <p className="text-3xl font-bold text-pink-500">{daysUntilNextPeriod}</p>
         <p className="text-xs text-gray-400 mt-1">días para tu período</p>

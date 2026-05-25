@@ -39,7 +39,7 @@ export async function GET() {
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td align="center" style="padding-bottom:28px;">
-                    <a href="{{ .ConfirmationURL }}"
+                    <a href="{{ .SiteURL }}/auth/verify?token_hash={{ .TokenHash }}&type=magiclink&next=/dashboard"
                        style="display:inline-block;background:linear-gradient(135deg,#EC4899,#db2777);color:#ffffff;font-size:16px;font-weight:600;text-decoration:none;padding:16px 40px;border-radius:14px;letter-spacing:0.2px;">
                       Entrar a mi dashboard ✨
                     </a>
@@ -55,7 +55,7 @@ export async function GET() {
                 ¿El botón no funciona? Copiá este enlace en tu navegador:
               </p>
               <p style="margin:0;font-size:12px;color:#EC4899;word-break:break-all;">
-                {{ .ConfirmationURL }}
+                {{ .SiteURL }}/auth/verify?token_hash={{ .TokenHash }}&type=magiclink&next=/dashboard
               </p>
             </td>
           </tr>

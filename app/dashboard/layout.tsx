@@ -1,33 +1,24 @@
 import NavBar from '@/components/layout/NavBar'
-import type { User } from '@supabase/supabase-js'
-
-const MOCK_USER = { email: 'meli@email.com', id: 'mock' } as User
+import { redirect } from 'next/navigation'
+import { createServerSupabase } from '@/lib/supabase-server'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
-  let user: User | null = MOCK_USER
+  const supabase = await createServerSupabase()
+  const { data: { user } } = await supabase.auth.getUser()
 
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
-    const { createServerSupabase } = await import('@/lib/supabase-server')
-    const { redirect } = await import('next/navigation')
-    const supabase = await createServerSupabase()
-    const { data } = await supabase.auth.getUser()
-    user = data.user
+  if (!user) redirect('/')
 
-    if (!user) redirect('/')
+  const { data: webUser } = await supabase
+    .from('usuarias_web')
+    .select('telefono')
+    .eq('email', user.email ?? '')
+    .single()
 
-    // Si no tiene teléfono vinculado → onboarding
-    const { data: webUser } = await supabase
-      .from('usuarias_web')
-      .select('telefono')
-      .eq('email', user!.email ?? '')
-      .single()
-
-    if (!webUser?.telefono) redirect('/onboarding')
-  }
+  if (!webUser?.telefono) redirect('/onboarding')
 
   return (
     <div className="min-h-screen bg-[#FFF9FB]">
-      <NavBar user={user!} />
+      <NavBar user={user} />
       <main className="max-w-4xl mx-auto px-4 py-6 pb-24 md:pb-8">{children}</main>
     </div>
   )

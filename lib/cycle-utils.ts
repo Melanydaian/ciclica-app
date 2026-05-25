@@ -56,9 +56,10 @@ export function getCurrentPhase(
   periodLength = 5
 ): { phase: CyclePhase; dayOfCycle: number; daysUntilNextPeriod: number } {
   const today = new Date()
-  const dayOfCycle = Math.floor(
-    (today.getTime() - lastPeriodStart.getTime()) / (1000 * 60 * 60 * 24)
-  ) % cycleLength + 1
+  const diffMs = today.getTime() - lastPeriodStart.getTime()
+  // Fecha en el futuro: tratamos como día 1 del ciclo (datos inconsistentes desde n8n)
+  const diffDays = diffMs < 0 ? 0 : Math.floor(diffMs / (1000 * 60 * 60 * 24))
+  const dayOfCycle = (diffDays % cycleLength) + 1
 
   const daysUntilNextPeriod = cycleLength - dayOfCycle + 1
 

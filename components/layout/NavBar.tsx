@@ -1,9 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
-import { useRouter } from 'next/navigation'
 import type { User } from '@supabase/supabase-js'
 
 const links = [
@@ -13,6 +12,7 @@ const links = [
   { href: '/dashboard/perfil',    label: 'Perfil',    icon: '👤' },
 ]
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function NavBar({ user }: { user: User }) {
   const pathname = usePathname()
   const router = useRouter()
@@ -28,7 +28,7 @@ export default function NavBar({ user }: { user: User }) {
       {/* Top bar — logo + salir (siempre visible) */}
       <nav className="bg-white border-b border-pink-100 sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
-          <img src="/logo.png" alt="Cíclica" className="h-8 w-auto" />
+          <img src="/logo.png" alt="Cíclica" className="w-auto" style={{ height: '140px', margin: '-44px -20px' }} />
 
           {/* Links horizontales solo en desktop */}
           <div className="hidden md:flex items-center gap-1">

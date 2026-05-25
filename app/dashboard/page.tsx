@@ -1,4 +1,6 @@
 import { getCurrentPhase, calcularPromedioCiclo, PHASE_INFO } from '@/lib/cycle-utils'
+import { requireUsuaria } from '@/lib/usuaria'
+import { createAdminSupabase } from '@/lib/supabase-server'
 import PhaseCard from '@/components/cycle/PhaseCard'
 import StatsRow from '@/components/cycle/StatsRow'
 import RecentSymptoms from '@/components/cycle/RecentSymptoms'
@@ -10,97 +12,118 @@ import ExportarPDFButton from '@/components/cycle/ExportarPDFButton'
 import TendenciaCiclosCard from '@/components/cycle/TendenciaCiclosCard'
 import PuntosCard from '@/components/cycle/PuntosCard'
 import ProximamenteCard from '@/components/cycle/ProximamenteCard'
-
-const MOCK_REGISTROS = [
-  { fecha: '2026-04-21', sintomas: ['cólicos fuertes'], estado_animo: 'mal',       notas: '' },
-  { fecha: '2026-04-20', sintomas: ['cansancio'],        estado_animo: 'cansada',   notas: '' },
-  { fecha: '2026-04-15', sintomas: ['ansiedad'],          estado_animo: 'irritable', notas: '' },
-  { fecha: '2026-04-10', sintomas: ['dolor leve'],        estado_animo: 'excelente', notas: 'Me sentí con mucha energía' },
-]
-
-const MOCK_PAST_CYCLES = [{ length: 28 }, { length: 28 }, { length: 28 }]
+import PastillaCard from '@/components/cycle/PastillaCard'
 
 export default async function DashboardPage() {
-  let usuaria: {
-    nombre?: string
-    fecha_inicio_ciclo?: string
-    duracion_ciclo?: number
-    promedio_duracion_ciclo?: number
-    puntos?: number
-    codigo_referido?: string
-    objetivo?: string
-  } | null = null
-  let registros = MOCK_REGISTROS
-  let pastCycles = MOCK_PAST_CYCLES
-  let nombre = 'vos'
-  let puntosLog: { puntos: number; concepto: string; descripcion: string; created_at: string }[] = []
-  let suscripcionActiva = false
+  const { telefono, webUser } = await requireUsuaria()
+  const admin = createAdminSupabase()
+  const suscripcionActiva = webUser.suscripcion_activa
 
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
-    const { createServerSupabase, createAdminSupabase } = await import('@/lib/supabase-server')
-    const supabase = await createServerSupabase()
-    const admin = createAdminSupabase()
+  // SELECT defensivo: si la migración 010 todavía no se corrió, toma_anticonceptivas
+  // no existe — intentamos con la columna primero y caemos a un SELECT mínimo si falla.
+  let { data: usuaria } = await admin
+    .from('usuarias')
+    .select('nombre, fecha_inicio_ciclo, duracion_ciclo, promedio_duracion_ciclo, puntos, codigo_referido, objetivo, toma_anticonceptivas')
+    .eq('telefono', telefono)
+    .maybeSingle()
 
-    const { data: { user } } = await supabase.auth.getUser()
-
-    if (user?.email) {
-      const { data: webUser } = await admin
-        .from('usuarias_web')
-        .select('telefono, nombre, suscripcion_activa, suscripcion_plan')
-        .eq('email', user.email)
-        .single()
-
-      const telefono = webUser?.telefono
-      suscripcionActiva = webUser?.suscripcion_activa ?? false
-
-      if (telefono) {
-        const [
-          { data: u },
-          { data: regs },
-          { data: ciclos },
-          { data: log },
-        ] = await Promise.all([
-          admin.from('usuarias')
-            .select('nombre, fecha_inicio_ciclo, duracion_ciclo, promedio_duracion_ciclo, puntos, codigo_referido, objetivo')
-            .eq('telefono', telefono).single(),
-          admin.from('registros_ciclo')
-            .select('created_at, fase_actual, sintoma')
-            .eq('telefono', telefono)
-            .order('created_at', { ascending: false }).limit(14),
-          admin.from('historial_ciclos')
-            .select('duracion_dias')
-            .eq('telefono', telefono)
-            .order('fecha_inicio', { ascending: false }).limit(6),
-          admin.from('puntos_log')
-            .select('puntos, concepto, descripcion, created_at')
-            .eq('telefono', telefono)
-            .order('created_at', { ascending: false }).limit(4),
-        ])
-
-        usuaria = u
-        nombre = u?.nombre ?? webUser?.nombre ?? 'vos'
-        if (regs?.length) registros = regs.map(r => ({
-          fecha: r.created_at?.split('T')[0] ?? '',
-          sintomas: r.sintoma ? [r.sintoma] : [],
-          estado_animo: '', notas: '',
-        }))
-        if (ciclos?.length) pastCycles = ciclos.map(c => ({ length: c.duracion_dias ?? 28 }))
-        if (log?.length) puntosLog = log
-      }
-    }
+  if (!usuaria) {
+    const fallback = await admin
+      .from('usuarias')
+      .select('nombre, fecha_inicio_ciclo, duracion_ciclo, promedio_duracion_ciclo, puntos, codigo_referido, objetivo')
+      .eq('telefono', telefono)
+      .maybeSingle()
+    usuaria = fallback.data ? { ...fallback.data, toma_anticonceptivas: false } : null
   }
 
-  const lastPeriod = usuaria?.fecha_inicio_ciclo
-    ? new Date(usuaria.fecha_inicio_ciclo)
-    : new Date('2026-04-18')
+  const tomaAnticonceptivas = usuaria?.toma_anticonceptivas ?? false
+  const hoy = new Date().toISOString().split('T')[0]
 
-  // Preferir el promedio calculado sobre el valor por defecto; calcularPromedioCiclo
-  // filtra ciclos anómalos (<21 o >45 días) para no distorsionar el resultado
+  // n8n a veces escribe el teléfono con prefijos basura (=5491..., +5491...).
+  // Buscamos todos los formatos posibles.
+  const telefonoVariants = [telefono, `=${telefono}`, `+${telefono}`, `${telefono}@s.whatsapp.net`]
+
+  const [
+    { data: regsRaw },
+    { data: ciclosRaw },
+    { data: log },
+    { data: pastilla },
+  ] = await Promise.all([
+    admin
+      .from('registros_ciclo')
+      .select('created_at, fase_actual, sintoma')
+      .in('telefono', telefonoVariants)
+      .order('created_at', { ascending: false })
+      .limit(120),
+    admin
+      .from('historial_ciclos')
+      .select('duracion_dias, fecha_inicio')
+      .in('telefono', telefonoVariants)
+      .order('fecha_inicio', { ascending: false })
+      .limit(60),
+    admin
+      .from('puntos_log')
+      .select('puntos, concepto, descripcion, created_at')
+      .in('telefono', telefonoVariants)
+      .order('created_at', { ascending: false })
+      .limit(4),
+    tomaAnticonceptivas
+      ? admin
+          .from('pastillas_log')
+          .select('tomada, hora')
+          .eq('telefono', telefono)
+          .eq('fecha', hoy)
+          .maybeSingle()
+      : Promise.resolve({ data: null }),
+  ])
+
+  // Dedupe registros: n8n a veces inserta el mismo registro 5+ veces seguidas
+  const regsSeen = new Set<string>()
+  const regs = (regsRaw ?? []).filter(r => {
+    const key = `${r.created_at}|${r.sintoma ?? ''}|${r.fase_actual ?? ''}`
+    if (regsSeen.has(key)) return false
+    regsSeen.add(key)
+    return true
+  })
+
+  // Dedupe ciclos: misma fecha_inicio duplicada → quedarnos con la duración válida
+  const ciclosMap = new Map<string, number>()
+  for (const c of ciclosRaw ?? []) {
+    if (!c.fecha_inicio) continue
+    const prev = ciclosMap.get(c.fecha_inicio) ?? 0
+    if ((c.duracion_dias ?? 0) > prev) ciclosMap.set(c.fecha_inicio, c.duracion_dias ?? 0)
+  }
+  const ciclos = Array.from(ciclosMap.entries())
+    .filter(([, d]) => d >= 15 && d <= 60)
+    .sort((a, b) => (a[0] < b[0] ? 1 : -1))
+    .map(([fecha_inicio, duracion_dias]) => ({ fecha_inicio, duracion_dias }))
+    .slice(0, 6)
+
+  const nombre = usuaria?.nombre ?? webUser.nombre ?? 'vos'
+
+  const registros = (regs ?? []).map(r => ({
+    fecha: r.created_at?.split('T')[0] ?? '',
+    sintomas: r.sintoma ? [r.sintoma] : [],
+    estado_animo: '',
+    notas: '',
+  }))
+
+  const pastCycles = (ciclos ?? []).map(c => ({ length: c.duracion_dias ?? 28 }))
+
+  // Si usuarias.fecha_inicio_ciclo está vacío, caemos al ciclo más reciente del historial
+  const lastPeriodIso = usuaria?.fecha_inicio_ciclo ?? ciclos[0]?.fecha_inicio ?? null
+  const lastPeriod = lastPeriodIso ? new Date(lastPeriodIso) : null
+
   const promedioHistorial = calcularPromedioCiclo(pastCycles)
   const cycleLength = usuaria?.promedio_duracion_ciclo ?? usuaria?.duracion_ciclo ?? promedioHistorial
 
-  const { phase, dayOfCycle, daysUntilNextPeriod } = getCurrentPhase(lastPeriod, cycleLength, 5)
-  const info = PHASE_INFO[phase]
+  const phaseData = lastPeriod
+    ? getCurrentPhase(lastPeriod, cycleLength, 5)
+    : null
+
+  const pastillaHoy = pastilla
+    ? { tomada: pastilla.tomada ?? false, hora: pastilla.hora ?? null }
+    : null
 
   return (
     <div className="space-y-6">
@@ -109,31 +132,57 @@ export default async function DashboardPage() {
         <h1 className="text-2xl font-bold text-gray-800">Tu ciclo hoy</h1>
       </div>
 
-      <PhaseCard info={info} dayOfCycle={dayOfCycle} />
+      {phaseData ? (
+        <>
+          <PhaseCard info={PHASE_INFO[phaseData.phase]} dayOfCycle={phaseData.dayOfCycle} />
+          <StatsRow
+            daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
+            dayOfCycle={phaseData.dayOfCycle}
+            cycleLength={cycleLength}
+          />
+          <ProximaSemanaCard nextPhase={phaseData.phase} daysUntilNextPeriod={phaseData.daysUntilNextPeriod} />
+        </>
+      ) : (
+        <div className="bg-white rounded-2xl border border-pink-100 p-6 text-center">
+          <div className="text-4xl mb-2">🌸</div>
+          <p className="text-sm font-medium text-gray-700">Aún no tenemos tu fecha del último período</p>
+          <p className="text-xs text-gray-400 mt-2">
+            Contale a Cíclica por WhatsApp cuándo te vino la última regla y vas a ver tu ciclo acá.
+          </p>
+        </div>
+      )}
 
-      <StatsRow daysUntilNextPeriod={daysUntilNextPeriod} dayOfCycle={dayOfCycle} cycleLength={cycleLength} />
-
-      <ProximaSemanaCard nextPhase={phase} daysUntilNextPeriod={daysUntilNextPeriod} />
+      {tomaAnticonceptivas && <PastillaCard initial={pastillaHoy} />}
 
       <SintomasSemanaCard registros={registros} />
 
-      <RegularidadCard cycleLength={cycleLength} periodLength={5} pastCycles={pastCycles} />
+      {pastCycles.length > 0 && (
+        <RegularidadCard cycleLength={cycleLength} periodLength={5} pastCycles={pastCycles} />
+      )}
 
-      <TendenciaCiclosCard pastCycles={pastCycles} currentCycleLength={cycleLength} />
+      {pastCycles.length >= 2 && (
+        <TendenciaCiclosCard pastCycles={pastCycles} currentCycleLength={cycleLength} />
+      )}
 
       <CorrelacionesCard registros={registros} />
 
       <PuntosCard
         puntos={usuaria?.puntos ?? 0}
         codigoReferido={usuaria?.codigo_referido}
-        log={puntosLog}
+        log={log ?? []}
       />
 
       {!suscripcionActiva && <ProximamenteCard />}
 
       <RecentSymptoms registros={registros} />
 
-      <ExportarPDFButton nombre={nombre} cycleLength={cycleLength} periodLength={5} />
+      <ExportarPDFButton
+        nombre={nombre}
+        cycleLength={cycleLength}
+        periodLength={5}
+        pastCycles={ciclos ?? []}
+        registros={regs ?? []}
+      />
     </div>
   )
 }

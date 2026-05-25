@@ -2,9 +2,18 @@ import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { createServerSupabase } from '@/lib/supabase-server'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
-
 export async function POST() {
+  const stripeKey = process.env.STRIPE_SECRET_KEY
+  const priceId = process.env.STRIPE_PRICE_ID
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL
+
+  if (!stripeKey || !priceId) {
+    return NextResponse.json(
+      { error: 'Stripe no está configurado en el servidor.' },
+      { status: 503 },
+    )
+  }
+
   const supabase = await createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -12,7 +21,8 @@ export async function POST() {
     return NextResponse.json({ error: 'No autenticada' }, { status: 401 })
   }
 
-  // Buscar o crear customer en Stripe
+  const stripe = new Stripe(stripeKey)
+
   const { data: webUser } = await supabase
     .from('usuarias_web')
     .select('stripe_customer_id')
@@ -33,9 +43,9 @@ export async function POST() {
   const session = await stripe.checkout.sessions.create({
     customer: customerId,
     mode: 'subscription',
-    line_items: [{ price: process.env.STRIPE_PRICE_ID!, quantity: 1 }],
-    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?plan=activado`,
-    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
+    line_items: [{ price: priceId, quantity: 1 }],
+    success_url: `${appUrl}/dashboard?plan=activado`,
+    cancel_url: `${appUrl}/dashboard`,
     locale: 'es-419',
   })
 

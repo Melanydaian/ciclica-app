@@ -63,9 +63,9 @@ export default function PuntosCard({
       {/* Barra de progreso hacia siguiente nivel */}
       {siguiente && (
         <div className="mb-5">
-          <div className="flex justify-between text-xs text-gray-400 mb-1">
-            <span>{nivel.emoji} {nivel.label}</span>
-            <span>{siguiente.emoji} {siguiente.label} — faltan {falta} pts</span>
+          <div className="flex justify-between text-xs text-gray-400 mb-1 gap-2">
+            <span className="shrink-0">{nivel.emoji} {nivel.label}</span>
+            <span className="text-right text-[10px] leading-tight">{siguiente.emoji} {siguiente.label}<br/>faltan {falta} pts</span>
           </div>
           <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
             <div

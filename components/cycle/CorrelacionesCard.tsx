@@ -1,9 +1,5 @@
 import type { Registro } from './RecentSymptoms'
 
-const FASE_LABEL: Record<string, string> = {
-  menstrual: 'menstrual', folicular: 'folicular', ovulatoria: 'ovulatoria', lutea: 'lútea',
-}
-
 export default function CorrelacionesCard({ registros }: { registros: Registro[] }) {
   // Agrupamos síntomas por fase (usando campo notas como fase proxy si disponible)
   // En realidad los registros vienen de registros_ciclo que tiene fase_actual pero no lo mapeamos aún
