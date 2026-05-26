@@ -24,10 +24,25 @@ services:
       - MP_WEBHOOK_SECRET=${MP_WEBHOOK_SECRET}
     networks:
       - flip
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:3000/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     deploy:
       replicas: 1
       restart_policy:
-        condition: on-failure
+        condition: any
+        delay: 5s
+        max_attempts: 0
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
+        failure_action: rollback
+        monitor: 30s
+        max_failure_ratio: 0.5
       labels:
         - traefik.enable=true
         - traefik.http.routers.ciclica-app.rule=Host(`app.ciclica.pro`)
