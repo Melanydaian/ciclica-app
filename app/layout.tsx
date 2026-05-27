@@ -7,6 +7,12 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 export const metadata: Metadata = {
   title: 'Cíclica — Tu ciclo en WhatsApp',
   description: 'Registrá tu ciclo, síntomas y estado de ánimo chateando naturalmente.',
+  icons: {
+    icon: [
+      { url: '/logoflor.png', type: 'image/png' },
+    ],
+    apple: '/logoflor.png',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
