@@ -1,6 +1,7 @@
 import { getCurrentPhase, calcularPromedioCiclo, PHASE_INFO } from '@/lib/cycle-utils'
 import PhaseRing from '@/components/cycle/PhaseRing'
 import WhoopStats from '@/components/cycle/WhoopStats'
+import CalendarioCiclo from '@/components/cycle/CalendarioCiclo'
 import CiclosTrend from '@/components/cycle/CiclosTrend'
 import RecentSymptoms from '@/components/cycle/RecentSymptoms'
 import ProximaSemanaCard from '@/components/cycle/ProximaSemanaCard'
@@ -9,6 +10,7 @@ import SintomasSemanaCard from '@/components/cycle/SintomasSemanaCard'
 import ExportarPDFButton from '@/components/cycle/ExportarPDFButton'
 import PuntosCard from '@/components/cycle/PuntosCard'
 import ProximamenteCard from '@/components/cycle/ProximamenteCard'
+import DisclaimerMedico from '@/components/cycle/DisclaimerMedico'
 import NavBar from '@/components/layout/NavBar'
 
 // Página de PREVIEW con datos mock — pública, solo para screenshots y diseño.
@@ -63,6 +65,7 @@ export default function PreviewDashboardPage() {
             dayOfCycle={phaseData.dayOfCycle}
             cycleLength={cycleLength}
             daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
+            lastPeriod={lastPeriod}
           />
 
           <WhoopStats
@@ -70,6 +73,13 @@ export default function PreviewDashboardPage() {
             averageLength={promedio}
             periodLength={5}
             variability={variability}
+          />
+
+          <CalendarioCiclo
+            lastPeriod={lastPeriod}
+            cycleLength={cycleLength}
+            periodLength={5}
+            daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
           />
 
           <ProximaSemanaCard
@@ -103,6 +113,8 @@ export default function PreviewDashboardPage() {
               sintoma: r.sintomas.join(', '),
             }))}
           />
+
+          <DisclaimerMedico />
         </div>
       </main>
     </div>

@@ -1,4 +1,5 @@
 import type { PhaseInfo } from '@/lib/cycle-utils'
+import { nextPeriodEstimate, fmtRange } from '@/lib/cycle-forecast'
 
 const PHASE_ACCENT: Record<string, { ring: string; track: string; chip: string; chipBg: string }> = {
   menstrual:  { ring: '#EC4899', track: '#FCE7F3', chip: '#9D174D', chipBg: '#FCE7F3' },
@@ -13,15 +14,18 @@ export default function PhaseRing({
   dayOfCycle,
   cycleLength,
   daysUntilNextPeriod,
+  lastPeriod,
 }: {
   info: PhaseInfo
   phase: 'menstrual' | 'folicular' | 'ovulatoria' | 'lutea'
   dayOfCycle: number
   cycleLength: number
   daysUntilNextPeriod: number
+  lastPeriod: Date
 }) {
   const accent = PHASE_ACCENT[phase] ?? PHASE_ACCENT.menstrual
   const progress = Math.min(100, Math.round((dayOfCycle / cycleLength) * 100))
+  const { rangeStart, rangeEnd } = nextPeriodEstimate(lastPeriod, cycleLength, daysUntilNextPeriod)
 
   const radius = 110
   const stroke = 14
@@ -90,27 +94,29 @@ export default function PhaseRing({
         </p>
       </div>
 
-      <div className="mt-6 pt-5 border-t border-gray-100 flex items-center justify-between">
-        <div>
-          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400">
-            Próximo período
+      <div className="mt-6 pt-5 border-t border-gray-100">
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400">
+              Próximo período aprox.
+            </div>
+            <div className="flex items-baseline gap-2 mt-1">
+              <span className="text-2xl font-bold tabular-nums" style={{ color: accent.ring }}>
+                {fmtRange(rangeStart, rangeEnd)}
+              </span>
+            </div>
+            <div className="text-[11px] text-gray-400 mt-0.5">
+              ~en {daysUntilNextPeriod} {daysUntilNextPeriod === 1 ? 'día' : 'días'} · margen de ±3
+            </div>
           </div>
-          <div className="flex items-baseline gap-1.5 mt-1">
-            <span className="text-3xl font-bold tabular-nums" style={{ color: accent.ring }}>
-              {daysUntilNextPeriod}
-            </span>
-            <span className="text-xs text-gray-400">
-              {daysUntilNextPeriod === 1 ? 'día' : 'días'}
-            </span>
-          </div>
-        </div>
-        <div className="text-right">
-          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400">
-            Progreso
-          </div>
-          <div className="flex items-baseline gap-1.5 mt-1 justify-end">
-            <span className="text-3xl font-bold text-gray-800 tabular-nums">{progress}</span>
-            <span className="text-xs text-gray-400">%</span>
+          <div className="text-right">
+            <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400">
+              Progreso
+            </div>
+            <div className="flex items-baseline gap-1.5 mt-1 justify-end">
+              <span className="text-3xl font-bold text-gray-800 tabular-nums">{progress}</span>
+              <span className="text-xs text-gray-400">%</span>
+            </div>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { requireUsuaria } from '@/lib/usuaria'
 import { createAdminSupabase } from '@/lib/supabase-server'
 import PhaseRing from '@/components/cycle/PhaseRing'
 import WhoopStats from '@/components/cycle/WhoopStats'
+import CalendarioCiclo from '@/components/cycle/CalendarioCiclo'
 import CiclosTrend from '@/components/cycle/CiclosTrend'
 import RecentSymptoms from '@/components/cycle/RecentSymptoms'
 import ProximaSemanaCard from '@/components/cycle/ProximaSemanaCard'
@@ -12,6 +13,7 @@ import ExportarPDFButton from '@/components/cycle/ExportarPDFButton'
 import PuntosCard from '@/components/cycle/PuntosCard'
 import ProximamenteCard from '@/components/cycle/ProximamenteCard'
 import PastillaCard from '@/components/cycle/PastillaCard'
+import DisclaimerMedico from '@/components/cycle/DisclaimerMedico'
 
 export default async function DashboardPage() {
   const { telefono, webUser } = await requireUsuaria()
@@ -129,13 +131,14 @@ export default async function DashboardPage() {
         <h1 className="text-2xl font-bold text-gray-800 mt-1">Tu ciclo hoy</h1>
       </div>
 
-      {phaseData ? (
+      {phaseData && lastPeriod ? (
         <PhaseRing
           info={PHASE_INFO[phaseData.phase]}
           phase={phaseData.phase}
           dayOfCycle={phaseData.dayOfCycle}
           cycleLength={cycleLength}
           daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
+          lastPeriod={lastPeriod}
         />
       ) : (
         <div className="bg-white rounded-2xl border border-pink-100 px-6 py-10 text-center">
@@ -157,6 +160,15 @@ export default async function DashboardPage() {
         periodLength={5}
         variability={variability}
       />
+
+      {phaseData && lastPeriod && (
+        <CalendarioCiclo
+          lastPeriod={lastPeriod}
+          cycleLength={cycleLength}
+          periodLength={5}
+          daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
+        />
+      )}
 
       {phaseData && (
         <ProximaSemanaCard
@@ -190,6 +202,8 @@ export default async function DashboardPage() {
         pastCycles={ciclos ?? []}
         registros={regs ?? []}
       />
+
+      <DisclaimerMedico />
     </div>
   )
 }
