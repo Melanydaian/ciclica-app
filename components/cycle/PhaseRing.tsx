@@ -1,5 +1,9 @@
-import type { PhaseInfo } from '@/lib/cycle-utils'
+'use client'
+
+import { useState } from 'react'
+import type { PhaseInfo, CyclePhase } from '@/lib/cycle-utils'
 import { nextPeriodEstimate, fmtRange } from '@/lib/cycle-forecast'
+import PhaseInfoModal from './PhaseInfoModal'
 
 const PHASE_ACCENT: Record<string, { ring: string; track: string; chip: string; chipBg: string }> = {
   menstrual:  { ring: '#EC4899', track: '#FCE7F3', chip: '#9D174D', chipBg: '#FCE7F3' },
@@ -17,7 +21,7 @@ export default function PhaseRing({
   lastPeriod,
 }: {
   info: PhaseInfo
-  phase: 'menstrual' | 'folicular' | 'ovulatoria' | 'lutea'
+  phase: CyclePhase
   dayOfCycle: number
   cycleLength: number
   daysUntilNextPeriod: number
@@ -26,6 +30,7 @@ export default function PhaseRing({
   const accent = PHASE_ACCENT[phase] ?? PHASE_ACCENT.menstrual
   const progress = Math.min(100, Math.round((dayOfCycle / cycleLength) * 100))
   const { rangeStart, rangeEnd } = nextPeriodEstimate(lastPeriod, cycleLength, daysUntilNextPeriod)
+  const [open, setOpen] = useState(false)
 
   const radius = 110
   const stroke = 14
@@ -92,6 +97,15 @@ export default function PhaseRing({
         <p className="text-xs text-gray-500 mt-2 leading-relaxed">
           {info.tip}
         </p>
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full border transition-all hover:scale-[1.02] active:scale-[0.98]"
+          style={{ color: accent.chip, borderColor: accent.ring, background: accent.chipBg }}
+        >
+          <span>📖</span>
+          Aprender sobre esta fase
+        </button>
       </div>
 
       <div className="mt-6 pt-5 border-t border-gray-100">
@@ -120,6 +134,8 @@ export default function PhaseRing({
           </div>
         </div>
       </div>
+
+      <PhaseInfoModal open={open} onClose={() => setOpen(false)} phase={phase} info={info} />
     </div>
   )
 }
