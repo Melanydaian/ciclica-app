@@ -1,15 +1,14 @@
 import { getCurrentPhase, calcularPromedioCiclo, PHASE_INFO } from '@/lib/cycle-utils'
 import { requireUsuaria } from '@/lib/usuaria'
 import { createAdminSupabase } from '@/lib/supabase-server'
-import PhaseCard from '@/components/cycle/PhaseCard'
-import StatsRow from '@/components/cycle/StatsRow'
+import PhaseRing from '@/components/cycle/PhaseRing'
+import WhoopStats from '@/components/cycle/WhoopStats'
+import CiclosTrend from '@/components/cycle/CiclosTrend'
 import RecentSymptoms from '@/components/cycle/RecentSymptoms'
-import RegularidadCard from '@/components/cycle/RegularidadCard'
 import ProximaSemanaCard from '@/components/cycle/ProximaSemanaCard'
 import CorrelacionesCard from '@/components/cycle/CorrelacionesCard'
 import SintomasSemanaCard from '@/components/cycle/SintomasSemanaCard'
 import ExportarPDFButton from '@/components/cycle/ExportarPDFButton'
-import TendenciaCiclosCard from '@/components/cycle/TendenciaCiclosCard'
 import PuntosCard from '@/components/cycle/PuntosCard'
 import ProximamenteCard from '@/components/cycle/ProximamenteCard'
 import PastillaCard from '@/components/cycle/PastillaCard'
@@ -19,8 +18,6 @@ export default async function DashboardPage() {
   const admin = createAdminSupabase()
   const suscripcionActiva = webUser.suscripcion_activa
 
-  // SELECT defensivo: si la migración 010 todavía no se corrió, toma_anticonceptivas
-  // no existe — intentamos con la columna primero y caemos a un SELECT mínimo si falla.
   let { data: usuaria } = await admin
     .from('usuarias')
     .select('nombre, fecha_inicio_ciclo, duracion_ciclo, promedio_duracion_ciclo, puntos, codigo_referido, objetivo, toma_anticonceptivas')
@@ -39,8 +36,6 @@ export default async function DashboardPage() {
   const tomaAnticonceptivas = usuaria?.toma_anticonceptivas ?? false
   const hoy = new Date().toISOString().split('T')[0]
 
-  // n8n a veces escribe el teléfono con prefijos basura (=5491..., +5491...).
-  // Buscamos todos los formatos posibles.
   const telefonoVariants = [telefono, `=${telefono}`, `+${telefono}`, `${telefono}@s.whatsapp.net`]
 
   const [
@@ -77,7 +72,6 @@ export default async function DashboardPage() {
       : Promise.resolve({ data: null }),
   ])
 
-  // Dedupe registros: n8n a veces inserta el mismo registro 5+ veces seguidas
   const regsSeen = new Set<string>()
   const regs = (regsRaw ?? []).filter(r => {
     const key = `${r.created_at}|${r.sintoma ?? ''}|${r.fase_actual ?? ''}`
@@ -86,7 +80,6 @@ export default async function DashboardPage() {
     return true
   })
 
-  // Dedupe ciclos: misma fecha_inicio duplicada → quedarnos con la duración válida
   const ciclosMap = new Map<string, number>()
   for (const c of ciclosRaw ?? []) {
     if (!c.fecha_inicio) continue
@@ -110,43 +103,47 @@ export default async function DashboardPage() {
 
   const pastCycles = (ciclos ?? []).map(c => ({ length: c.duracion_dias ?? 28 }))
 
-  // Si usuarias.fecha_inicio_ciclo está vacío, caemos al ciclo más reciente del historial
   const lastPeriodIso = usuaria?.fecha_inicio_ciclo ?? ciclos[0]?.fecha_inicio ?? null
   const lastPeriod = lastPeriodIso ? new Date(lastPeriodIso) : null
 
   const promedioHistorial = calcularPromedioCiclo(pastCycles)
   const cycleLength = usuaria?.promedio_duracion_ciclo ?? usuaria?.duracion_ciclo ?? promedioHistorial
 
-  const phaseData = lastPeriod
-    ? getCurrentPhase(lastPeriod, cycleLength, 5)
-    : null
+  const phaseData = lastPeriod ? getCurrentPhase(lastPeriod, cycleLength, 5) : null
 
   const pastillaHoy = pastilla
     ? { tomada: pastilla.tomada ?? false, hora: pastilla.hora ?? null }
     : null
 
+  // Variabilidad de ciclos pasados (max-min)
+  const durs = pastCycles.map(c => c.length).filter(Boolean)
+  const variability = durs.length >= 2 ? Math.max(...durs) - Math.min(...durs) : null
+  const averageLength = pastCycles.length > 0 ? promedioHistorial : null
+
   return (
-    <div className="space-y-6">
-      <div>
-        <p className="text-sm text-gray-400 mb-1">Hola, {nombre} 👋</p>
-        <h1 className="text-2xl font-bold text-gray-800">Tu ciclo hoy</h1>
+    <div className="space-y-4">
+      <div className="pb-2">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400">
+          Hola, {nombre} 👋
+        </p>
+        <h1 className="text-2xl font-bold text-gray-800 mt-1">Tu ciclo hoy</h1>
       </div>
 
       {phaseData ? (
-        <>
-          <PhaseCard info={PHASE_INFO[phaseData.phase]} dayOfCycle={phaseData.dayOfCycle} />
-          <StatsRow
-            daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
-            dayOfCycle={phaseData.dayOfCycle}
-            cycleLength={cycleLength}
-          />
-          <ProximaSemanaCard nextPhase={phaseData.phase} daysUntilNextPeriod={phaseData.daysUntilNextPeriod} />
-        </>
+        <PhaseRing
+          info={PHASE_INFO[phaseData.phase]}
+          phase={phaseData.phase}
+          dayOfCycle={phaseData.dayOfCycle}
+          cycleLength={cycleLength}
+          daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
+        />
       ) : (
-        <div className="bg-white rounded-2xl border border-pink-100 p-6 text-center">
-          <div className="text-4xl mb-2">🌸</div>
-          <p className="text-sm font-medium text-gray-700">Aún no tenemos tu fecha del último período</p>
-          <p className="text-xs text-gray-400 mt-2">
+        <div className="bg-white rounded-2xl border border-pink-100 px-6 py-10 text-center">
+          <div className="text-5xl mb-3">🌸</div>
+          <p className="text-base font-semibold text-gray-800">
+            Aún no tenemos tu fecha del último período
+          </p>
+          <p className="text-sm text-gray-500 mt-3 max-w-xs mx-auto leading-relaxed">
             Contale a Cíclica por WhatsApp cuándo te vino la última regla y vas a ver tu ciclo acá.
           </p>
         </div>
@@ -154,14 +151,24 @@ export default async function DashboardPage() {
 
       {tomaAnticonceptivas && <PastillaCard initial={pastillaHoy} />}
 
-      <SintomasSemanaCard registros={registros} />
+      <WhoopStats
+        cycleLength={cycleLength}
+        averageLength={averageLength}
+        periodLength={5}
+        variability={variability}
+      />
 
-      {pastCycles.length > 0 && (
-        <RegularidadCard cycleLength={cycleLength} periodLength={5} pastCycles={pastCycles} />
+      {phaseData && (
+        <ProximaSemanaCard
+          nextPhase={phaseData.phase}
+          daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
+        />
       )}
 
+      <SintomasSemanaCard registros={registros} />
+
       {pastCycles.length >= 2 && (
-        <TendenciaCiclosCard pastCycles={pastCycles} currentCycleLength={cycleLength} />
+        <CiclosTrend pastCycles={pastCycles} currentCycleLength={cycleLength} />
       )}
 
       <CorrelacionesCard registros={registros} />

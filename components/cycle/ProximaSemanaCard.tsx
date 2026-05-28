@@ -30,56 +30,61 @@ const ENERGIA_COLOR: Record<string, string> = {
   variable: '#A78BFA',
 }
 
-export default function ProximaSemanaCard({ nextPhase, daysUntilNextPeriod }: { nextPhase: PhaseKey; daysUntilNextPeriod: number }) {
+export default function ProximaSemanaCard({
+  nextPhase,
+  daysUntilNextPeriod,
+}: {
+  nextPhase: PhaseKey
+  daysUntilNextPeriod: number
+}) {
   const pred = PREDICTIONS[nextPhase]
+  const energiaColor = ENERGIA_COLOR[pred.energia]
 
   return (
-    <div className="bg-white rounded-2xl border border-pink-100 p-6">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-semibold text-gray-700">Qué esperar esta semana</h3>
-        <span className="text-xs text-gray-400">según tu fase actual</span>
+    <div className="bg-white rounded-2xl border border-pink-100 px-5 py-6">
+      <div className="flex items-center justify-between mb-5">
+        <div>
+          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400">
+            Esta semana
+          </div>
+          <div className="text-base font-semibold text-gray-800 mt-1 capitalize">
+            Energía {pred.energia}
+          </div>
+        </div>
+        <span
+          className="inline-block w-3 h-3 rounded-full"
+          style={{ background: energiaColor }}
+        />
       </div>
 
-      <div className="space-y-3">
-        <div className="flex items-center gap-3">
-          <span className="text-lg">⚡</span>
-          <div>
-            <p className="text-xs text-gray-400">Energía esperada</p>
-            <p className="text-sm font-medium capitalize" style={{ color: ENERGIA_COLOR[pred.energia] }}>
-              {pred.energia}
-            </p>
-          </div>
-        </div>
+      <p className="text-sm text-gray-600 leading-relaxed">{pred.consejo}</p>
 
-        <div className="flex items-start gap-3">
-          <span className="text-lg">🔮</span>
-          <div>
-            <p className="text-xs text-gray-400 mb-1">Síntomas probables</p>
-            <div className="flex flex-wrap gap-1">
-              {pred.sintomas.map(s => (
-                <span key={s} className="text-xs px-2 py-0.5 bg-pink-50 text-pink-600 rounded-full">{s}</span>
-              ))}
-            </div>
-          </div>
+      <div className="mt-5 pt-5 border-t border-gray-100">
+        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 mb-2">
+          Síntomas probables
         </div>
-
-        <div className="flex items-start gap-3">
-          <span className="text-lg">💡</span>
-          <div>
-            <p className="text-xs text-gray-400 mb-0.5">Consejo para esta fase</p>
-            <p className="text-sm text-gray-600">{pred.consejo}</p>
-          </div>
+        <div className="flex flex-wrap gap-1.5">
+          {pred.sintomas.map(s => (
+            <span
+              key={s}
+              className="text-xs px-2.5 py-1 bg-pink-50 text-pink-700 rounded-full font-medium"
+            >
+              {s}
+            </span>
+          ))}
         </div>
-
-        {daysUntilNextPeriod <= 7 && (
-          <div className="mt-2 p-3 rounded-xl bg-pink-50 border border-pink-100 flex items-center gap-2">
-            <span>🩸</span>
-            <p className="text-xs text-pink-600 font-medium">
-              Tu período se espera en {daysUntilNextPeriod} días. Prepará lo que necesitás.
-            </p>
-          </div>
-        )}
       </div>
+
+      {daysUntilNextPeriod <= 7 && (
+        <div className="mt-5 p-4 rounded-xl bg-pink-50 border border-pink-100 flex items-center gap-3">
+          <span className="text-xl">🩸</span>
+          <p className="text-xs text-pink-700 font-medium leading-relaxed">
+            Tu período se espera en{' '}
+            <span className="font-bold">{daysUntilNextPeriod} {daysUntilNextPeriod === 1 ? 'día' : 'días'}</span>.
+            Prepará lo que necesitás.
+          </p>
+        </div>
+      )}
     </div>
   )
 }

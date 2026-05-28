@@ -23,16 +23,9 @@ function getProgresoHaciaSiguiente(puntos: number) {
   return { pct: Math.round((avance / rango) * 100), falta: siguiente.min - puntos, siguiente }
 }
 
-const CONCEPTO_LABEL: Record<string, string> = {
-  registro_sintoma: '📝 Registraste un síntoma',
-  nuevo_ciclo:      '🔄 Nuevo ciclo registrado',
-  referido:         '💌 Referiste a una amiga',
-}
-
 export default function PuntosCard({
   puntos = 0,
   codigoReferido,
-  log = [],
 }: {
   puntos: number
   codigoReferido?: string | null
@@ -42,32 +35,32 @@ export default function PuntosCard({
   const { pct, falta, siguiente } = getProgresoHaciaSiguiente(puntos)
 
   return (
-    <div className="bg-white rounded-2xl border border-pink-100 p-6">
-      {/* Header */}
+    <div className="bg-white rounded-2xl border border-pink-100 px-5 py-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-semibold text-gray-700">Tus puntos</h3>
+        <div>
+          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400">
+            Tus puntos
+          </div>
+          <div className="flex items-baseline gap-2 mt-1">
+            <span className="text-5xl font-bold text-gray-800 tabular-nums leading-none">{puntos}</span>
+            <span className="text-xs text-gray-400">pts</span>
+          </div>
+        </div>
         <span
-          className="text-xs font-semibold px-2 py-0.5 rounded-full"
+          className="text-[10px] font-bold uppercase tracking-[0.18em] px-3 py-1.5 rounded-full"
           style={{ color: nivel.color, background: nivel.bg }}
         >
           {nivel.emoji} {nivel.label}
         </span>
       </div>
 
-      {/* Puntos grandes */}
-      <div className="flex items-end gap-2 mb-4">
-        <span className="text-4xl font-bold text-gray-800">{puntos}</span>
-        <span className="text-sm text-gray-400 mb-1">puntos</span>
-      </div>
-
-      {/* Barra de progreso hacia siguiente nivel */}
       {siguiente && (
         <div className="mb-5">
-          <div className="flex justify-between text-xs text-gray-400 mb-1 gap-2">
-            <span className="shrink-0">{nivel.emoji} {nivel.label}</span>
-            <span className="text-right text-[10px] leading-tight">{siguiente.emoji} {siguiente.label}<br/>faltan {falta} pts</span>
+          <div className="flex justify-between text-[11px] text-gray-500 mb-1.5">
+            <span>{nivel.emoji} {nivel.label}</span>
+            <span className="font-medium">faltan {falta} pts → {siguiente.emoji} {siguiente.label}</span>
           </div>
-          <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+          <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
             <div
               className="h-full rounded-full transition-all"
               style={{ width: `${pct}%`, background: nivel.color }}
@@ -76,49 +69,18 @@ export default function PuntosCard({
         </div>
       )}
 
-      {/* Cómo ganar puntos */}
-      <div className="grid grid-cols-3 gap-2 mb-5">
-        {[
-          { emoji: '📝', accion: 'Registrar síntoma', pts: '+5' },
-          { emoji: '🔄', accion: 'Nuevo ciclo', pts: '+10' },
-          { emoji: '💌', accion: 'Referir amiga', pts: '+50' },
-        ].map(({ emoji, accion, pts }) => (
-          <div key={accion} className="bg-pink-50/60 rounded-xl p-2 text-center">
-            <div className="text-lg">{emoji}</div>
-            <div className="text-[10px] text-gray-500 leading-tight mt-0.5">{accion}</div>
-            <div className="text-xs font-bold text-pink-500 mt-0.5">{pts} pts</div>
-          </div>
-        ))}
-      </div>
-
-      {/* Código de referido */}
       {codigoReferido && (
-        <div className="rounded-2xl overflow-hidden mb-4 border border-pink-200">
-          {/* Header con gradiente */}
-          <div className="bg-gradient-to-r from-pink-400 to-purple-400 px-4 py-3">
-            <p className="text-white font-semibold text-sm">Invitá a una amiga</p>
-            <p className="text-pink-100 text-xs mt-0.5">Ambas ganan puntos cuando se une con tu código</p>
-          </div>
-
-          {/* Cuerpo */}
+        <div className="rounded-2xl overflow-hidden border border-pink-100">
           <div className="bg-gradient-to-r from-pink-50 to-purple-50 px-4 py-4">
-            {/* Premio destacado */}
-            <div className="flex gap-3 mb-4">
-              <div className="flex-1 bg-white rounded-xl p-3 text-center border border-pink-100">
-                <p className="text-2xl font-bold text-pink-500">+50</p>
-                <p className="text-[10px] text-gray-500 leading-tight">pts para vos</p>
-              </div>
-              <div className="flex items-center text-gray-300 text-xl">+</div>
-              <div className="flex-1 bg-white rounded-xl p-3 text-center border border-pink-100">
-                <p className="text-2xl font-bold text-purple-400">+10</p>
-                <p className="text-[10px] text-gray-500 leading-tight">pts para ella</p>
-              </div>
+            <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-pink-700 mb-2">
+              Invitá a una amiga
             </div>
+            <div className="text-xs text-gray-600 mb-4">Ambas suman puntos (vos +50, ella +10)</div>
 
-            {/* Código */}
-            <p className="text-[10px] text-gray-400 mb-1 font-medium uppercase tracking-wide">Tu código</p>
             <div className="flex items-center gap-3 bg-white rounded-xl px-4 py-3 border border-pink-100">
-              <span className="flex-1 text-2xl font-bold text-gray-800 tracking-[0.3em]">{codigoReferido}</span>
+              <span className="flex-1 text-xl font-bold text-gray-800 tracking-[0.25em] tabular-nums">
+                {codigoReferido}
+              </span>
               <button
                 onClick={async () => {
                   const msg = `¡Sumate a Cíclica! Es un asistente por WhatsApp que te ayuda a trackear tu ciclo 🌸 Usá mi código *${codigoReferido}* cuando te registres y ganás puntos.`
@@ -130,26 +92,9 @@ export default function PuntosCard({
                 }}
                 className="bg-pink-500 hover:bg-pink-600 text-white text-xs font-semibold px-3 py-2 rounded-lg transition-colors whitespace-nowrap"
               >
-                Compartir 🌸
+                Compartir
               </button>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* Historial reciente */}
-      {log.length > 0 && (
-        <div>
-          <p className="text-xs text-gray-400 mb-2">Últimos puntos ganados</p>
-          <div className="space-y-2">
-            {log.slice(0, 4).map((l, i) => (
-              <div key={i} className="flex items-center justify-between">
-                <span className="text-xs text-gray-600">
-                  {CONCEPTO_LABEL[l.concepto] ?? l.descripcion}
-                </span>
-                <span className="text-xs font-semibold text-green-500">+{l.puntos}</span>
-              </div>
-            ))}
           </div>
         </div>
       )}
