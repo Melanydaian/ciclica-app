@@ -2,8 +2,10 @@
 
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { createClient } from '@/lib/supabase'
 import type { User } from '@supabase/supabase-js'
+import SexRegisterModal from '@/components/cycle/SexRegisterModal'
 
 const links = [
   { href: '/dashboard',           label: 'Inicio',    icon: '🏠' },
@@ -16,6 +18,7 @@ const links = [
 export default function NavBar({ user }: { user: User }) {
   const pathname = usePathname()
   const router = useRouter()
+  const [sexOpen, setSexOpen] = useState(false)
 
   async function handleSignOut() {
     const supabase = createClient()
@@ -25,13 +28,10 @@ export default function NavBar({ user }: { user: User }) {
 
   return (
     <>
-      <nav className="bg-white border-b border-pink-100 sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link href="/dashboard" className="flex items-center gap-2" aria-label="Cíclica">
-            <img src="/logoflor.png" alt="" className="w-7 h-7" />
-            <span className="text-xl font-bold text-pink-500 tracking-tight" style={{ letterSpacing: '-0.02em' }}>
-              Cíclica
-            </span>
+      <nav className="bg-white border-b border-pink-100 sticky top-0 z-20">
+        <div className="px-4 md:px-6 h-14 flex items-center justify-between w-full">
+          <Link href="/dashboard" className="flex items-center" aria-label="Cíclica">
+            <img src="/logo.png" alt="Cíclica" className="h-8 w-auto md:h-9" />
           </Link>
 
           <div className="hidden md:flex items-center gap-1">
@@ -48,20 +48,41 @@ export default function NavBar({ user }: { user: User }) {
                 {link.label}
               </Link>
             ))}
+
+            <button
+              type="button"
+              onClick={() => setSexOpen(true)}
+              aria-label="Registrar momento íntimo"
+              title="Registrar momento íntimo"
+              className="ml-1 w-9 h-9 rounded-lg flex items-center justify-center text-pink-500 hover:bg-pink-50 transition-colors text-lg"
+            >
+              💗
+            </button>
+
             <button
               onClick={handleSignOut}
-              className="ml-2 px-3 py-1.5 rounded-lg text-sm text-gray-400 hover:text-gray-600 transition-colors"
+              className="ml-1 px-3 py-1.5 rounded-lg text-sm text-gray-400 hover:text-gray-600 transition-colors"
             >
               Salir
             </button>
           </div>
 
-          <button
-            onClick={handleSignOut}
-            className="md:hidden text-xs text-gray-400 hover:text-gray-600 transition-colors px-2 py-1"
-          >
-            Salir
-          </button>
+          <div className="md:hidden flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => setSexOpen(true)}
+              aria-label="Registrar momento íntimo"
+              className="w-9 h-9 rounded-lg flex items-center justify-center text-pink-500 hover:bg-pink-50 transition-colors text-lg"
+            >
+              💗
+            </button>
+            <button
+              onClick={handleSignOut}
+              className="text-xs text-gray-400 hover:text-gray-600 transition-colors px-2 py-1"
+            >
+              Salir
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -86,6 +107,8 @@ export default function NavBar({ user }: { user: User }) {
           })}
         </div>
       </div>
+
+      <SexRegisterModal open={sexOpen} onClose={() => setSexOpen(false)} />
     </>
   )
 }
