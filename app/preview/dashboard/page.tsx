@@ -6,7 +6,6 @@ import CiclosTrend from '@/components/cycle/CiclosTrend'
 import RecentSymptoms from '@/components/cycle/RecentSymptoms'
 import ProximaSemanaCard from '@/components/cycle/ProximaSemanaCard'
 import CorrelacionesCard from '@/components/cycle/CorrelacionesCard'
-import SintomasSemanaCard from '@/components/cycle/SintomasSemanaCard'
 import ExportarPDFButton from '@/components/cycle/ExportarPDFButton'
 import PuntosCard from '@/components/cycle/PuntosCard'
 import ProximamenteCard from '@/components/cycle/ProximamenteCard'
@@ -59,14 +58,22 @@ export default function PreviewDashboardPage() {
             <h1 className="text-2xl font-bold text-gray-800 mt-1">Tu ciclo hoy</h1>
           </div>
 
-          <PhaseRing
-            info={PHASE_INFO[phaseData.phase]}
-            phase={phaseData.phase}
-            dayOfCycle={phaseData.dayOfCycle}
-            cycleLength={cycleLength}
-            daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
-            lastPeriod={lastPeriod}
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <PhaseRing
+              info={PHASE_INFO[phaseData.phase]}
+              phase={phaseData.phase}
+              dayOfCycle={phaseData.dayOfCycle}
+              cycleLength={cycleLength}
+              daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
+              lastPeriod={lastPeriod}
+            />
+            <CalendarioCiclo
+              lastPeriod={lastPeriod}
+              cycleLength={cycleLength}
+              periodLength={5}
+              daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
+            />
+          </div>
 
           <WhoopStats
             cycleLength={cycleLength}
@@ -75,19 +82,10 @@ export default function PreviewDashboardPage() {
             variability={variability}
           />
 
-          <CalendarioCiclo
-            lastPeriod={lastPeriod}
-            cycleLength={cycleLength}
-            periodLength={5}
-            daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
-          />
-
           <ProximaSemanaCard
             nextPhase={phaseData.phase}
             daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
           />
-
-          <SintomasSemanaCard registros={MOCK_REGISTROS} />
 
           <CiclosTrend pastCycles={MOCK_PAST_CYCLES} currentCycleLength={cycleLength} />
 

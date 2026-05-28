@@ -25,12 +25,15 @@ export default function NavBar({ user }: { user: User }) {
 
   return (
     <>
-      {/* Top bar — logo + salir (siempre visible) */}
       <nav className="bg-white border-b border-pink-100 sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
-          <img src="/logo.png" alt="Cíclica" className="w-auto" style={{ height: '140px', margin: '-44px -20px' }} />
+          <Link href="/dashboard" className="flex items-center gap-2" aria-label="Cíclica">
+            <img src="/logoflor.png" alt="" className="w-7 h-7" />
+            <span className="text-xl font-bold text-pink-500 tracking-tight" style={{ letterSpacing: '-0.02em' }}>
+              Cíclica
+            </span>
+          </Link>
 
-          {/* Links horizontales solo en desktop */}
           <div className="hidden md:flex items-center gap-1">
             {links.map(link => (
               <Link
@@ -53,7 +56,6 @@ export default function NavBar({ user }: { user: User }) {
             </button>
           </div>
 
-          {/* Salir solo visible en mobile en el top bar */}
           <button
             onClick={handleSignOut}
             className="md:hidden text-xs text-gray-400 hover:text-gray-600 transition-colors px-2 py-1"
@@ -63,7 +65,6 @@ export default function NavBar({ user }: { user: User }) {
         </div>
       </nav>
 
-      {/* Bottom tab bar — solo mobile */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-10 bg-white border-t border-pink-100 safe-area-bottom">
         <div className="flex">
           {links.map(link => {

@@ -8,7 +8,6 @@ import CiclosTrend from '@/components/cycle/CiclosTrend'
 import RecentSymptoms from '@/components/cycle/RecentSymptoms'
 import ProximaSemanaCard from '@/components/cycle/ProximaSemanaCard'
 import CorrelacionesCard from '@/components/cycle/CorrelacionesCard'
-import SintomasSemanaCard from '@/components/cycle/SintomasSemanaCard'
 import ExportarPDFButton from '@/components/cycle/ExportarPDFButton'
 import PuntosCard from '@/components/cycle/PuntosCard'
 import ProximamenteCard from '@/components/cycle/ProximamenteCard'
@@ -132,14 +131,22 @@ export default async function DashboardPage() {
       </div>
 
       {phaseData && lastPeriod ? (
-        <PhaseRing
-          info={PHASE_INFO[phaseData.phase]}
-          phase={phaseData.phase}
-          dayOfCycle={phaseData.dayOfCycle}
-          cycleLength={cycleLength}
-          daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
-          lastPeriod={lastPeriod}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <PhaseRing
+            info={PHASE_INFO[phaseData.phase]}
+            phase={phaseData.phase}
+            dayOfCycle={phaseData.dayOfCycle}
+            cycleLength={cycleLength}
+            daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
+            lastPeriod={lastPeriod}
+          />
+          <CalendarioCiclo
+            lastPeriod={lastPeriod}
+            cycleLength={cycleLength}
+            periodLength={5}
+            daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
+          />
+        </div>
       ) : (
         <div className="bg-white rounded-2xl border border-pink-100 px-6 py-10 text-center">
           <div className="text-5xl mb-3">🌸</div>
@@ -161,23 +168,12 @@ export default async function DashboardPage() {
         variability={variability}
       />
 
-      {phaseData && lastPeriod && (
-        <CalendarioCiclo
-          lastPeriod={lastPeriod}
-          cycleLength={cycleLength}
-          periodLength={5}
-          daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
-        />
-      )}
-
       {phaseData && (
         <ProximaSemanaCard
           nextPhase={phaseData.phase}
           daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
         />
       )}
-
-      <SintomasSemanaCard registros={registros} />
 
       {pastCycles.length >= 2 && (
         <CiclosTrend pastCycles={pastCycles} currentCycleLength={cycleLength} />
