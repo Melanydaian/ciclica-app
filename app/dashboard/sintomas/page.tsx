@@ -91,5 +91,21 @@ export default async function SintomasPage() {
   const sintomas = aggregateSintomas(regs).sort((a, b) => b.total - a.total)
   const animo = aggregateAnimoSemanal(regs)
 
-  return <SintomasContent sintomas={sintomas} animo={animo} totalRegistros={regs.length} />
+  const recientes = regs
+    .filter(r => r.sintoma && r.created_at)
+    .slice(0, 12)
+    .map(r => ({
+      fecha: r.created_at!,
+      sintoma: r.sintoma!,
+      fase: r.fase_actual,
+    }))
+
+  return (
+    <SintomasContent
+      sintomas={sintomas}
+      animo={animo}
+      totalRegistros={regs.length}
+      recientes={recientes}
+    />
+  )
 }

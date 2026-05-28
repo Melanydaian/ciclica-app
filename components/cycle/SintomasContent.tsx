@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import SintomaRegisterModal from './SintomaRegisterModal'
 
 type SintomaStat = {
   nombre: string
@@ -12,6 +13,19 @@ type SintomaStat = {
 }
 
 type AnimoSemanal = { semana: string; valor: number; count: number }
+
+export type RegistroReciente = {
+  fecha: string
+  sintoma: string
+  fase: string | null
+}
+
+const FASE_COLOR: Record<string, string> = {
+  menstrual: '#EC4899',
+  folicular: '#34D399',
+  ovulatoria: '#FBBF24',
+  lutea: '#A78BFA',
+}
 
 const PHASES = [
   { key: 'menstrual', label: 'Menstrual', color: '#EC4899' },
@@ -34,11 +48,14 @@ export default function SintomasContent({
   sintomas,
   animo,
   totalRegistros,
+  recientes = [],
 }: {
   sintomas: SintomaStat[]
   animo: AnimoSemanal[]
   totalRegistros: number
+  recientes?: RegistroReciente[]
 }) {
+  const [modalOpen, setModalOpen] = useState(false)
   const [activePhase, setActivePhase] = useState<PhaseKey | 'todas'>('todas')
 
   const maxTotal = Math.max(1, ...sintomas.map(s => s.total))
@@ -51,18 +68,56 @@ export default function SintomasContent({
     .sort((a, b) => (activePhase === 'todas' ? b.total - a.total : b[activePhase] - a[activePhase]))
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-bold text-gray-800">Síntomas & Patrones</h1>
-        <p className="text-sm text-gray-400 mt-1">Lo que tu cuerpo repite cada mes</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400">
+          Tus síntomas
+        </p>
+        <h1 className="text-2xl font-bold text-gray-800 mt-1">¿Cómo te sentís?</h1>
+        <p className="text-sm text-gray-500 mt-2 leading-relaxed">
+          Registrá lo que sentís cada día para descubrir patrones a lo largo de tu ciclo.
+        </p>
       </div>
+
+      <button
+        onClick={() => setModalOpen(true)}
+        className="w-full bg-gradient-to-r from-pink-500 to-pink-400 hover:from-pink-600 hover:to-pink-500 text-white rounded-2xl px-5 py-4 flex items-center justify-center gap-2 font-semibold text-sm shadow-sm transition-all hover:shadow-md active:scale-[0.99]"
+      >
+        <span className="text-lg">🌸</span>
+        Registrar cómo me siento
+      </button>
+
+      {recientes.length > 0 && (
+        <div className="bg-white rounded-2xl border border-pink-100 px-5 py-6">
+          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 mb-4">
+            Tus últimos registros
+          </div>
+          <div className="space-y-3">
+            {recientes.slice(0, 8).map((r, i) => {
+              const color = r.fase ? FASE_COLOR[r.fase] : '#9CA3AF'
+              return (
+                <div key={i} className="flex items-start gap-3 py-2 border-b border-gray-50 last:border-0">
+                  <span className="w-2 h-2 rounded-full mt-1.5 shrink-0" style={{ background: color }} />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-gray-800">{r.sintoma}</p>
+                    <p className="text-[11px] text-gray-400 mt-0.5">
+                      {new Date(r.fecha).toLocaleDateString('es-AR', { weekday: 'short', day: 'numeric', month: 'short' })}
+                      {r.fase && <span className="ml-1.5 capitalize">· {r.fase}</span>}
+                    </p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
 
       {totalRegistros < 3 ? (
         <div className="bg-white rounded-2xl border border-pink-100 p-8 text-center">
           <div className="text-4xl mb-3">🌱</div>
           <p className="text-sm font-medium text-gray-700">Necesitamos más registros</p>
           <p className="text-xs text-gray-400 mt-2 max-w-xs mx-auto">
-            Contanos por WhatsApp cómo te sentís cada día. Con al menos 3 registros podemos empezar a mostrar tus patrones.
+            Con al menos 3 registros podemos empezar a mostrar patrones por fase del ciclo.
           </p>
         </div>
       ) : (
@@ -168,6 +223,8 @@ export default function SintomasContent({
           </div>
         </>
       )}
+
+      <SintomaRegisterModal open={modalOpen} onClose={() => setModalOpen(false)} />
     </div>
   )
 }

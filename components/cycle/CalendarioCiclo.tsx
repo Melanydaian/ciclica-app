@@ -16,12 +16,17 @@ export default function CalendarioCiclo({
   cycleLength,
   periodLength = 5,
   daysUntilNextPeriod,
+  sexDates = [],
+  showSexMarkers = true,
 }: {
   lastPeriod: Date
   cycleLength: number
   periodLength?: number
   daysUntilNextPeriod: number
+  sexDates?: string[]
+  showSexMarkers?: boolean
 }) {
+  const sexSet = new Set(sexDates)
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 
@@ -118,6 +123,9 @@ export default function CalendarioCiclo({
               <span className="tabular-nums">{day}</span>
               {isEstimatedExact && (
                 <span className="absolute -top-1 -right-1 text-[8px]">🩸</span>
+              )}
+              {showSexMarkers && sexSet.has(`${view.year}-${String(view.month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`) && (
+                <span className="absolute bottom-0.5 right-1 text-[9px] leading-none">💗</span>
               )}
             </div>
           )
