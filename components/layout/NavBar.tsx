@@ -27,9 +27,9 @@ export default function NavBar({ user }: { user: User }) {
   return (
     <>
       <nav className="bg-white border-b border-pink-100 sticky top-0 z-20">
-        <div className="px-4 md:px-6 h-16 md:h-20 flex items-center justify-between w-full">
+        <div className="px-4 md:px-6 h-20 md:h-24 flex items-center justify-between w-full">
           <Link href="/dashboard" className="flex items-center" aria-label="Cíclica">
-            <img src="/logo.png" alt="Cíclica" className="h-12 w-auto md:h-14" />
+            <img src="/logo.png" alt="Cíclica" className="h-16 w-auto md:h-20" />
           </Link>
 
           <div className="hidden md:flex items-center gap-1">
