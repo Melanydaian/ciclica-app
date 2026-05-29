@@ -34,13 +34,13 @@ export default function PrimerPeriodoCard() {
   }
 
   return (
-    <div className="bg-white rounded-3xl border border-pink-100 px-6 py-8">
+    <div className="bg-white dark:bg-gray-900 rounded-3xl border border-pink-100 dark:border-gray-800 px-6 py-8">
       <div className="text-center mb-6">
         <div className="text-5xl mb-3">🌸</div>
-        <h2 className="text-xl font-bold text-gray-800">
+        <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">
           Empecemos por tu último período
         </h2>
-        <p className="text-sm text-gray-500 mt-3 max-w-sm mx-auto leading-relaxed">
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-3 max-w-sm mx-auto leading-relaxed">
           Decinos cuándo te vino la última vez para empezar a calcular tu ciclo.
           Vas a poder editarlo después si te equivocás.
         </p>
@@ -48,7 +48,7 @@ export default function PrimerPeriodoCard() {
 
       <form onSubmit={handleSubmit} className="space-y-4 max-w-sm mx-auto">
         <div>
-          <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500 mb-2 block">
+          <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500 dark:text-gray-400 mb-2 block">
             Primer día de tu último período
           </label>
           <input
@@ -57,7 +57,7 @@ export default function PrimerPeriodoCard() {
             max={today}
             onChange={e => setFecha(e.target.value)}
             required
-            className="w-full px-4 py-3 rounded-xl border border-pink-200 bg-pink-50/40 text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-300 text-base"
+            className="w-full px-4 py-3 rounded-xl border border-pink-200 bg-pink-50/40 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-pink-300 text-base"
           />
         </div>
 
@@ -71,7 +71,7 @@ export default function PrimerPeriodoCard() {
           {saving ? 'Guardando...' : 'Empezar a usar Cíclica ✨'}
         </button>
 
-        <p className="text-[11px] text-gray-400 text-center leading-relaxed">
+        <p className="text-[11px] text-gray-400 dark:text-gray-500 text-center leading-relaxed">
           Si preferís, también podés contárselo por WhatsApp y va a aparecer acá automáticamente.
         </p>
       </form>

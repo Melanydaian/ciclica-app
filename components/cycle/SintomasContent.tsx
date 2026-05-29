@@ -70,11 +70,11 @@ export default function SintomasContent({
   return (
     <div className="space-y-4">
       <div>
-        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500">
           Tus síntomas
         </p>
-        <h1 className="text-2xl font-bold text-gray-800 mt-1">¿Cómo te sentís?</h1>
-        <p className="text-sm text-gray-500 mt-2 leading-relaxed">
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mt-1">¿Cómo te sentís?</h1>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">
           Registrá lo que sentís cada día para descubrir patrones a lo largo de tu ciclo.
         </p>
       </div>
@@ -88,19 +88,19 @@ export default function SintomasContent({
       </button>
 
       {recientes.length > 0 && (
-        <div className="bg-white rounded-2xl border border-pink-100 px-5 py-6">
-          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 mb-4">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 px-5 py-6">
+          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500 mb-4">
             Tus últimos registros
           </div>
           <div className="space-y-3">
             {recientes.slice(0, 8).map((r, i) => {
               const color = r.fase ? FASE_COLOR[r.fase] : '#9CA3AF'
               return (
-                <div key={i} className="flex items-start gap-3 py-2 border-b border-gray-50 last:border-0">
+                <div key={i} className="flex items-start gap-3 py-2 border-b border-gray-50 dark:border-gray-800 last:border-0">
                   <span className="w-2 h-2 rounded-full mt-1.5 shrink-0" style={{ background: color }} />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-gray-800">{r.sintoma}</p>
-                    <p className="text-[11px] text-gray-400 mt-0.5">
+                    <p className="text-sm text-gray-800 dark:text-gray-100">{r.sintoma}</p>
+                    <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5">
                       {new Date(r.fecha).toLocaleDateString('es-AR', { weekday: 'short', day: 'numeric', month: 'short' })}
                       {r.fase && <span className="ml-1.5 capitalize">· {r.fase}</span>}
                     </p>
@@ -113,10 +113,10 @@ export default function SintomasContent({
       )}
 
       {totalRegistros < 3 ? (
-        <div className="bg-white rounded-2xl border border-pink-100 p-8 text-center">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 p-8 text-center">
           <div className="text-4xl mb-3">🌱</div>
-          <p className="text-sm font-medium text-gray-700">Necesitamos más registros</p>
-          <p className="text-xs text-gray-400 mt-2 max-w-xs mx-auto">
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-200">Necesitamos más registros</p>
+          <p className="text-xs text-gray-400 dark:text-gray-500 mt-2 max-w-xs mx-auto">
             Con al menos 3 registros podemos empezar a mostrar patrones por fase del ciclo.
           </p>
         </div>
@@ -126,7 +126,7 @@ export default function SintomasContent({
             <button
               onClick={() => setActivePhase('todas')}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                activePhase === 'todas' ? 'bg-gray-800 text-white' : 'bg-white text-gray-500 border border-gray-200'
+                activePhase === 'todas' ? 'bg-gray-800 text-white' : 'bg-white text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700'
               }`}
             >
               Todas
@@ -147,13 +147,13 @@ export default function SintomasContent({
             ))}
           </div>
 
-          <div className="bg-white rounded-2xl border border-pink-100 p-6">
-            <h3 className="text-sm font-semibold text-gray-700 mb-5">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 p-6">
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-5">
               {activePhase === 'todas' ? 'Síntomas más frecuentes' : `En fase ${PHASES.find(p => p.key === activePhase)?.label.toLowerCase()}`}
             </h3>
 
             {filtered.length === 0 ? (
-              <p className="text-sm text-gray-400 text-center py-4">
+              <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-4">
                 Sin síntomas registrados en esta fase todavía.
               </p>
             ) : (
@@ -169,16 +169,16 @@ export default function SintomasContent({
                   return (
                     <div key={s.nombre}>
                       <div className="flex justify-between mb-1 items-start gap-2">
-                        <span className="text-sm text-gray-700 capitalize">{s.nombre}</span>
-                        <span className="shrink-0 text-xs text-gray-400">{total}×</span>
+                        <span className="text-sm text-gray-700 dark:text-gray-200 capitalize">{s.nombre}</span>
+                        <span className="shrink-0 text-xs text-gray-400 dark:text-gray-500">{total}×</span>
                       </div>
-                      <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
                         <div
                           className="h-full rounded-full transition-all duration-500"
                           style={{ width: `${pct}%`, background: barColor }}
                         />
                       </div>
-                      <p className="text-[10px] text-gray-400 mt-1">
+                      <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-1">
                         Intensidad:{' '}
                         <span
                           className={`font-medium ${
@@ -195,12 +195,12 @@ export default function SintomasContent({
             )}
           </div>
 
-          <div className="bg-white rounded-2xl border border-pink-100 p-6">
-            <h3 className="text-sm font-semibold text-gray-700 mb-1">Estado de ánimo</h3>
-            <p className="text-xs text-gray-400 mb-5">Últimas 5 semanas (1 mal → 5 excelente)</p>
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 p-6">
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1">Estado de ánimo</h3>
+            <p className="text-xs text-gray-400 dark:text-gray-500 mb-5">Últimas 5 semanas (1 mal → 5 excelente)</p>
 
             {animo.every(a => a.count === 0) ? (
-              <p className="text-sm text-gray-400 text-center py-2">
+              <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-2">
                 Aún no registraste tu ánimo en las últimas semanas.
               </p>
             ) : (
@@ -215,7 +215,7 @@ export default function SintomasContent({
                         opacity: a.count > 0 ? 1 : 0.5,
                       }}
                     />
-                    <span className="text-[10px] text-gray-400 text-center leading-tight">{a.semana}</span>
+                    <span className="text-[10px] text-gray-400 dark:text-gray-500 text-center leading-tight">{a.semana}</span>
                   </div>
                 ))}
               </div>

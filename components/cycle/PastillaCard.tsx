@@ -45,10 +45,10 @@ export default function PastillaCard({ initial }: Props) {
   }
 
   return (
-    <div className="bg-white rounded-2xl p-5 shadow-sm border border-pink-100">
+    <div className="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-sm border border-pink-100 dark:border-gray-800">
       <div className="flex items-center gap-2 mb-4">
         <span className="text-xl">💊</span>
-        <h2 className="font-semibold text-gray-800">Tu pastilla de hoy</h2>
+        <h2 className="font-semibold text-gray-800 dark:text-gray-100">Tu pastilla de hoy</h2>
       </div>
 
       {tomada ? (
@@ -67,7 +67,7 @@ export default function PastillaCard({ initial }: Props) {
             </div>
             <button
               onClick={() => setShowHora(v => !v)}
-              className="text-xs text-gray-400 hover:text-gray-600 underline"
+              className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:text-gray-300 underline"
             >
               {showHora ? 'cerrar' : 'editar hora'}
             </button>
@@ -75,12 +75,12 @@ export default function PastillaCard({ initial }: Props) {
 
           {showHora && (
             <div className="flex items-center gap-2">
-              <label className="text-sm text-gray-500">Hora:</label>
+              <label className="text-sm text-gray-500 dark:text-gray-400">Hora:</label>
               <input
                 type="time"
                 value={hora}
                 onChange={e => actualizarHora(e.target.value)}
-                className="text-sm border border-gray-200 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-pink-200"
+                className="text-sm border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-pink-200"
               />
             </div>
           )}
@@ -88,14 +88,14 @@ export default function PastillaCard({ initial }: Props) {
           <button
             onClick={desmarcar}
             disabled={loading}
-            className="text-xs text-gray-400 hover:text-gray-500 underline"
+            className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:text-gray-400 underline"
           >
             No la tomé / desmarcar
           </button>
         </div>
       ) : (
         <div className="space-y-3">
-          <p className="text-sm text-gray-500">¿Ya tomaste tu pastilla anticonceptiva hoy?</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">¿Ya tomaste tu pastilla anticonceptiva hoy?</p>
           <button
             onClick={marcarTomada}
             disabled={loading}

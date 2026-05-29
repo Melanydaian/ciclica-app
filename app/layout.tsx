@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
+import { ThemeProvider } from '@/components/layout/ThemeProvider'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
@@ -36,10 +38,25 @@ export const metadata: Metadata = {
   themeColor: '#FFF9FB',
 }
 
+const noFlashScript = `
+(function(){try{
+  var t = localStorage.getItem('ciclica-theme') || 'system';
+  var d = t === 'dark' || (t === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (d) document.documentElement.classList.add('dark');
+}catch(e){}})();
+`
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={inter.variable}>
-      <body className="font-sans antialiased bg-[#FFF9FB]">{children}</body>
+    <html lang="es" className={inter.variable} suppressHydrationWarning>
+      <head>
+        <Script id="theme-no-flash" strategy="beforeInteractive">
+          {noFlashScript}
+        </Script>
+      </head>
+      <body className="font-sans antialiased bg-[#FFF9FB] dark:bg-[#0F0B0E] dark:text-gray-100 transition-colors">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   )
 }

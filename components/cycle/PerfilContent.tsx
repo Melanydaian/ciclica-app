@@ -99,35 +99,35 @@ export default function PerfilContent({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-800">Tu perfil</h1>
-        <p className="text-sm text-gray-400 mt-1">Ajustá tu información para predicciones más precisas</p>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Tu perfil</h1>
+        <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">Ajustá tu información para predicciones más precisas</p>
       </div>
 
-      <div className="bg-white rounded-2xl border border-pink-100 p-6">
-        <h3 className="text-sm font-semibold text-gray-700 mb-4">Cuenta</h3>
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 p-6">
+        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-4">Cuenta</h3>
         <div className="space-y-3">
-          <div className="flex items-center justify-between py-2 border-b border-gray-50">
-            <span className="text-sm text-gray-500">Email</span>
-            <span className="text-sm font-medium text-gray-800 truncate ml-2">{email}</span>
+          <div className="flex items-center justify-between py-2 border-b border-gray-50 dark:border-gray-800">
+            <span className="text-sm text-gray-500 dark:text-gray-400">Email</span>
+            <span className="text-sm font-medium text-gray-800 dark:text-gray-100 truncate ml-2">{email}</span>
           </div>
-          <div className="flex items-center justify-between py-2 border-b border-gray-50">
-            <span className="text-sm text-gray-500">WhatsApp vinculado</span>
+          <div className="flex items-center justify-between py-2 border-b border-gray-50 dark:border-gray-800">
+            <span className="text-sm text-gray-500 dark:text-gray-400">WhatsApp vinculado</span>
             <span className="text-sm font-medium text-green-600 flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-green-400 inline-block" />
               {maskPhone(telefono)}
             </span>
           </div>
           {codigoReferido && (
-            <div className="flex items-center justify-between py-2 border-b border-gray-50">
-              <span className="text-sm text-gray-500">Código de referido</span>
+            <div className="flex items-center justify-between py-2 border-b border-gray-50 dark:border-gray-800">
+              <span className="text-sm text-gray-500 dark:text-gray-400">Código de referido</span>
               <span className="text-sm font-mono font-bold text-pink-500 tracking-widest">{codigoReferido}</span>
             </div>
           )}
           <div className="flex items-center justify-between py-2">
-            <span className="text-sm text-gray-500">Plan</span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">Plan</span>
             <span
               className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-                suscripcionActiva ? 'bg-purple-100 text-purple-600' : 'bg-gray-100 text-gray-500'
+                suscripcionActiva ? 'bg-purple-100 text-purple-600' : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400'
               }`}
             >
               {suscripcionActiva ? 'Premium ✨' : 'Free'}
@@ -136,11 +136,11 @@ export default function PerfilContent({
         </div>
       </div>
 
-      <form onSubmit={handleSave} className="bg-white rounded-2xl border border-pink-100 p-6 space-y-5">
-        <h3 className="text-sm font-semibold text-gray-700">Tu ciclo</h3>
+      <form onSubmit={handleSave} className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 p-6 space-y-5">
+        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200">Tu ciclo</h3>
 
         <div>
-          <label className="text-sm text-gray-600 mb-2 block">
+          <label className="text-sm text-gray-600 dark:text-gray-300 mb-2 block">
             Duración promedio del ciclo
             <span className="text-pink-500 font-semibold ml-2">{ciclo} días</span>
           </label>
@@ -152,7 +152,7 @@ export default function PerfilContent({
             onChange={e => setCiclo(Number(e.target.value))}
             className="w-full accent-pink-500"
           />
-          <div className="flex justify-between text-xs text-gray-400 mt-1">
+          <div className="flex justify-between text-xs text-gray-400 dark:text-gray-500 mt-1">
             <span>21</span>
             <span>40</span>
           </div>
@@ -169,13 +169,13 @@ export default function PerfilContent({
         </button>
       </form>
 
-      <div className="bg-white rounded-2xl border border-pink-100 p-6">
-        <h3 className="text-sm font-semibold text-gray-700 mb-3">Anticonceptivos</h3>
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 p-6">
+        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3">Anticonceptivos</h3>
 
         <div className="flex items-center justify-between py-2">
           <div className="min-w-0">
-            <p className="text-sm text-gray-700">Tomo pastillas anticonceptivas</p>
-            <p className="text-xs text-gray-400">Habilita el recordatorio diario</p>
+            <p className="text-sm text-gray-700 dark:text-gray-200">Tomo pastillas anticonceptivas</p>
+            <p className="text-xs text-gray-400 dark:text-gray-500">Habilita el recordatorio diario</p>
           </div>
           <button
             type="button"
@@ -194,10 +194,10 @@ export default function PerfilContent({
 
         {pastillas && (
           <>
-            <div className="flex items-center justify-between py-2 border-t border-gray-50">
+            <div className="flex items-center justify-between py-2 border-t border-gray-50 dark:border-gray-800">
               <div>
-                <p className="text-sm text-gray-700">Recordatorio diario por WhatsApp</p>
-                <p className="text-xs text-gray-400">Te avisamos a la hora que elijas</p>
+                <p className="text-sm text-gray-700 dark:text-gray-200">Recordatorio diario por WhatsApp</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500">Te avisamos a la hora que elijas</p>
               </div>
               <button
                 type="button"
@@ -215,13 +215,13 @@ export default function PerfilContent({
             </div>
 
             {recActivo && (
-              <div className="flex items-center justify-between py-2 border-t border-gray-50">
-                <label className="text-sm text-gray-700">Hora del recordatorio</label>
+              <div className="flex items-center justify-between py-2 border-t border-gray-50 dark:border-gray-800">
+                <label className="text-sm text-gray-700 dark:text-gray-200">Hora del recordatorio</label>
                 <input
                   type="time"
                   value={recHora}
                   onChange={e => actualizarHora(e.target.value)}
-                  className="text-sm border border-gray-200 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-pink-200"
+                  className="text-sm border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-pink-200"
                 />
               </div>
             )}
@@ -232,7 +232,7 @@ export default function PerfilContent({
       <button
         type="button"
         onClick={handleLogout}
-        className="w-full py-3 rounded-xl border border-gray-200 text-gray-500 text-sm hover:text-gray-700 hover:bg-gray-50 transition-colors"
+        className="w-full py-3 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 text-sm hover:text-gray-700 dark:text-gray-200 hover:bg-gray-50 transition-colors"
       >
         Cerrar sesión
       </button>

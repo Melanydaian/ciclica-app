@@ -61,23 +61,23 @@ export default function CuentaSection() {
 
   return (
     <div className="space-y-4">
-      <div className="bg-white rounded-2xl border border-pink-100 px-5 py-6">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 px-5 py-6">
         <div className="flex items-center gap-2 mb-4">
           <span className="text-lg">🩺</span>
-          <h3 className="text-sm font-semibold text-gray-800">Compartir con tu ginecóloga</h3>
+          <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100">Compartir con tu ginecóloga</h3>
         </div>
-        <p className="text-xs text-gray-500 mb-4 leading-relaxed">
+        <p className="text-xs text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
           Generá un link de solo lectura con tu resumen de ciclo. Vale 7 días y podés revocarlo cuando quieras.
         </p>
 
         {shareToken && shareUrl ? (
           <div className="space-y-3">
-            <div className="p-3 rounded-xl bg-pink-50 border border-pink-100">
+            <div className="p-3 rounded-xl bg-pink-50 dark:bg-pink-950/20 border border-pink-100 dark:border-gray-800">
               <p className="text-[10px] font-semibold uppercase tracking-wider text-pink-600 mb-1">
                 Tu link
               </p>
-              <p className="text-xs text-gray-700 break-all font-mono">{shareUrl}</p>
-              <p className="text-[10px] text-gray-400 mt-2">
+              <p className="text-xs text-gray-700 dark:text-gray-200 break-all font-mono">{shareUrl}</p>
+              <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-2">
                 Expira el {new Date(shareToken.expira).toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' })}
               </p>
             </div>
@@ -95,7 +95,7 @@ export default function CuentaSection() {
                   await fetch(`/api/share?token=${shareToken.token}`, { method: 'DELETE' })
                   setShareToken(null)
                 }}
-                className="py-2 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-medium hover:bg-gray-50"
+                className="py-2 rounded-lg bg-white border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 text-xs font-medium hover:bg-gray-50"
               >
                 Revocar
               </button>
@@ -113,10 +113,10 @@ export default function CuentaSection() {
         )}
       </div>
 
-      <div className="bg-white rounded-2xl border border-pink-100 px-5 py-6">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 px-5 py-6">
         <div className="flex items-center gap-2 mb-4">
           <span className="text-lg">🔒</span>
-          <h3 className="text-sm font-semibold text-gray-800">Tu privacidad y datos</h3>
+          <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100">Tu privacidad y datos</h3>
         </div>
 
         <div className="space-y-2">
@@ -124,42 +124,42 @@ export default function CuentaSection() {
             type="button"
             onClick={exportar}
             disabled={exporting}
-            className="w-full py-2.5 px-4 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-3 disabled:opacity-60"
+            className="w-full py-2.5 px-4 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-3 disabled:opacity-60"
           >
             <span>📥</span>
             <span className="flex-1 text-left">
               {exporting ? 'Descargando...' : 'Descargar todos mis datos'}
             </span>
-            <span className="text-gray-400">→</span>
+            <span className="text-gray-400 dark:text-gray-500">→</span>
           </button>
 
           <a
             href="/privacidad"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-2.5 px-4 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-3"
+            className="w-full py-2.5 px-4 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-3"
           >
             <span>📄</span>
             <span className="flex-1 text-left">Política de privacidad</span>
-            <span className="text-gray-400">↗</span>
+            <span className="text-gray-400 dark:text-gray-500">↗</span>
           </a>
 
           <a
             href="/terminos"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-2.5 px-4 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-3"
+            className="w-full py-2.5 px-4 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-3"
           >
             <span>📋</span>
             <span className="flex-1 text-left">Términos de uso</span>
-            <span className="text-gray-400">↗</span>
+            <span className="text-gray-400 dark:text-gray-500">↗</span>
           </a>
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl border border-red-100 px-5 py-6">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-red-100 px-5 py-6">
         <h3 className="text-sm font-semibold text-red-600 mb-2">Zona de peligro</h3>
-        <p className="text-xs text-gray-500 mb-4 leading-relaxed">
+        <p className="text-xs text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
           Al borrar tu cuenta se eliminan para siempre todos tus registros, datos y este perfil.
           No se puede deshacer.
         </p>
@@ -174,7 +174,7 @@ export default function CuentaSection() {
           </button>
         ) : (
           <div className="space-y-3">
-            <p className="text-xs text-gray-700">
+            <p className="text-xs text-gray-700 dark:text-gray-200">
               Para confirmar escribí <strong>BORRAR</strong> en mayúsculas:
             </p>
             <input
@@ -188,7 +188,7 @@ export default function CuentaSection() {
               <button
                 type="button"
                 onClick={() => { setShowConfirm(false); setConfirmText('') }}
-                className="py-2 rounded-lg border border-gray-200 text-gray-600 text-xs font-medium"
+                className="py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 text-xs font-medium"
               >
                 Cancelar
               </button>

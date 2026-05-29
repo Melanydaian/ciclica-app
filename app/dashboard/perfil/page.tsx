@@ -3,6 +3,8 @@ import { createAdminSupabase } from '@/lib/supabase-server'
 import PerfilContent from '@/components/cycle/PerfilContent'
 import PuntosCard from '@/components/cycle/PuntosCard'
 import CuentaSection from '@/components/cycle/CuentaSection'
+import AparienciaSection from '@/components/cycle/AparienciaSection'
+import PeriodoSection from '@/components/cycle/PeriodoSection'
 
 export default async function PerfilPage() {
   const { email, telefono, webUser } = await requireUsuaria()
@@ -11,14 +13,14 @@ export default async function PerfilPage() {
   // SELECT defensivo: si la migración 010 no se corrió, las columnas nuevas no existen
   let { data: usuaria } = await admin
     .from('usuarias')
-    .select('duracion_ciclo, promedio_duracion_ciclo, toma_anticonceptivas, recordatorio_pastilla_activo, recordatorio_pastilla_hora, codigo_referido, puntos')
+    .select('duracion_ciclo, promedio_duracion_ciclo, toma_anticonceptivas, recordatorio_pastilla_activo, recordatorio_pastilla_hora, codigo_referido, puntos, fecha_inicio_ciclo')
     .eq('telefono', telefono)
     .maybeSingle()
 
   if (!usuaria) {
     const fallback = await admin
       .from('usuarias')
-      .select('duracion_ciclo, promedio_duracion_ciclo, codigo_referido, puntos')
+      .select('duracion_ciclo, promedio_duracion_ciclo, codigo_referido, puntos, fecha_inicio_ciclo')
       .eq('telefono', telefono)
       .maybeSingle()
     usuaria = fallback.data
@@ -28,6 +30,7 @@ export default async function PerfilPage() {
 
   return (
     <div className="space-y-4">
+      <PeriodoSection fechaActual={usuaria?.fecha_inicio_ciclo ?? null} />
       <PerfilContent
         email={email}
         telefono={telefono}
@@ -43,6 +46,7 @@ export default async function PerfilPage() {
         codigoReferido={usuaria?.codigo_referido ?? null}
         log={[]}
       />
+      <AparienciaSection />
       <CuentaSection />
     </div>
   )

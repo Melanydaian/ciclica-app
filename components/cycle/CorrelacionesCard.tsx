@@ -15,15 +15,15 @@ export default function CorrelacionesCard({ registros }: { registros: Registro[]
 
   if (totalRegistros < 3) {
     return (
-      <div className="bg-white rounded-2xl border border-pink-100 p-6">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 p-6">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-semibold text-gray-700">Patrones detectados</h3>
-          <span className="text-xs text-gray-400">últimos ciclos</span>
+          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200">Patrones detectados</h3>
+          <span className="text-xs text-gray-400 dark:text-gray-500">últimos ciclos</span>
         </div>
         <div className="text-center py-6">
           <p className="text-2xl mb-2">🌱</p>
-          <p className="text-sm text-gray-500">Recopilando tus patrones...</p>
-          <p className="text-xs text-gray-400 mt-1">
+          <p className="text-sm text-gray-500 dark:text-gray-400">Recopilando tus patrones...</p>
+          <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
             Con más registros vía WhatsApp podremos detectar correlaciones entre síntomas y fases.
           </p>
         </div>
@@ -32,14 +32,14 @@ export default function CorrelacionesCard({ registros }: { registros: Registro[]
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-pink-100 p-6">
+    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-semibold text-gray-700">Síntomas más frecuentes</h3>
-        <span className="text-xs text-gray-400">{totalRegistros} registros</span>
+        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200">Síntomas más frecuentes</h3>
+        <span className="text-xs text-gray-400 dark:text-gray-500">{totalRegistros} registros</span>
       </div>
 
       {topSintomas.length === 0 ? (
-        <p className="text-sm text-gray-400 text-center py-3">Sin síntomas registrados aún.</p>
+        <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-3">Sin síntomas registrados aún.</p>
       ) : (
         <div className="space-y-3">
           {topSintomas.map(([sintoma, count], i) => {
@@ -48,12 +48,12 @@ export default function CorrelacionesCard({ registros }: { registros: Registro[]
             return (
               <div key={sintoma}>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm text-gray-700 flex items-center gap-2">
+                  <span className="text-sm text-gray-700 dark:text-gray-200 flex items-center gap-2">
                     <span>{emoji}</span> {sintoma}
                   </span>
-                  <span className="text-xs text-gray-400">{count}× ({pct}%)</span>
+                  <span className="text-xs text-gray-400 dark:text-gray-500">{count}× ({pct}%)</span>
                 </div>
-                <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                <div className="h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full bg-pink-400"
                     style={{ width: `${Math.min(pct * 2, 100)}%` }}

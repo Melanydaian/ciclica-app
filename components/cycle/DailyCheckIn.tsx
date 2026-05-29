@@ -43,12 +43,12 @@ export default function DailyCheckIn({ yaRegistroHoy = false }: { yaRegistroHoy?
 
   if (done) {
     return (
-      <div className="bg-white rounded-3xl border border-pink-100 px-5 py-5">
+      <div className="bg-white dark:bg-gray-900 rounded-3xl border border-pink-100 dark:border-gray-800 px-5 py-5">
         <div className="flex items-center gap-3">
           <span className="text-2xl">✅</span>
           <div>
-            <p className="text-sm font-semibold text-gray-800">Ya registraste hoy</p>
-            <p className="text-xs text-gray-500 mt-0.5">+5 pts · Tu racha sigue 🔥</p>
+            <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">Ya registraste hoy</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">+5 pts · Tu racha sigue 🔥</p>
           </div>
         </div>
       </div>
@@ -56,19 +56,19 @@ export default function DailyCheckIn({ yaRegistroHoy = false }: { yaRegistroHoy?
   }
 
   return (
-    <div className="bg-white rounded-3xl border border-pink-100 px-5 py-5">
+    <div className="bg-white dark:bg-gray-900 rounded-3xl border border-pink-100 dark:border-gray-800 px-5 py-5">
       <div className="flex items-baseline justify-between mb-4">
         <div>
-          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400">
+          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500">
             Check-in del día
           </div>
-          <p className="text-base font-semibold text-gray-800 mt-1">¿Cómo te sentís hoy?</p>
+          <p className="text-base font-semibold text-gray-800 dark:text-gray-100 mt-1">¿Cómo te sentís hoy?</p>
         </div>
         {mood && (
           <button
             type="button"
             onClick={() => { setMood(null); setSintoma(null) }}
-            className="text-[11px] text-gray-400 hover:text-gray-600"
+            className="text-[11px] text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:text-gray-300"
           >
             limpiar
           </button>
@@ -85,12 +85,12 @@ export default function DailyCheckIn({ yaRegistroHoy = false }: { yaRegistroHoy?
               onClick={() => setMood(m.value)}
               className={`flex flex-col items-center justify-center py-2.5 rounded-2xl border transition-all ${
                 active
-                  ? 'bg-pink-50 border-pink-300 scale-105'
-                  : 'bg-white border-gray-100 hover:border-pink-200'
+                  ? 'bg-pink-50 dark:bg-pink-950/20 border-pink-300 scale-105'
+                  : 'bg-white border-gray-100 dark:border-gray-800 hover:border-pink-200'
               }`}
             >
               <span className="text-2xl leading-none">{m.emoji}</span>
-              <span className={`text-[9px] mt-1 font-medium ${active ? 'text-pink-600' : 'text-gray-400'}`}>
+              <span className={`text-[9px] mt-1 font-medium ${active ? 'text-pink-600' : 'text-gray-400 dark:text-gray-500'}`}>
                 {m.label}
               </span>
             </button>
@@ -100,8 +100,8 @@ export default function DailyCheckIn({ yaRegistroHoy = false }: { yaRegistroHoy?
 
       {mood && (
         <div className="mt-4 animate-in fade-in slide-in-from-top-1 duration-200">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400 mb-2">
-            ¿Algún síntoma? <span className="text-gray-400 normal-case tracking-normal">(opcional)</span>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500 mb-2">
+            ¿Algún síntoma? <span className="text-gray-400 dark:text-gray-500 normal-case tracking-normal">(opcional)</span>
           </p>
           <div className="flex flex-wrap gap-1.5">
             {SUGERIDOS.map(s => {
@@ -114,7 +114,7 @@ export default function DailyCheckIn({ yaRegistroHoy = false }: { yaRegistroHoy?
                   className={`px-2.5 py-1 rounded-full text-xs font-medium border transition-all ${
                     active
                       ? 'bg-pink-500 text-white border-pink-500'
-                      : 'bg-white text-gray-600 border-gray-200 hover:border-pink-200'
+                      : 'bg-white text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-pink-200'
                   }`}
                 >
                   {s}

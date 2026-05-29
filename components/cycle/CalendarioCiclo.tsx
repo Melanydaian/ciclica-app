@@ -55,20 +55,20 @@ export default function CalendarioCiclo({
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-pink-100 px-5 py-6">
+    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 px-5 py-6">
       <div className="flex items-center justify-between mb-5">
         <div>
-          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400">
+          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500">
             Calendario del ciclo
           </div>
-          <div className="text-base font-semibold text-gray-800 capitalize mt-1">{monthName}</div>
+          <div className="text-base font-semibold text-gray-800 dark:text-gray-100 capitalize mt-1">{monthName}</div>
         </div>
         <div className="flex items-center gap-1">
           <button
             type="button"
             onClick={() => shift(-1)}
             aria-label="Mes anterior"
-            className="w-8 h-8 rounded-lg border border-gray-200 text-gray-500 hover:text-gray-800 hover:border-gray-300 transition-colors text-sm"
+            className="w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:text-gray-100 hover:border-gray-300 transition-colors text-sm"
           >
             ←
           </button>
@@ -76,7 +76,7 @@ export default function CalendarioCiclo({
             type="button"
             onClick={() => shift(1)}
             aria-label="Mes siguiente"
-            className="w-8 h-8 rounded-lg border border-gray-200 text-gray-500 hover:text-gray-800 hover:border-gray-300 transition-colors text-sm"
+            className="w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:text-gray-100 hover:border-gray-300 transition-colors text-sm"
           >
             →
           </button>
@@ -85,7 +85,7 @@ export default function CalendarioCiclo({
 
       <div className="grid grid-cols-7 gap-1 mb-2">
         {['D', 'L', 'M', 'M', 'J', 'V', 'S'].map((d, i) => (
-          <div key={i} className="text-center text-[10px] font-bold text-gray-400 tracking-wider py-1">
+          <div key={i} className="text-center text-[10px] font-bold text-gray-400 dark:text-gray-500 tracking-wider py-1">
             {d}
           </div>
         ))}
@@ -133,27 +133,27 @@ export default function CalendarioCiclo({
         })}
       </div>
 
-      <div className="mt-5 pt-4 border-t border-gray-100 space-y-2">
-        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 mb-2">
+      <div className="mt-5 pt-4 border-t border-gray-100 dark:border-gray-800 space-y-2">
+        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500 mb-2">
           Referencias
         </div>
         <div className="grid grid-cols-2 gap-x-3 gap-y-1.5">
           {Object.entries(PHASE_DOT).map(([key, { bg, ring, label }]) => (
             <div key={key} className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-md" style={{ background: bg, border: `1.5px solid ${ring}` }} />
-              <span className="text-[11px] text-gray-600">{label}</span>
+              <span className="text-[11px] text-gray-600 dark:text-gray-300">{label}</span>
             </div>
           ))}
         </div>
         <div className="flex items-center gap-2 mt-2">
           <span className="w-3 h-3 rounded-md border-2 border-dashed border-pink-500" />
-          <span className="text-[11px] text-gray-600">Próximo período aproximado · {fmtRange(rangeStart, rangeEnd)}</span>
+          <span className="text-[11px] text-gray-600 dark:text-gray-300">Próximo período aproximado · {fmtRange(rangeStart, rangeEnd)}</span>
         </div>
       </div>
 
       <Link
         href="/dashboard/historial"
-        className="mt-5 -mx-5 -mb-6 px-5 py-3.5 border-t border-pink-100 flex items-center justify-between text-pink-600 hover:bg-pink-50 transition-colors text-sm font-semibold"
+        className="mt-5 -mx-5 -mb-6 px-5 py-3.5 border-t border-pink-100 flex items-center justify-between text-pink-600 hover:bg-pink-50 dark:bg-pink-950/20 transition-colors text-sm font-semibold"
       >
         <span>Ver historial completo</span>
         <span>→</span>

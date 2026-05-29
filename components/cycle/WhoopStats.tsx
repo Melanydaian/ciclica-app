@@ -30,18 +30,18 @@ export default function WhoopStats({
 
   return (
     <div className="grid grid-cols-2 gap-3">
-      <div className="bg-white rounded-2xl border border-pink-100 px-5 py-5">
-        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 px-5 py-5">
+        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500">
           Ciclo actual
         </div>
         <div className="mt-2 flex items-baseline gap-2">
-          <span className="text-5xl font-bold text-gray-800 tabular-nums leading-none">
+          <span className="text-5xl font-bold text-gray-800 dark:text-gray-100 tabular-nums leading-none">
             {cycleLength}
           </span>
-          <span className="text-xs text-gray-400">días</span>
+          <span className="text-xs text-gray-400 dark:text-gray-500">días</span>
         </div>
         {averageLength && (
-          <div className="mt-3 flex items-center gap-1.5 text-[11px] text-gray-500">
+          <div className="mt-3 flex items-center gap-1.5 text-[11px] text-gray-500 dark:text-gray-400">
             <TrendArrow trend={trend} />
             <span>
               {diff === 0
@@ -52,32 +52,32 @@ export default function WhoopStats({
         )}
       </div>
 
-      <div className="bg-white rounded-2xl border border-pink-100 px-5 py-5">
-        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 px-5 py-5">
+        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500">
           Período
         </div>
         <div className="mt-2 flex items-baseline gap-2">
-          <span className="text-5xl font-bold text-gray-800 tabular-nums leading-none">
+          <span className="text-5xl font-bold text-gray-800 dark:text-gray-100 tabular-nums leading-none">
             {periodLength}
           </span>
-          <span className="text-xs text-gray-400">días</span>
+          <span className="text-xs text-gray-400 dark:text-gray-500">días</span>
         </div>
-        <div className="mt-3 text-[11px] text-gray-500">
+        <div className="mt-3 text-[11px] text-gray-500 dark:text-gray-400">
           {periodLength >= 2 && periodLength <= 7 ? 'Dentro del rango normal' : 'Fuera del rango habitual'}
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl border border-pink-100 px-5 py-5 col-span-2">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 px-5 py-5 col-span-2">
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400">
+            <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500">
               Regularidad
             </div>
             <div className="mt-2 flex items-baseline gap-2">
               <span className="text-5xl font-bold tabular-nums leading-none" style={{ color: variabilityColor }}>
                 {variability == null ? '—' : variability}
               </span>
-              {variability != null && <span className="text-xs text-gray-400">días de variación</span>}
+              {variability != null && <span className="text-xs text-gray-400 dark:text-gray-500">días de variación</span>}
             </div>
           </div>
           <span

@@ -45,21 +45,21 @@ export default function StreakCard({ registros }: { registros: Registro[] }) {
   const totalRegistros = new Set(registros.map(r => r.fecha)).size
 
   return (
-    <div className="bg-white rounded-2xl border border-pink-100 px-5 py-5">
+    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 px-5 py-5">
       <div className="flex items-center justify-between gap-3">
         <div className="flex-1 min-w-0">
-          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400">
+          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500">
             Racha de registros
           </div>
           <div className="flex items-baseline gap-2 mt-1.5">
-            <span className="text-4xl font-bold text-gray-800 tabular-nums leading-none">
+            <span className="text-4xl font-bold text-gray-800 dark:text-gray-100 tabular-nums leading-none">
               {actual}
             </span>
-            <span className="text-sm text-gray-400">
+            <span className="text-sm text-gray-400 dark:text-gray-500">
               {actual === 1 ? 'día seguido' : 'días seguidos'}
             </span>
           </div>
-          <p className="text-[11px] text-gray-500 mt-2 leading-relaxed">
+          <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">
             {actual === 0
               ? 'Registrá hoy para empezar tu racha 🌸'
               : actual < 3
@@ -69,9 +69,9 @@ export default function StreakCard({ registros }: { registros: Registro[] }) {
               : `Increíble, llevás ${actual} días. Tu cuerpo te lo va a agradecer.`}
           </p>
         </div>
-        <div className="flex flex-col items-center justify-center bg-pink-50 rounded-2xl px-4 py-3 min-w-[78px]">
+        <div className="flex flex-col items-center justify-center bg-pink-50 dark:bg-pink-950/20 rounded-2xl px-4 py-3 min-w-[78px]">
           <span className="text-2xl">🔥</span>
-          <span className="text-[10px] text-gray-500 mt-1 font-semibold uppercase tracking-wider">
+          <span className="text-[10px] text-gray-500 dark:text-gray-400 mt-1 font-semibold uppercase tracking-wider">
             {totalRegistros} total
           </span>
         </div>

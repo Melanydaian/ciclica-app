@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import RegistrarPeriodoModal from './RegistrarPeriodoModal'
 
 const PHASE_COLORS: Record<string, string> = {
   menstrual: '#EC4899',
@@ -51,6 +52,7 @@ export default function HistorialContent({
   const today = new Date()
   const [viewMonth, setViewMonth] = useState({ year: today.getFullYear(), month: today.getMonth() })
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
+  const [periodoOpen, setPeriodoOpen] = useState(false)
 
   const monthName = new Date(viewMonth.year, viewMonth.month, 1)
     .toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })
@@ -71,25 +73,36 @@ export default function HistorialContent({
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-800">Historial</h1>
-        <p className="text-sm text-gray-400 mt-1">Tu ciclo mes a mes</p>
+    <div className="space-y-4">
+      <div className="pb-2">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500 dark:text-gray-500">
+          Tu historial
+        </p>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 dark:text-gray-100 mt-1">Tu ciclo mes a mes</h1>
       </div>
 
-      <div className="bg-white rounded-2xl border border-pink-100 p-6">
+      <button
+        type="button"
+        onClick={() => setPeriodoOpen(true)}
+        className="w-full bg-gradient-to-r from-pink-500 to-pink-400 hover:from-pink-600 hover:to-pink-500 text-white rounded-2xl px-5 py-4 flex items-center justify-center gap-2 font-semibold text-sm shadow-sm transition-all hover:shadow-md active:scale-[0.99]"
+      >
+        <span className="text-lg">🩸</span>
+        Registrar nuevo período
+      </button>
+
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 p-6">
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={() => shiftMonth(-1)}
-            className="text-gray-400 hover:text-gray-700 px-2 py-1 text-sm"
+            className="text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:text-gray-200 px-2 py-1 text-sm"
             aria-label="Mes anterior"
           >
             ←
           </button>
-          <h2 className="text-sm font-semibold text-gray-600 capitalize">{monthName}</h2>
+          <h2 className="text-sm font-semibold text-gray-600 dark:text-gray-300 capitalize">{monthName}</h2>
           <button
             onClick={() => shiftMonth(1)}
-            className="text-gray-400 hover:text-gray-700 px-2 py-1 text-sm"
+            className="text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:text-gray-200 px-2 py-1 text-sm"
             aria-label="Mes siguiente"
           >
             →
@@ -98,7 +111,7 @@ export default function HistorialContent({
 
         <div className="grid grid-cols-7 gap-1 mb-2">
           {['D', 'L', 'M', 'X', 'J', 'V', 'S'].map(d => (
-            <div key={d} className="text-center text-xs text-gray-400 font-medium py-1">{d}</div>
+            <div key={d} className="text-center text-xs text-gray-400 dark:text-gray-500 font-medium py-1">{d}</div>
           ))}
         </div>
 
@@ -139,15 +152,15 @@ export default function HistorialContent({
           {Object.entries(PHASE_COLORS).map(([phase, color]) => (
             <div key={phase} className="flex items-center gap-1.5">
               <span className="w-3 h-3 rounded-full inline-block" style={{ background: color }} />
-              <span className="text-xs text-gray-500 capitalize">{phase}</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400 capitalize">{phase}</span>
             </div>
           ))}
         </div>
       </div>
 
       {registroSeleccionado && selectedDate && (
-        <div className="bg-white rounded-2xl border border-pink-100 p-5">
-          <p className="text-xs text-gray-400 mb-3">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 p-5">
+          <p className="text-xs text-gray-400 dark:text-gray-500 mb-3">
             {new Date(selectedDate).toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })}
           </p>
           {registroSeleccionado.fase && (
@@ -163,17 +176,17 @@ export default function HistorialContent({
           {registroSeleccionado.sintomas.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {registroSeleccionado.sintomas.map((s, i) => (
-                <span key={i} className="text-xs px-2 py-0.5 bg-pink-50 text-pink-600 rounded-full">{s}</span>
+                <span key={i} className="text-xs px-2 py-0.5 bg-pink-50 dark:bg-pink-950/20 text-pink-600 rounded-full">{s}</span>
               ))}
             </div>
           )}
         </div>
       )}
 
-      <div className="bg-white rounded-2xl border border-pink-100 p-5">
-        <h3 className="text-sm font-semibold text-gray-700 mb-3">Ciclos anteriores</h3>
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 p-5">
+        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3">Ciclos anteriores</h3>
         {ciclos.length === 0 ? (
-          <p className="text-sm text-gray-400 text-center py-4">
+          <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-4">
             Todavía no hay ciclos registrados. Contale a Cíclica cuándo te vino la regla por WhatsApp 🌸
           </p>
         ) : (
@@ -183,8 +196,8 @@ export default function HistorialContent({
               const end = new Date(start)
               end.setDate(start.getDate() + (c.duracion_dias ?? 28) - 1)
               return (
-                <div key={i} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
-                  <p className="text-sm font-medium text-gray-700">
+                <div key={i} className="flex items-center justify-between py-2 border-b border-gray-50 dark:border-gray-800 last:border-0">
+                  <p className="text-sm font-medium text-gray-700 dark:text-gray-200">
                     {start.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })} →{' '}
                     {end.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })}
                   </p>
@@ -195,6 +208,8 @@ export default function HistorialContent({
           </div>
         )}
       </div>
+
+      <RegistrarPeriodoModal open={periodoOpen} onClose={() => setPeriodoOpen(false)} fechaActual={null} />
     </div>
   )
 }
