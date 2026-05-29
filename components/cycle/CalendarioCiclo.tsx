@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { phaseAtDate, nextPeriodEstimate, isInRange, fmtRange } from '@/lib/cycle-forecast'
 import type { CyclePhase } from '@/lib/cycle-utils'
 
@@ -149,6 +150,14 @@ export default function CalendarioCiclo({
           <span className="text-[11px] text-gray-600">Próximo período aproximado · {fmtRange(rangeStart, rangeEnd)}</span>
         </div>
       </div>
+
+      <Link
+        href="/dashboard/historial"
+        className="mt-5 -mx-5 -mb-6 px-5 py-3.5 border-t border-pink-100 flex items-center justify-between text-pink-600 hover:bg-pink-50 transition-colors text-sm font-semibold"
+      >
+        <span>Ver historial completo</span>
+        <span>→</span>
+      </Link>
     </div>
   )
 }

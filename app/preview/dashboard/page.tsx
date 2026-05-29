@@ -3,12 +3,12 @@ import PhaseRing from '@/components/cycle/PhaseRing'
 import WhoopStats from '@/components/cycle/WhoopStats'
 import CalendarioCiclo from '@/components/cycle/CalendarioCiclo'
 import CiclosTrend from '@/components/cycle/CiclosTrend'
-import RecentSymptoms from '@/components/cycle/RecentSymptoms'
 import ProximaSemanaCard from '@/components/cycle/ProximaSemanaCard'
-import CorrelacionesCard from '@/components/cycle/CorrelacionesCard'
 import ExportarPDFButton from '@/components/cycle/ExportarPDFButton'
-import PuntosCard from '@/components/cycle/PuntosCard'
 import DisclaimerMedico from '@/components/cycle/DisclaimerMedico'
+import DailyCheckIn from '@/components/cycle/DailyCheckIn'
+import StreakCard from '@/components/cycle/StreakCard'
+import QuickAccessCard from '@/components/cycle/QuickAccessCard'
 import NavBar from '@/components/layout/NavBar'
 
 // Página de PREVIEW con datos mock — pública, solo para screenshots y diseño.
@@ -57,6 +57,8 @@ export default function PreviewDashboardPage() {
             <h1 className="text-2xl font-bold text-gray-800 mt-1">Tu ciclo hoy</h1>
           </div>
 
+          <DailyCheckIn yaRegistroHoy={false} />
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <PhaseRing
               info={PHASE_INFO[phaseData.phase]}
@@ -81,6 +83,8 @@ export default function PreviewDashboardPage() {
             variability={variability}
           />
 
+          <StreakCard registros={MOCK_REGISTROS} />
+
           <ProximaSemanaCard
             nextPhase={phaseData.phase}
             daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
@@ -88,11 +92,46 @@ export default function PreviewDashboardPage() {
 
           <CiclosTrend pastCycles={MOCK_PAST_CYCLES} currentCycleLength={cycleLength} />
 
-          <CorrelacionesCard registros={MOCK_REGISTROS} />
-
-          <PuntosCard puntos={285} codigoReferido="ROSA42" log={[]} />
-
-          <RecentSymptoms registros={MOCK_REGISTROS} />
+          <div className="pt-2">
+            <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 mb-2 px-1">
+              Explorar tu data
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <QuickAccessCard
+                href="/dashboard/sintomas"
+                emoji="📊"
+                label="Tus síntomas"
+                primary={6}
+                primarySuffix="registros"
+                hint="Más frecuente: energía alta"
+              />
+              <QuickAccessCard
+                href="/dashboard/historial"
+                emoji="📅"
+                label="Tu historial"
+                primary={5}
+                primarySuffix="ciclos"
+                hint="Promedio: 28 días"
+                accent="#A78BFA"
+              />
+              <QuickAccessCard
+                href="/dashboard/intimidad"
+                emoji="💗"
+                label="Tu intimidad"
+                primary={4}
+                primarySuffix="registros"
+                hint="75% con protección · último 26 may"
+              />
+              <QuickAccessCard
+                href="/dashboard/journal"
+                emoji="📔"
+                label="Tu diario"
+                primary="Última nota"
+                hint='"Hoy me sentí súper energética y con muchas ganas de empezar..."'
+                accent="#34D399"
+              />
+            </div>
+          </div>
 
           <ExportarPDFButton
             nombre="Mel"

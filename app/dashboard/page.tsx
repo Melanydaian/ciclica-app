@@ -12,6 +12,7 @@ import DisclaimerMedico from '@/components/cycle/DisclaimerMedico'
 import PrimerPeriodoCard from '@/components/cycle/PrimerPeriodoCard'
 import StreakCard from '@/components/cycle/StreakCard'
 import DailyCheckIn from '@/components/cycle/DailyCheckIn'
+import QuickAccessCard from '@/components/cycle/QuickAccessCard'
 
 export default async function DashboardPage() {
   const { telefono, webUser } = await requireUsuaria()
@@ -42,6 +43,8 @@ export default async function DashboardPage() {
     { data: regsRaw },
     { data: ciclosRaw },
     { data: pastilla },
+    { data: sexRows },
+    { data: journalRows },
   ] = await Promise.all([
     admin
       .from('registros_ciclo')
@@ -63,6 +66,18 @@ export default async function DashboardPage() {
           .eq('fecha', hoy)
           .maybeSingle()
       : Promise.resolve({ data: null }),
+    admin
+      .from('sex_registros')
+      .select('fecha, hubo_proteccion')
+      .in('user_id', telefonoVariants)
+      .order('fecha', { ascending: false })
+      .limit(60),
+    admin
+      .from('journal_entries')
+      .select('fecha, texto')
+      .eq('telefono', telefono)
+      .order('fecha', { ascending: false })
+      .limit(1),
   ])
 
   const regsSeen = new Set<string>()
@@ -112,6 +127,25 @@ export default async function DashboardPage() {
   const durs = pastCycles.map(c => c.length).filter(Boolean)
   const variability = durs.length >= 2 ? Math.max(...durs) - Math.min(...durs) : null
   const averageLength = pastCycles.length > 0 ? promedioHistorial : null
+
+  // Stats para los QuickAccess cards
+  const sintomaCount = new Map<string, number>()
+  for (const r of regs) {
+    const s = (r.sintoma ?? '').toLowerCase().trim()
+    if (s) sintomaCount.set(s, (sintomaCount.get(s) ?? 0) + 1)
+  }
+  const topSintoma = Array.from(sintomaCount.entries()).sort((a, b) => b[1] - a[1])[0]
+  const totalSintomas = regs.length
+
+  const sexCount = sexRows?.length ?? 0
+  const sexConProteccion = sexRows?.filter(r => r.hubo_proteccion === 'si').length ?? 0
+  const ultimaSexFecha = sexRows?.[0]?.fecha
+    ? new Date(sexRows[0].fecha + 'T00:00:00').toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })
+    : null
+
+  const ultimaJournal = journalRows?.[0]
+    ? `"${(journalRows[0].texto ?? '').slice(0, 60)}${(journalRows[0].texto?.length ?? 0) > 60 ? '...' : ''}"`
+    : null
 
   return (
     <div className="space-y-4">
@@ -170,6 +204,60 @@ export default async function DashboardPage() {
           {pastCycles.length >= 2 && (
             <CiclosTrend pastCycles={pastCycles} currentCycleLength={cycleLength} />
           )}
+
+          <div className="pt-2">
+            <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 mb-2 px-1">
+              Explorar tu data
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <QuickAccessCard
+                href="/dashboard/sintomas"
+                emoji="📊"
+                label="Tus síntomas"
+                primary={totalSintomas}
+                primarySuffix={totalSintomas === 1 ? 'registro' : 'registros'}
+                hint={
+                  topSintoma
+                    ? `Más frecuente: ${topSintoma[0]}`
+                    : 'Empezá a registrar cómo te sentís'
+                }
+              />
+              <QuickAccessCard
+                href="/dashboard/historial"
+                emoji="📅"
+                label="Tu historial"
+                primary={pastCycles.length}
+                primarySuffix={pastCycles.length === 1 ? 'ciclo' : 'ciclos'}
+                hint={
+                  averageLength
+                    ? `Promedio: ${averageLength} días`
+                    : 'Vas a ver tus ciclos acá'
+                }
+                accent="#A78BFA"
+              />
+              <QuickAccessCard
+                href="/dashboard/intimidad"
+                emoji="💗"
+                label="Tu intimidad"
+                primary={sexCount}
+                primarySuffix={sexCount === 1 ? 'registro' : 'registros'}
+                hint={
+                  sexCount > 0
+                    ? `${Math.round((sexConProteccion / sexCount) * 100)}% con protección · último ${ultimaSexFecha}`
+                    : 'Privado · solo para vos'
+                }
+              />
+              <QuickAccessCard
+                href="/dashboard/journal"
+                emoji="📔"
+                label="Tu diario"
+                primary={journalRows?.length ? 'Última nota' : '0'}
+                primarySuffix={journalRows?.length ? '' : 'notas'}
+                hint={ultimaJournal ?? 'Escribí libremente cómo te sentís'}
+                accent="#34D399"
+              />
+            </div>
+          </div>
         </>
       )}
 
