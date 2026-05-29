@@ -1,12 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabase, createAdminSupabase } from '@/lib/supabase-server'
 import { phaseAtDate } from '@/lib/cycle-forecast'
+import { rateLimit, ipFromRequest } from '@/lib/rate-limit'
 
 export async function POST(req: NextRequest) {
   const supabase = await createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user?.email) {
     return NextResponse.json({ error: 'No autenticada' }, { status: 401 })
+  }
+
+  const rl = rateLimit(`sintomas:${user.email}:${ipFromRequest(req)}`, { max: 20, windowMs: 60_000 })
+  if (!rl.ok) {
+    return NextResponse.json(
+      { error: 'Muchas requests, esperá un minuto.' },
+      { status: 429, headers: { 'Retry-After': String(Math.ceil((rl.resetAt - Date.now()) / 1000)) } },
+    )
   }
 
   const body = await req.json().catch(() => null)

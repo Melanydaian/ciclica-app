@@ -94,7 +94,7 @@ function LoginForm() {
     <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-[#FFF9FB] overflow-x-hidden">
       <div className="w-full max-w-sm">
         <div className="flex justify-center mb-6">
-          <img src="/logo.png" alt="Cíclica" className="h-24 w-auto" />
+          <img src="/logo.svg" alt="Cíclica" className="h-24 w-auto" />
         </div>
 
         {sent ? (
@@ -179,6 +179,12 @@ function LoginForm() {
             Empezá por WhatsApp
           </a>
         </p>
+
+        <div className="text-center text-[10px] text-gray-400 mt-8 space-x-3">
+          <a href="/privacidad" className="hover:text-pink-500">Política de privacidad</a>
+          <span>·</span>
+          <a href="/terminos" className="hover:text-pink-500">Términos</a>
+        </div>
       </div>
     </div>
   )

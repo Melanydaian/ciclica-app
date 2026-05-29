@@ -8,7 +8,6 @@ import ProximaSemanaCard from '@/components/cycle/ProximaSemanaCard'
 import CorrelacionesCard from '@/components/cycle/CorrelacionesCard'
 import ExportarPDFButton from '@/components/cycle/ExportarPDFButton'
 import PuntosCard from '@/components/cycle/PuntosCard'
-import ProximamenteCard from '@/components/cycle/ProximamenteCard'
 import DisclaimerMedico from '@/components/cycle/DisclaimerMedico'
 import NavBar from '@/components/layout/NavBar'
 
@@ -92,8 +91,6 @@ export default function PreviewDashboardPage() {
           <CorrelacionesCard registros={MOCK_REGISTROS} />
 
           <PuntosCard puntos={285} codigoReferido="ROSA42" log={[]} />
-
-          <ProximamenteCard />
 
           <RecentSymptoms registros={MOCK_REGISTROS} />
 

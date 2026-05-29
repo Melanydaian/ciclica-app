@@ -56,7 +56,7 @@ export default function OnboardingPage() {
     <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-[#FFF9FB]">
       <div className="w-full max-w-sm">
         <div className="flex justify-center mb-8">
-          <img src="/logo.png" alt="Cíclica" style={{ height: '140px', width: 'auto', margin: '-44px -20px' }} />
+          <img src="/logo.svg" alt="Cíclica" className="h-24 w-auto" />
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-pink-100 p-8">

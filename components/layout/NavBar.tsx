@@ -13,6 +13,8 @@ const links = [
   { href: '/dashboard/perfil',     label: 'Perfil',     icon: '👤' },
 ]
 
+const bottomLinks = links.filter(l => l.href !== '/dashboard/intimidad')
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function NavBar({ user }: { user: User }) {
   const pathname = usePathname()
@@ -29,7 +31,7 @@ export default function NavBar({ user }: { user: User }) {
       <nav className="bg-white border-b border-pink-100 sticky top-0 z-20">
         <div className="px-4 md:px-6 h-20 md:h-24 flex items-center justify-between w-full">
           <Link href="/dashboard" className="flex items-center" aria-label="Cíclica">
-            <img src="/logo.png" alt="Cíclica" className="h-16 w-auto md:h-20" />
+            <img src="/logo.svg" alt="Cíclica" className="h-16 w-auto md:h-20" />
           </Link>
 
           <div className="hidden md:flex items-center gap-1">
@@ -63,10 +65,11 @@ export default function NavBar({ user }: { user: User }) {
         </div>
       </nav>
 
+      {/* Bottom tab bar — sólo mobile, 4 pestañas (Intimidad pasa a vivir como pestaña secundaria accesible desde el FAB y desde el calendario) */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-10 bg-white border-t border-pink-100 safe-area-bottom">
         <div className="flex">
-          {links.map(link => {
-            const active = pathname === link.href
+          {bottomLinks.map(link => {
+            const active = pathname === link.href || (link.href === '/dashboard/historial' && pathname === '/dashboard/intimidad')
             return (
               <Link
                 key={link.href}

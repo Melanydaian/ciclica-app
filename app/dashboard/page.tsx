@@ -5,19 +5,18 @@ import PhaseRing from '@/components/cycle/PhaseRing'
 import WhoopStats from '@/components/cycle/WhoopStats'
 import CalendarioCiclo from '@/components/cycle/CalendarioCiclo'
 import CiclosTrend from '@/components/cycle/CiclosTrend'
-import RecentSymptoms from '@/components/cycle/RecentSymptoms'
 import ProximaSemanaCard from '@/components/cycle/ProximaSemanaCard'
-import CorrelacionesCard from '@/components/cycle/CorrelacionesCard'
 import ExportarPDFButton from '@/components/cycle/ExportarPDFButton'
-import PuntosCard from '@/components/cycle/PuntosCard'
-import ProximamenteCard from '@/components/cycle/ProximamenteCard'
 import PastillaCard from '@/components/cycle/PastillaCard'
 import DisclaimerMedico from '@/components/cycle/DisclaimerMedico'
+import PrimerPeriodoCard from '@/components/cycle/PrimerPeriodoCard'
+import StreakCard from '@/components/cycle/StreakCard'
+import DailyCheckIn from '@/components/cycle/DailyCheckIn'
 
 export default async function DashboardPage() {
   const { telefono, webUser } = await requireUsuaria()
+  void webUser
   const admin = createAdminSupabase()
-  const suscripcionActiva = webUser.suscripcion_activa
 
   let { data: usuaria } = await admin
     .from('usuarias')
@@ -42,7 +41,6 @@ export default async function DashboardPage() {
   const [
     { data: regsRaw },
     { data: ciclosRaw },
-    { data: log },
     { data: pastilla },
   ] = await Promise.all([
     admin
@@ -57,12 +55,6 @@ export default async function DashboardPage() {
       .in('telefono', telefonoVariants)
       .order('fecha_inicio', { ascending: false })
       .limit(60),
-    admin
-      .from('puntos_log')
-      .select('puntos, concepto, descripcion, created_at')
-      .in('telefono', telefonoVariants)
-      .order('created_at', { ascending: false })
-      .limit(4),
     tomaAnticonceptivas
       ? admin
           .from('pastillas_log')
@@ -130,6 +122,12 @@ export default async function DashboardPage() {
         <h1 className="text-2xl font-bold text-gray-800 mt-1">Tu ciclo hoy</h1>
       </div>
 
+      {phaseData && lastPeriod && (
+        <DailyCheckIn
+          yaRegistroHoy={registros.some(r => r.fecha === new Date().toISOString().split('T')[0])}
+        />
+      )}
+
       {phaseData && lastPeriod ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <PhaseRing
@@ -148,48 +146,32 @@ export default async function DashboardPage() {
           />
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-pink-100 px-6 py-10 text-center">
-          <div className="text-5xl mb-3">🌸</div>
-          <p className="text-base font-semibold text-gray-800">
-            Aún no tenemos tu fecha del último período
-          </p>
-          <p className="text-sm text-gray-500 mt-3 max-w-xs mx-auto leading-relaxed">
-            Contale a Cíclica por WhatsApp cuándo te vino la última regla y vas a ver tu ciclo acá.
-          </p>
-        </div>
+        <PrimerPeriodoCard />
       )}
 
       {tomaAnticonceptivas && <PastillaCard initial={pastillaHoy} />}
 
-      <WhoopStats
-        cycleLength={cycleLength}
-        averageLength={averageLength}
-        periodLength={5}
-        variability={variability}
-      />
+      {phaseData && lastPeriod && (
+        <>
+          <WhoopStats
+            cycleLength={cycleLength}
+            averageLength={averageLength}
+            periodLength={5}
+            variability={variability}
+          />
 
-      {phaseData && (
-        <ProximaSemanaCard
-          nextPhase={phaseData.phase}
-          daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
-        />
+          <StreakCard registros={registros} />
+
+          <ProximaSemanaCard
+            nextPhase={phaseData.phase}
+            daysUntilNextPeriod={phaseData.daysUntilNextPeriod}
+          />
+
+          {pastCycles.length >= 2 && (
+            <CiclosTrend pastCycles={pastCycles} currentCycleLength={cycleLength} />
+          )}
+        </>
       )}
-
-      {pastCycles.length >= 2 && (
-        <CiclosTrend pastCycles={pastCycles} currentCycleLength={cycleLength} />
-      )}
-
-      <CorrelacionesCard registros={registros} />
-
-      <PuntosCard
-        puntos={usuaria?.puntos ?? 0}
-        codigoReferido={usuaria?.codigo_referido}
-        log={log ?? []}
-      />
-
-      {!suscripcionActiva && <ProximamenteCard />}
-
-      <RecentSymptoms registros={registros} />
 
       <ExportarPDFButton
         nombre={nombre}

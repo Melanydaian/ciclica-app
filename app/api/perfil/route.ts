@@ -35,15 +35,26 @@ export async function POST(req: NextRequest) {
   if (typeof body.recordatorio_pastilla_activo === 'boolean') {
     updates.recordatorio_pastilla_activo = body.recordatorio_pastilla_activo
   }
+  if (typeof body.fecha_inicio_ciclo === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(body.fecha_inicio_ciclo)) {
+    const f = new Date(body.fecha_inicio_ciclo)
+    const hoy = new Date()
+    hoy.setHours(0, 0, 0, 0)
+    if (f.getTime() <= hoy.getTime()) {
+      updates.fecha_inicio_ciclo = body.fecha_inicio_ciclo
+    }
+  }
 
   if (Object.keys(updates).length === 0) {
     return NextResponse.json({ error: 'Nada para actualizar' }, { status: 400 })
   }
 
+  // Upsert por si la usuaria no tiene fila en `usuarias` todavía
   const { error } = await admin
     .from('usuarias')
-    .update(updates)
-    .eq('telefono', webUser.telefono)
+    .upsert(
+      { telefono: webUser.telefono, ...updates },
+      { onConflict: 'telefono' },
+    )
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
