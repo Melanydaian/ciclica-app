@@ -39,7 +39,7 @@ export default function PhaseRing({
   const strokeDashoffset = circumference - (progress / 100) * circumference
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-3xl border border-pink-100 dark:border-gray-800 px-6 py-8 shadow-sm">
+    <div className="bg-white dark:bg-[#1F1822] rounded-3xl border border-pink-100 dark:border-[#3A2F3F] px-6 py-8 shadow-sm">
       <div className="flex items-center justify-center mb-4">
         <span
           className="text-[10px] font-bold uppercase tracking-[0.18em] px-3 py-1 rounded-full"
@@ -78,23 +78,23 @@ export default function PhaseRing({
         </svg>
 
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-400 dark:text-[#8A8190]">
             Día
           </div>
-          <div className="text-7xl font-bold text-gray-800 dark:text-gray-100 leading-none mt-0.5 tabular-nums">
+          <div className="text-7xl font-bold text-gray-800 dark:text-[#F4F1F5] leading-none mt-0.5 tabular-nums">
             {dayOfCycle}
           </div>
-          <div className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+          <div className="text-xs text-gray-400 dark:text-[#8A8190] mt-2">
             de {cycleLength}
           </div>
         </div>
       </div>
 
       <div className="mt-6 text-center max-w-xs mx-auto">
-        <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 leading-snug">
+        <p className="text-sm font-semibold text-gray-800 dark:text-[#F4F1F5] leading-snug">
           {info.description}
         </p>
-        <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">
+        <p className="text-xs text-gray-500 dark:text-[#B4ABB8] mt-2 leading-relaxed">
           {info.tip}
         </p>
         <button
@@ -108,10 +108,10 @@ export default function PhaseRing({
         </button>
       </div>
 
-      <div className="mt-6 pt-5 border-t border-gray-100 dark:border-gray-800">
+      <div className="mt-6 pt-5 border-t border-gray-100 dark:border-[#3A2F3F]">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500">
+            <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-[#8A8190]">
               Próximo período aprox.
             </div>
             <div className="flex items-baseline gap-2 mt-1">
@@ -119,17 +119,17 @@ export default function PhaseRing({
                 {fmtRange(rangeStart, rangeEnd)}
               </span>
             </div>
-            <div className="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5">
+            <div className="text-[11px] text-gray-400 dark:text-[#8A8190] mt-0.5">
               ~en {daysUntilNextPeriod} {daysUntilNextPeriod === 1 ? 'día' : 'días'} · margen de ±3
             </div>
           </div>
           <div className="text-right">
-            <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500">
+            <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-[#8A8190]">
               Progreso
             </div>
             <div className="flex items-baseline gap-1.5 mt-1 justify-end">
-              <span className="text-3xl font-bold text-gray-800 dark:text-gray-100 tabular-nums">{progress}</span>
-              <span className="text-xs text-gray-400 dark:text-gray-500">%</span>
+              <span className="text-3xl font-bold text-gray-800 dark:text-[#F4F1F5] tabular-nums">{progress}</span>
+              <span className="text-xs text-gray-400 dark:text-[#8A8190]">%</span>
             </div>
           </div>
         </div>

@@ -18,7 +18,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   if (!webUser?.telefono) redirect('/onboarding')
 
   return (
-    <div className="min-h-screen bg-[#FFF9FB] dark:bg-[#0F0B0E] transition-colors">
+    <div className="min-h-screen bg-[#FFF9FB] dark:bg-[#14101A] transition-colors">
       <NavBar user={user} />
       <main className="max-w-4xl mx-auto px-4 py-6 pb-24 md:pb-8">{children}</main>
       <QuickActionFAB />

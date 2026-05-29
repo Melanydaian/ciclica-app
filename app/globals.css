@@ -4,9 +4,61 @@
 
 @layer base {
   * { box-sizing: border-box; }
+
+  /* Paleta clara (default) */
+  :root {
+    --c-bg: #FFF9FB;
+    --c-surface: #FFFFFF;
+    --c-surface-2: #FCE7F3;
+    --c-border: #FCE7F3;
+    --c-text: #1F2937;
+    --c-text-muted: #6B7280;
+  }
+
+  /* Paleta oscura — cálida con tinte rosa, sin negros puros */
+  html.dark {
+    --c-bg: #14101A;          /* fondo principal */
+    --c-surface: #1F1822;     /* cards (claramente más claro que el bg) */
+    --c-surface-2: #2A2030;   /* hover / elevated */
+    --c-border: #3A2F3F;      /* bordes visibles */
+    --c-text: #F4F1F5;
+    --c-text-muted: #B4ABB8;
+  }
+
   body {
-    background-color: #FFF9FB;
-    color: #1F2937;
+    background-color: var(--c-bg);
+    color: var(--c-text);
     -webkit-font-smoothing: antialiased;
   }
+
+  /* Inputs y selects: bg sutil en dark */
+  html.dark input[type="text"],
+  html.dark input[type="email"],
+  html.dark input[type="tel"],
+  html.dark input[type="date"],
+  html.dark input[type="time"],
+  html.dark input[type="range"],
+  html.dark textarea,
+  html.dark select {
+    background-color: var(--c-surface-2);
+    color: var(--c-text);
+    border-color: var(--c-border);
+  }
+  html.dark input::placeholder,
+  html.dark textarea::placeholder {
+    color: var(--c-text-muted);
+    opacity: 0.6;
+  }
+  /* Invert date/time picker icons en dark */
+  html.dark input[type="date"]::-webkit-calendar-picker-indicator,
+  html.dark input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.85);
+  }
+}
+
+/* Tarjetas/chips de fase con bg light hardcoded: bajar luminosidad en dark */
+html.dark [data-phase-chip],
+html.dark .phase-chip-bg {
+  background-color: rgba(236, 72, 153, 0.12) !important;
+  color: #F9A8D4 !important;
 }

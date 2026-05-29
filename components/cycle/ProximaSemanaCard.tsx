@@ -41,13 +41,13 @@ export default function ProximaSemanaCard({
   const energiaColor = ENERGIA_COLOR[pred.energia]
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 px-5 py-6">
+    <div className="bg-white dark:bg-[#1F1822] rounded-2xl border border-pink-100 dark:border-[#3A2F3F] px-5 py-6">
       <div className="flex items-center justify-between mb-5">
         <div>
-          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500">
+          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-[#8A8190]">
             Esta semana
           </div>
-          <div className="text-base font-semibold text-gray-800 dark:text-gray-100 mt-1 capitalize">
+          <div className="text-base font-semibold text-gray-800 dark:text-[#F4F1F5] mt-1 capitalize">
             Energía {pred.energia}
           </div>
         </div>
@@ -57,17 +57,17 @@ export default function ProximaSemanaCard({
         />
       </div>
 
-      <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{pred.consejo}</p>
+      <p className="text-sm text-gray-600 dark:text-[#C9BFCB] leading-relaxed">{pred.consejo}</p>
 
-      <div className="mt-5 pt-5 border-t border-gray-100 dark:border-gray-800">
-        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500 mb-2">
+      <div className="mt-5 pt-5 border-t border-gray-100 dark:border-[#3A2F3F]">
+        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-[#8A8190] mb-2">
           Síntomas probables
         </div>
         <div className="flex flex-wrap gap-1.5">
           {pred.sintomas.map(s => (
             <span
               key={s}
-              className="text-xs px-2.5 py-1 bg-pink-50 dark:bg-pink-950/20 text-pink-700 rounded-full font-medium"
+              className="text-xs px-2.5 py-1 bg-pink-50 dark:bg-pink-500/10 text-pink-700 rounded-full font-medium"
             >
               {s}
             </span>
@@ -76,7 +76,7 @@ export default function ProximaSemanaCard({
       </div>
 
       {daysUntilNextPeriod <= 7 && (
-        <div className="mt-5 p-4 rounded-xl bg-pink-50 dark:bg-pink-950/20 border border-pink-100 dark:border-gray-800 flex items-center gap-3">
+        <div className="mt-5 p-4 rounded-xl bg-pink-50 dark:bg-pink-500/10 border border-pink-100 dark:border-[#3A2F3F] flex items-center gap-3">
           <span className="text-xl">🩸</span>
           <p className="text-xs text-pink-700 font-medium leading-relaxed">
             Tu período se espera en{' '}

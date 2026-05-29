@@ -54,7 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {noFlashScript}
         </Script>
       </head>
-      <body className="font-sans antialiased bg-[#FFF9FB] dark:bg-[#0F0B0E] dark:text-gray-100 transition-colors">
+      <body className="font-sans antialiased">
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

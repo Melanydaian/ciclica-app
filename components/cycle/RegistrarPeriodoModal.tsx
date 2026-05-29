@@ -72,23 +72,23 @@ export default function RegistrarPeriodoModal({
         role="dialog"
         aria-modal="true"
         aria-label="Registrar período"
-        className="relative w-full md:max-w-md bg-white dark:bg-gray-900 rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col overflow-hidden"
+        className="relative w-full md:max-w-md bg-white dark:bg-[#1F1822] rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col overflow-hidden"
       >
-        <div className="px-5 pt-5 pb-3 border-b border-gray-100 dark:border-gray-800">
+        <div className="px-5 pt-5 pb-3 border-b border-gray-100 dark:border-[#3A2F3F]">
           <div className="flex items-start justify-between gap-3">
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-2xl leading-none">🩸</span>
-                <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100">Registrar período</h2>
+                <h2 className="text-lg font-bold text-gray-800 dark:text-[#F4F1F5]">Registrar período</h2>
               </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
+              <p className="text-xs text-gray-500 dark:text-[#B4ABB8]">
                 Marcá el primer día de tu período.
               </p>
             </div>
             <button
               onClick={onClose}
               aria-label="Cerrar"
-              className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 flex items-center justify-center text-lg leading-none"
+              className="w-9 h-9 rounded-full bg-gray-100 dark:bg-[#2A2030] text-gray-600 dark:text-[#C9BFCB] flex items-center justify-center text-lg leading-none"
             >
               ×
             </button>
@@ -98,12 +98,12 @@ export default function RegistrarPeriodoModal({
         {done ? (
           <div className="p-8 text-center">
             <div className="text-4xl mb-3">🌸</div>
-            <p className="text-base font-semibold text-gray-800 dark:text-gray-100">Registrado</p>
+            <p className="text-base font-semibold text-gray-800 dark:text-[#F4F1F5]">Registrado</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="px-5 py-5 space-y-4">
             <div>
-              <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500 dark:text-gray-400 mb-2 block">
+              <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500 dark:text-[#B4ABB8] mb-2 block">
                 Primer día del período
               </label>
               <input
@@ -112,7 +112,7 @@ export default function RegistrarPeriodoModal({
                 max={today}
                 onChange={e => setFecha(e.target.value)}
                 required
-                className="w-full px-4 py-3 rounded-xl border border-pink-200 dark:border-gray-700 bg-pink-50/40 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-pink-300 text-base"
+                className="w-full px-4 py-3 rounded-xl border border-pink-200 dark:border-[#3A2F3F] bg-pink-50/40 dark:bg-[#2A2030] text-gray-800 dark:text-[#F4F1F5] focus:outline-none focus:ring-2 focus:ring-pink-300 text-base"
               />
             </div>
 
@@ -131,7 +131,7 @@ export default function RegistrarPeriodoModal({
                 href={WHATSAPP_PERIODO}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block text-xs text-gray-500 dark:text-gray-400 hover:text-pink-500 underline underline-offset-2 transition-colors"
+                className="inline-block text-xs text-gray-500 dark:text-[#B4ABB8] hover:text-pink-500 underline underline-offset-2 transition-colors"
               >
                 🤍 mejor lo anoto por WhatsApp
               </a>

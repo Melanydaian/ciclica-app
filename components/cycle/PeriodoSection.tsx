@@ -14,15 +14,15 @@ export default function PeriodoSection({ fechaActual }: { fechaActual: string | 
 
   return (
     <>
-      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 px-5 py-6 transition-colors">
+      <div className="bg-white dark:bg-[#1F1822] rounded-2xl border border-pink-100 dark:border-[#3A2F3F] px-5 py-6 transition-colors">
         <div className="flex items-center gap-2 mb-3">
           <span className="text-lg">🩸</span>
-          <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100">Tu último período</h3>
+          <h3 className="text-sm font-semibold text-gray-800 dark:text-[#F4F1F5]">Tu último período</h3>
         </div>
 
         <div className="flex items-center justify-between py-2 mb-4">
-          <span className="text-xs text-gray-500 dark:text-gray-400">Primer día</span>
-          <span className="text-sm font-medium text-gray-800 dark:text-gray-100 capitalize">{fechaTxt}</span>
+          <span className="text-xs text-gray-500 dark:text-[#B4ABB8]">Primer día</span>
+          <span className="text-sm font-medium text-gray-800 dark:text-[#F4F1F5] capitalize">{fechaTxt}</span>
         </div>
 
         <button
@@ -33,7 +33,7 @@ export default function PeriodoSection({ fechaActual }: { fechaActual: string | 
           {fechaActual ? 'Actualizar' : 'Registrar'}
         </button>
 
-        <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-2 leading-relaxed text-center">
+        <p className="text-[10px] text-gray-400 dark:text-[#8A8190] mt-2 leading-relaxed text-center">
           Cuando te venga el próximo, actualizalo y Cíclica recalcula todo automáticamente.
         </p>
       </div>

@@ -53,15 +53,15 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-[#FFF9FB]">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-[#FFF9FB] dark:bg-[#14101A] transition-colors">
       <div className="w-full max-w-sm">
         <div className="flex justify-center mb-8">
           <img src="/logo.svg" alt="Cíclica" className="h-24 w-auto" />
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-pink-100 p-8">
-          <h1 className="text-xl font-semibold text-gray-800 mb-1">Vinculá tu WhatsApp</h1>
-          <p className="text-sm text-gray-500 mb-6">
+        <div className="bg-white dark:bg-[#1F1822] rounded-2xl shadow-sm border border-pink-100 dark:border-[#3A2F3F] p-8">
+          <h1 className="text-xl font-semibold text-gray-800 dark:text-[#F4F1F5] mb-1">Vinculá tu WhatsApp</h1>
+          <p className="text-sm text-gray-500 dark:text-[#B4ABB8] mb-6">
             Para ver tu ciclo necesitamos conectar tu email con tu número de WhatsApp.
           </p>
 
@@ -95,7 +95,7 @@ export default function OnboardingPage() {
           </form>
         </div>
 
-        <p className="text-center text-xs text-gray-400 mt-6">
+        <p className="text-center text-xs text-gray-400 dark:text-[#8A8190] mt-6">
           ¿Nunca usaste Cíclica por WhatsApp?{' '}
           <a href="https://wa.link/fub503" target="_blank" className="text-pink-500 font-medium">
             Empezá acá

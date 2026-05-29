@@ -9,12 +9,12 @@ export default function CiclosTrend({
 }) {
   if (pastCycles.length === 0) {
     return (
-      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 px-5 py-8 text-center">
-        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500 mb-3">
+      <div className="bg-white dark:bg-[#1F1822] rounded-2xl border border-pink-100 dark:border-[#3A2F3F] px-5 py-8 text-center">
+        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-[#8A8190] mb-3">
           Tus ciclos recientes
         </div>
-        <p className="text-sm text-gray-500 dark:text-gray-400">Sin historial todavía</p>
-        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+        <p className="text-sm text-gray-500 dark:text-[#B4ABB8]">Sin historial todavía</p>
+        <p className="text-xs text-gray-400 dark:text-[#8A8190] mt-1">
           Con el tiempo vas a ver cómo varía tu cuerpo mes a mes
         </p>
       </div>
@@ -40,24 +40,24 @@ export default function CiclosTrend({
   const RANGE = MAX - MIN
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 px-5 py-6">
+    <div className="bg-white dark:bg-[#1F1822] rounded-2xl border border-pink-100 dark:border-[#3A2F3F] px-5 py-6">
       <div className="mb-1">
-        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500">
+        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-[#8A8190]">
           Tus ciclos recientes
         </div>
         <div className="flex items-baseline gap-2 mt-1">
-          <span className="text-3xl font-bold text-gray-800 dark:text-gray-100 tabular-nums leading-none">
+          <span className="text-3xl font-bold text-gray-800 dark:text-[#F4F1F5] tabular-nums leading-none">
             {promedio}
           </span>
-          <span className="text-xs text-gray-400 dark:text-gray-500">días de promedio</span>
+          <span className="text-xs text-gray-400 dark:text-[#8A8190]">días de promedio</span>
         </div>
-        <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">
+        <p className="text-xs text-gray-500 dark:text-[#B4ABB8] mt-2 leading-relaxed">
           Tus últimos {series.length} ciclos duraron entre{' '}
-          <span className="font-semibold text-gray-700 dark:text-gray-200">
+          <span className="font-semibold text-gray-700 dark:text-[#E5DBE8]">
             {Math.min(...series.map(s => s.length))}
           </span>{' '}
           y{' '}
-          <span className="font-semibold text-gray-700 dark:text-gray-200">
+          <span className="font-semibold text-gray-700 dark:text-[#E5DBE8]">
             {Math.max(...series.map(s => s.length))}
           </span>{' '}
           días. {variability <= 3
@@ -89,7 +89,7 @@ export default function CiclosTrend({
               <div key={i} className="flex-1 flex flex-col items-center gap-2 h-full justify-end">
                 <span
                   className={`text-[11px] font-bold tabular-nums ${
-                    s.current ? 'text-pink-500' : 'text-gray-400 dark:text-gray-500'
+                    s.current ? 'text-pink-500' : 'text-gray-400 dark:text-[#8A8190]'
                   }`}
                 >
                   {s.length}
@@ -108,7 +108,7 @@ export default function CiclosTrend({
           })}
         </div>
 
-        <div className="flex justify-between text-[10px] text-gray-400 dark:text-gray-500 mt-2 px-0.5">
+        <div className="flex justify-between text-[10px] text-gray-400 dark:text-[#8A8190] mt-2 px-0.5">
           <span>hace {series.length - 1} ciclos</span>
           <span>hace 4</span>
           <span>hace 3</span>
@@ -118,12 +118,12 @@ export default function CiclosTrend({
         </div>
       </div>
 
-      <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100 dark:border-gray-800 text-[11px]">
-        <span className="text-gray-400 dark:text-gray-500">
-          📏 Lo normal: <span className="font-semibold text-gray-600 dark:text-gray-300">21 a 35 días</span>
+      <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100 dark:border-[#3A2F3F] text-[11px]">
+        <span className="text-gray-400 dark:text-[#8A8190]">
+          📏 Lo normal: <span className="font-semibold text-gray-600 dark:text-[#C9BFCB]">21 a 35 días</span>
         </span>
-        <span className="text-gray-400 dark:text-gray-500">
-          📊 Tu variación: <span className="font-semibold text-gray-600 dark:text-gray-300">{variability} días</span>
+        <span className="text-gray-400 dark:text-[#8A8190]">
+          📊 Tu variación: <span className="font-semibold text-gray-600 dark:text-[#C9BFCB]">{variability} días</span>
         </span>
       </div>
     </div>

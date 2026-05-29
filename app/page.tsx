@@ -91,14 +91,14 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-[#FFF9FB] overflow-x-hidden">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-[#FFF9FB] dark:bg-[#14101A] overflow-x-hidden transition-colors">
       <div className="w-full max-w-sm">
         <div className="flex justify-center mb-6">
           <img src="/logo.svg" alt="Cíclica" className="h-24 w-auto" />
         </div>
 
         {sent ? (
-          <div className="bg-white rounded-2xl shadow-sm border border-pink-100 p-6 text-center">
+          <div className="bg-white dark:bg-[#1F1822] rounded-2xl shadow-sm border border-pink-100 dark:border-[#3A2F3F] p-6 text-center">
             <div className="text-4xl mb-4">💌</div>
             <h2 className="text-lg font-semibold text-gray-800 mb-2">¡Revisá tu email!</h2>
             <p className="text-sm text-gray-500">
@@ -117,9 +117,9 @@ function LoginForm() {
             </button>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-sm border border-pink-100 p-6">
-            <h1 className="text-xl font-semibold text-gray-800 mb-1">Ingresá a tu dashboard</h1>
-            <p className="text-sm text-gray-500 mb-6">Elegí cómo querés entrar</p>
+          <div className="bg-white dark:bg-[#1F1822] rounded-2xl shadow-sm border border-pink-100 dark:border-[#3A2F3F] p-6">
+            <h1 className="text-xl font-semibold text-gray-800 dark:text-[#F4F1F5] mb-1">Ingresá a tu dashboard</h1>
+            <p className="text-sm text-gray-500 dark:text-[#B4ABB8] mb-6">Elegí cómo querés entrar</p>
 
             {/* Botón Google */}
             <button
@@ -173,7 +173,7 @@ function LoginForm() {
           </div>
         )}
 
-        <p className="text-center text-xs text-gray-400 mt-6">
+        <p className="text-center text-xs text-gray-400 dark:text-[#8A8190] mt-6">
           ¿Nunca usaste Cíclica?{' '}
           <a href={WHATSAPP_BOT_URL} target="_blank" rel="noopener noreferrer" className="text-pink-500 font-medium">
             Empezá por WhatsApp

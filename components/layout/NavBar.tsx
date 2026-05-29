@@ -28,7 +28,7 @@ export default function NavBar({ user }: { user: User }) {
 
   return (
     <>
-      <nav className="bg-white dark:bg-gray-900 border-b border-pink-100 dark:border-gray-800 sticky top-0 z-20 transition-colors">
+      <nav className="bg-white dark:bg-[#1F1822] border-b border-pink-100 dark:border-[#3A2F3F] sticky top-0 z-20 transition-colors">
         <div className="px-4 md:px-6 h-20 md:h-24 flex items-center justify-between w-full">
           <Link href="/dashboard" className="flex items-center" aria-label="Cíclica">
             <img src="/logo.svg" alt="Cíclica" className="h-16 w-auto md:h-20" />
@@ -66,7 +66,7 @@ export default function NavBar({ user }: { user: User }) {
       </nav>
 
       {/* Bottom tab bar — sólo mobile, 4 pestañas (Intimidad pasa a vivir como pestaña secundaria accesible desde el FAB y desde el calendario) */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-10 bg-white dark:bg-gray-900 border-t border-pink-100 dark:border-gray-800 safe-area-bottom transition-colors">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-10 bg-white dark:bg-[#1F1822] border-t border-pink-100 dark:border-[#3A2F3F] safe-area-bottom transition-colors">
         <div className="flex">
           {bottomLinks.map(link => {
             const active = pathname === link.href || (link.href === '/dashboard/historial' && pathname === '/dashboard/intimidad')

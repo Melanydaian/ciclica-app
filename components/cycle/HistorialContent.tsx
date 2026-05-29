@@ -75,10 +75,10 @@ export default function HistorialContent({
   return (
     <div className="space-y-4">
       <div className="pb-2">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500 dark:text-gray-500">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-[#8A8190] dark:text-[#8A8190]">
           Tu historial
         </p>
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 dark:text-gray-100 mt-1">Tu ciclo mes a mes</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-[#F4F1F5] dark:text-[#F4F1F5] mt-1">Tu ciclo mes a mes</h1>
       </div>
 
       <button
@@ -90,19 +90,19 @@ export default function HistorialContent({
         Registrar nuevo período
       </button>
 
-      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 p-6">
+      <div className="bg-white dark:bg-[#1F1822] rounded-2xl border border-pink-100 dark:border-[#3A2F3F] p-6">
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={() => shiftMonth(-1)}
-            className="text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:text-gray-200 px-2 py-1 text-sm"
+            className="text-gray-400 dark:text-[#8A8190] hover:text-gray-700 dark:text-[#E5DBE8] px-2 py-1 text-sm"
             aria-label="Mes anterior"
           >
             ←
           </button>
-          <h2 className="text-sm font-semibold text-gray-600 dark:text-gray-300 capitalize">{monthName}</h2>
+          <h2 className="text-sm font-semibold text-gray-600 dark:text-[#C9BFCB] capitalize">{monthName}</h2>
           <button
             onClick={() => shiftMonth(1)}
-            className="text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:text-gray-200 px-2 py-1 text-sm"
+            className="text-gray-400 dark:text-[#8A8190] hover:text-gray-700 dark:text-[#E5DBE8] px-2 py-1 text-sm"
             aria-label="Mes siguiente"
           >
             →
@@ -111,7 +111,7 @@ export default function HistorialContent({
 
         <div className="grid grid-cols-7 gap-1 mb-2">
           {['D', 'L', 'M', 'X', 'J', 'V', 'S'].map(d => (
-            <div key={d} className="text-center text-xs text-gray-400 dark:text-gray-500 font-medium py-1">{d}</div>
+            <div key={d} className="text-center text-xs text-gray-400 dark:text-[#8A8190] font-medium py-1">{d}</div>
           ))}
         </div>
 
@@ -152,15 +152,15 @@ export default function HistorialContent({
           {Object.entries(PHASE_COLORS).map(([phase, color]) => (
             <div key={phase} className="flex items-center gap-1.5">
               <span className="w-3 h-3 rounded-full inline-block" style={{ background: color }} />
-              <span className="text-xs text-gray-500 dark:text-gray-400 capitalize">{phase}</span>
+              <span className="text-xs text-gray-500 dark:text-[#B4ABB8] capitalize">{phase}</span>
             </div>
           ))}
         </div>
       </div>
 
       {registroSeleccionado && selectedDate && (
-        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 p-5">
-          <p className="text-xs text-gray-400 dark:text-gray-500 mb-3">
+        <div className="bg-white dark:bg-[#1F1822] rounded-2xl border border-pink-100 dark:border-[#3A2F3F] p-5">
+          <p className="text-xs text-gray-400 dark:text-[#8A8190] mb-3">
             {new Date(selectedDate).toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })}
           </p>
           {registroSeleccionado.fase && (
@@ -176,17 +176,17 @@ export default function HistorialContent({
           {registroSeleccionado.sintomas.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {registroSeleccionado.sintomas.map((s, i) => (
-                <span key={i} className="text-xs px-2 py-0.5 bg-pink-50 dark:bg-pink-950/20 text-pink-600 rounded-full">{s}</span>
+                <span key={i} className="text-xs px-2 py-0.5 bg-pink-50 dark:bg-pink-500/10 text-pink-600 rounded-full">{s}</span>
               ))}
             </div>
           )}
         </div>
       )}
 
-      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-pink-100 dark:border-gray-800 p-5">
-        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3">Ciclos anteriores</h3>
+      <div className="bg-white dark:bg-[#1F1822] rounded-2xl border border-pink-100 dark:border-[#3A2F3F] p-5">
+        <h3 className="text-sm font-semibold text-gray-700 dark:text-[#E5DBE8] mb-3">Ciclos anteriores</h3>
         {ciclos.length === 0 ? (
-          <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-4">
+          <p className="text-sm text-gray-400 dark:text-[#8A8190] text-center py-4">
             Todavía no hay ciclos registrados. Contale a Cíclica cuándo te vino la regla por WhatsApp 🌸
           </p>
         ) : (
@@ -196,8 +196,8 @@ export default function HistorialContent({
               const end = new Date(start)
               end.setDate(start.getDate() + (c.duracion_dias ?? 28) - 1)
               return (
-                <div key={i} className="flex items-center justify-between py-2 border-b border-gray-50 dark:border-gray-800 last:border-0">
-                  <p className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                <div key={i} className="flex items-center justify-between py-2 border-b border-gray-50 dark:border-[#3A2F3F] last:border-0">
+                  <p className="text-sm font-medium text-gray-700 dark:text-[#E5DBE8]">
                     {start.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })} →{' '}
                     {end.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })}
                   </p>
