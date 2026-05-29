@@ -67,7 +67,7 @@ export default function PastillaCard({ initial }: Props) {
             </div>
             <button
               onClick={() => setShowHora(v => !v)}
-              className="text-xs text-gray-400 dark:text-[#8A8190] hover:text-gray-600 dark:text-[#C9BFCB] underline"
+              className="text-xs text-gray-400 dark:text-[#8A8190] hover:text-gray-600 dark:hover:text-[#C9BFCB] underline"
             >
               {showHora ? 'cerrar' : 'editar hora'}
             </button>
@@ -88,7 +88,7 @@ export default function PastillaCard({ initial }: Props) {
           <button
             onClick={desmarcar}
             disabled={loading}
-            className="text-xs text-gray-400 dark:text-[#8A8190] hover:text-gray-500 dark:text-[#B4ABB8] underline"
+            className="text-xs text-gray-400 dark:text-[#8A8190] hover:text-gray-500 dark:hover:text-[#B4ABB8] underline"
           >
             No la tomé / desmarcar
           </button>

@@ -68,7 +68,7 @@ export default function CalendarioCiclo({
             type="button"
             onClick={() => shift(-1)}
             aria-label="Mes anterior"
-            className="w-8 h-8 rounded-lg border border-gray-200 dark:border-[#3A2F3F] text-gray-500 dark:text-[#B4ABB8] hover:text-gray-800 dark:text-[#F4F1F5] hover:border-gray-300 transition-colors text-sm"
+            className="w-8 h-8 rounded-lg border border-gray-200 dark:border-[#3A2F3F] text-gray-500 dark:text-[#B4ABB8] hover:text-gray-800 dark:hover:text-[#F4F1F5] hover:border-gray-300 transition-colors text-sm"
           >
             ←
           </button>
@@ -76,7 +76,7 @@ export default function CalendarioCiclo({
             type="button"
             onClick={() => shift(1)}
             aria-label="Mes siguiente"
-            className="w-8 h-8 rounded-lg border border-gray-200 dark:border-[#3A2F3F] text-gray-500 dark:text-[#B4ABB8] hover:text-gray-800 dark:text-[#F4F1F5] hover:border-gray-300 transition-colors text-sm"
+            className="w-8 h-8 rounded-lg border border-gray-200 dark:border-[#3A2F3F] text-gray-500 dark:text-[#B4ABB8] hover:text-gray-800 dark:hover:text-[#F4F1F5] hover:border-gray-300 transition-colors text-sm"
           >
             →
           </button>

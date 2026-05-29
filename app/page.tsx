@@ -94,14 +94,14 @@ function LoginForm() {
     <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-[#FFF9FB] dark:bg-[#14101A] overflow-x-hidden transition-colors">
       <div className="w-full max-w-sm">
         <div className="flex justify-center mb-6">
-          <img src="/logo.svg" alt="Cíclica" className="h-24 w-auto" />
+          <img src="/logo.png" alt="Cíclica" className="h-24 w-auto" />
         </div>
 
         {sent ? (
           <div className="bg-white dark:bg-[#1F1822] rounded-2xl shadow-sm border border-pink-100 dark:border-[#3A2F3F] p-6 text-center">
             <div className="text-4xl mb-4">💌</div>
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">¡Revisá tu email!</h2>
-            <p className="text-sm text-gray-500">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-[#F4F1F5] mb-2">¡Revisá tu email!</h2>
+            <p className="text-sm text-gray-500 dark:text-[#B4ABB8]">
               Te mandamos un enlace a{' '}
               <span className="font-medium text-pink-500">{email}</span>.
               Tocá el enlace para entrar.
@@ -111,7 +111,7 @@ function LoginForm() {
                 setSent(false)
                 setEmail('')
               }}
-              className="mt-4 text-xs text-gray-400 hover:text-gray-600 underline"
+              className="mt-4 text-xs text-gray-400 dark:text-[#8A8190] hover:text-gray-600 dark:hover:text-[#C9BFCB] underline"
             >
               Usar otro método
             </button>
@@ -125,7 +125,7 @@ function LoginForm() {
             <button
               onClick={handleGoogle}
               disabled={loadingGoogle || loadingEmail}
-              className="w-full py-3 rounded-xl bg-white border border-gray-200 text-gray-700 font-medium text-sm hover:bg-gray-50 active:bg-gray-100 transition-colors disabled:opacity-60 flex items-center justify-center gap-3"
+              className="w-full py-3 rounded-xl bg-white border border-gray-200 text-gray-700 dark:text-[#E5DBE8] font-medium text-sm hover:bg-gray-50 active:bg-gray-100 transition-colors disabled:opacity-60 flex items-center justify-center gap-3"
             >
               <GoogleIcon />
               {loadingGoogle ? 'Conectando...' : 'Continuar con Google'}
@@ -134,7 +134,7 @@ function LoginForm() {
             {/* Divider */}
             <div className="flex items-center gap-3 my-4">
               <div className="flex-1 h-px bg-gray-100" />
-              <span className="text-[10px] text-gray-400 font-medium tracking-wider">O CON EMAIL</span>
+              <span className="text-[10px] text-gray-400 dark:text-[#8A8190] font-medium tracking-wider">O CON EMAIL</span>
               <div className="flex-1 h-px bg-gray-100" />
             </div>
 
@@ -149,7 +149,7 @@ function LoginForm() {
                   onChange={e => setEmail(e.target.value)}
                   required
                   autoFocus
-                  className="w-full px-4 py-3 rounded-xl border border-pink-200 bg-pink-50/40 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-300 text-base"
+                  className="w-full px-4 py-3 rounded-xl border border-pink-200 bg-pink-50/40 text-gray-800 dark:text-[#F4F1F5] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-300 text-base"
                 />
                 <button
                   type="submit"
@@ -180,7 +180,7 @@ function LoginForm() {
           </a>
         </p>
 
-        <div className="text-center text-[10px] text-gray-400 mt-8 space-x-3">
+        <div className="text-center text-[10px] text-gray-400 dark:text-[#8A8190] mt-8 space-x-3">
           <a href="/privacidad" className="hover:text-pink-500">Política de privacidad</a>
           <span>·</span>
           <a href="/terminos" className="hover:text-pink-500">Términos</a>

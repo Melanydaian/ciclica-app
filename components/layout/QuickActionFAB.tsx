@@ -41,7 +41,7 @@ export default function QuickActionFAB() {
               <button
                 key={a.label}
                 onClick={a.onClick}
-                className="flex items-center gap-3 bg-white px-4 py-2.5 rounded-full shadow-lg border border-pink-100 text-sm font-medium text-gray-700 hover:bg-pink-50 transition-colors"
+                className="flex items-center gap-3 bg-white dark:bg-[#1F1822] px-4 py-2.5 rounded-full shadow-lg border border-pink-100 dark:border-[#3A2F3F] text-sm font-medium text-gray-700 dark:text-[#E5DBE8] hover:bg-pink-50 dark:hover:bg-[#2A2030] transition-colors"
               >
                 <span className="text-lg leading-none">{a.emoji}</span>
                 <span>{a.label}</span>

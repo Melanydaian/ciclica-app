@@ -68,7 +68,7 @@ export default function DailyCheckIn({ yaRegistroHoy = false }: { yaRegistroHoy?
           <button
             type="button"
             onClick={() => { setMood(null); setSintoma(null) }}
-            className="text-[11px] text-gray-400 dark:text-[#8A8190] hover:text-gray-600 dark:text-[#C9BFCB]"
+            className="text-[11px] text-gray-400 dark:text-[#8A8190] hover:text-gray-600 dark:hover:text-[#C9BFCB]"
           >
             limpiar
           </button>

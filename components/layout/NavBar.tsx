@@ -31,7 +31,7 @@ export default function NavBar({ user }: { user: User }) {
       <nav className="bg-white dark:bg-[#1F1822] border-b border-pink-100 dark:border-[#3A2F3F] sticky top-0 z-20 transition-colors">
         <div className="px-4 md:px-6 h-20 md:h-24 flex items-center justify-between w-full">
           <Link href="/dashboard" className="flex items-center" aria-label="Cíclica">
-            <img src="/logo.svg" alt="Cíclica" className="h-16 w-auto md:h-20" />
+            <img src="/logo.png" alt="Cíclica" className="h-16 w-auto md:h-20" />
           </Link>
 
           <div className="hidden md:flex items-center gap-1">
@@ -42,7 +42,7 @@ export default function NavBar({ user }: { user: User }) {
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                   pathname === link.href
                     ? 'bg-pink-50 text-pink-600'
-                    : 'text-gray-500 hover:text-gray-800'
+                    : 'text-gray-500 dark:text-[#B4ABB8] hover:text-gray-800 dark:hover:text-[#F4F1F5]'
                 }`}
               >
                 {link.label}
@@ -50,7 +50,7 @@ export default function NavBar({ user }: { user: User }) {
             ))}
             <button
               onClick={handleSignOut}
-              className="ml-2 px-3 py-1.5 rounded-lg text-sm text-gray-400 hover:text-gray-600 transition-colors"
+              className="ml-2 px-3 py-1.5 rounded-lg text-sm text-gray-400 dark:text-[#8A8190] hover:text-gray-600 dark:hover:text-[#C9BFCB] transition-colors"
             >
               Salir
             </button>
@@ -58,7 +58,7 @@ export default function NavBar({ user }: { user: User }) {
 
           <button
             onClick={handleSignOut}
-            className="md:hidden text-xs text-gray-400 hover:text-gray-600 transition-colors px-2 py-1"
+            className="md:hidden text-xs text-gray-400 dark:text-[#8A8190] hover:text-gray-600 dark:hover:text-[#C9BFCB] transition-colors px-2 py-1"
           >
             Salir
           </button>
@@ -75,11 +75,11 @@ export default function NavBar({ user }: { user: User }) {
                 key={link.href}
                 href={link.href}
                 className={`flex-1 flex flex-col items-center justify-center py-2 gap-0.5 transition-colors ${
-                  active ? 'text-pink-500' : 'text-gray-400'
+                  active ? 'text-pink-500' : 'text-gray-400 dark:text-[#8A8190]'
                 }`}
               >
                 <span className="text-lg leading-none">{link.icon}</span>
-                <span className={`text-[10px] font-medium ${active ? 'text-pink-500' : 'text-gray-400'}`}>
+                <span className={`text-[10px] font-medium ${active ? 'text-pink-500' : 'text-gray-400 dark:text-[#8A8190]'}`}>
                   {link.label}
                 </span>
               </Link>

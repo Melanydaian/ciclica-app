@@ -51,10 +51,10 @@ export default function PreviewDashboardPage() {
       <main className="max-w-4xl mx-auto px-4 py-6 pb-24 md:pb-8">
         <div className="space-y-4">
           <div className="pb-2">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-[#8A8190]">
               Hola, Mel 👋
             </p>
-            <h1 className="text-2xl font-bold text-gray-800 mt-1">Tu ciclo hoy</h1>
+            <h1 className="text-2xl font-bold text-gray-800 dark:text-[#F4F1F5] mt-1">Tu ciclo hoy</h1>
           </div>
 
           <DailyCheckIn yaRegistroHoy={false} />
@@ -93,7 +93,7 @@ export default function PreviewDashboardPage() {
           <CiclosTrend pastCycles={MOCK_PAST_CYCLES} currentCycleLength={cycleLength} />
 
           <div className="pt-2">
-            <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 mb-2 px-1">
+            <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-[#8A8190] mb-2 px-1">
               Explorar tu data
             </div>
             <div className="grid grid-cols-2 gap-3">

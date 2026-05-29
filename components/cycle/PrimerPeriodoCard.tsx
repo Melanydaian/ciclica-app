@@ -57,7 +57,7 @@ export default function PrimerPeriodoCard() {
             max={today}
             onChange={e => setFecha(e.target.value)}
             required
-            className="w-full px-4 py-3 rounded-xl border border-pink-200 bg-pink-50/40 text-gray-800 dark:text-[#F4F1F5] focus:outline-none focus:ring-2 focus:ring-pink-300 text-base"
+            className="w-full px-4 py-3 rounded-xl border border-pink-200 dark:border-[#3A2F3F] bg-pink-50/40 dark:bg-[#2A2030] text-gray-800 dark:text-[#F4F1F5] dark:text-[#F4F1F5] focus:outline-none focus:ring-2 focus:ring-pink-300 text-base"
           />
         </div>
 

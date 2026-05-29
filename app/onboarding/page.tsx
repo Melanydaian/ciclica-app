@@ -56,7 +56,7 @@ export default function OnboardingPage() {
     <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-[#FFF9FB] dark:bg-[#14101A] transition-colors">
       <div className="w-full max-w-sm">
         <div className="flex justify-center mb-8">
-          <img src="/logo.svg" alt="Cíclica" className="h-24 w-auto" />
+          <img src="/logo.png" alt="Cíclica" className="h-24 w-auto" />
         </div>
 
         <div className="bg-white dark:bg-[#1F1822] rounded-2xl shadow-sm border border-pink-100 dark:border-[#3A2F3F] p-8">
@@ -67,7 +67,7 @@ export default function OnboardingPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">
+              <label className="text-xs text-gray-500 dark:text-[#B4ABB8] mb-1 block">
                 Número de WhatsApp (con código de país)
               </label>
               <input
@@ -76,9 +76,9 @@ export default function OnboardingPage() {
                 value={phone}
                 onChange={e => setPhone(e.target.value)}
                 required
-                className="w-full px-4 py-3 rounded-xl border border-pink-200 bg-pink-50/40 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-300 text-sm"
+                className="w-full px-4 py-3 rounded-xl border border-pink-200 bg-pink-50/40 text-gray-800 dark:text-[#F4F1F5] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-300 text-sm"
               />
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-xs text-gray-400 dark:text-[#8A8190] mt-1">
                 Argentina: 549 + código de área + número (sin el 15)
               </p>
             </div>

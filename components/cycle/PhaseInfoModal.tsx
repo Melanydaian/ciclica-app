@@ -52,9 +52,9 @@ export default function PhaseInfoModal({
         role="dialog"
         aria-modal="true"
         aria-label={`Información de la fase ${info.name}`}
-        className="relative w-full md:max-w-lg max-h-[92vh] bg-white rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300"
+        className="relative w-full md:max-w-lg max-h-[92vh] bg-white dark:bg-[#1F1822] rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300"
       >
-        <div className="sticky top-0 z-10 px-5 pt-5 pb-3 bg-white border-b border-gray-100">
+        <div className="sticky top-0 z-10 px-5 pt-5 pb-3 bg-white dark:bg-[#1F1822] border-b border-gray-100 dark:border-[#3A2F3F]">
           <div className="flex items-start justify-between gap-3">
             <div className="flex-1 min-w-0">
               <span
@@ -63,20 +63,20 @@ export default function PhaseInfoModal({
               >
                 {info.emoji} Fase {info.name}
               </span>
-              <h2 className="text-2xl font-bold text-gray-800 mt-2 leading-tight">
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-[#F4F1F5] mt-2 leading-tight">
                 Tu cuerpo en esta fase
               </h2>
             </div>
             <button
               onClick={onClose}
               aria-label="Cerrar"
-              className="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 flex items-center justify-center transition-colors text-lg leading-none"
+              className="w-9 h-9 rounded-full bg-gray-100 dark:bg-[#2A2030] hover:bg-gray-200 dark:hover:bg-[#3A2F3F] text-gray-600 dark:text-[#C9BFCB] hover:text-gray-800 dark:hover:text-[#F4F1F5] flex items-center justify-center transition-colors text-lg leading-none"
             >
               ×
             </button>
           </div>
 
-          <p className="text-sm text-gray-600 mt-3 leading-relaxed">
+          <p className="text-sm text-gray-600 dark:text-[#C9BFCB] mt-3 leading-relaxed">
             {knowledge.hero}
           </p>
         </div>
@@ -92,14 +92,14 @@ export default function PhaseInfoModal({
               </div>
               <div className="space-y-3">
                 {s.paragraphs.map((p, j) => (
-                  <p key={j} className="text-sm text-gray-700 leading-relaxed">
+                  <p key={j} className="text-sm text-gray-700 dark:text-[#E5DBE8] leading-relaxed">
                     {p}
                   </p>
                 ))}
                 {s.list && (
                   <ul className="space-y-1.5 mt-2">
                     {s.list.map((item, j) => (
-                      <li key={j} className="text-sm text-gray-700 leading-relaxed pl-5 relative">
+                      <li key={j} className="text-sm text-gray-700 dark:text-[#E5DBE8] leading-relaxed pl-5 relative">
                         <span
                           className="absolute left-0 top-2 w-1.5 h-1.5 rounded-full"
                           style={{ background: accent.ring }}
@@ -114,7 +114,7 @@ export default function PhaseInfoModal({
           ))}
 
           <div className="pt-5 border-t border-gray-100">
-            <p className="text-[11px] text-gray-400 leading-relaxed">
+            <p className="text-[11px] text-gray-400 dark:text-[#8A8190] leading-relaxed">
               Esta información es educativa y se basa en investigación sobre el ciclo
               menstrual. No reemplaza una consulta médica. Cada cuerpo es único —
               tomá lo que te sirva y consultá a tu ginecóloga si tenés dudas.
@@ -122,7 +122,7 @@ export default function PhaseInfoModal({
           </div>
         </div>
 
-        <div className="sticky bottom-0 px-5 py-4 bg-white border-t border-gray-100">
+        <div className="sticky bottom-0 px-5 py-4 bg-white dark:bg-[#1F1822] border-t border-gray-100 dark:border-[#3A2F3F]">
           <button
             onClick={onClose}
             className="w-full py-3 rounded-xl font-semibold text-sm text-white transition-opacity hover:opacity-90"

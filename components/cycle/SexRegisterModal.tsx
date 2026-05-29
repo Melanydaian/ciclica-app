@@ -96,21 +96,21 @@ export default function SexRegisterModal({
         role="dialog"
         aria-modal="true"
         aria-label="Registrar momento íntimo"
-        className="relative w-full md:max-w-md max-h-[92vh] bg-white rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col overflow-hidden"
+        className="relative w-full md:max-w-md max-h-[92vh] bg-white dark:bg-[#1F1822] rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col overflow-hidden"
       >
         <div className="px-5 pt-5 pb-3 border-b border-gray-100">
           <div className="flex items-start justify-between gap-3">
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-2xl leading-none">💗</span>
-                <h2 className="text-lg font-bold text-gray-800">Momento íntimo</h2>
+                <h2 className="text-lg font-bold text-gray-800 dark:text-[#F4F1F5]">Momento íntimo</h2>
               </div>
-              <p className="text-xs text-gray-500">Quedará entre vos y tu data — sirve para entender mejor tu ciclo.</p>
+              <p className="text-xs text-gray-500 dark:text-[#B4ABB8]">Quedará entre vos y tu data — sirve para entender mejor tu ciclo.</p>
             </div>
             <button
               onClick={onClose}
               aria-label="Cerrar"
-              className="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center text-lg leading-none"
+              className="w-9 h-9 rounded-full bg-gray-100 dark:bg-[#2A2030] hover:bg-gray-200 dark:hover:bg-[#3A2F3F] text-gray-600 dark:text-[#C9BFCB] flex items-center justify-center text-lg leading-none"
             >
               ×
             </button>
@@ -120,13 +120,13 @@ export default function SexRegisterModal({
         {done ? (
           <div className="p-8 text-center">
             <div className="text-4xl mb-3">🌸</div>
-            <p className="text-base font-semibold text-gray-800">Registrado</p>
-            <p className="text-sm text-gray-500 mt-1">Lo sumamos a tu historial.</p>
+            <p className="text-base font-semibold text-gray-800 dark:text-[#F4F1F5]">Registrado</p>
+            <p className="text-sm text-gray-500 dark:text-[#B4ABB8] mt-1">Lo sumamos a tu historial.</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="overflow-y-auto px-5 py-5 space-y-5 flex-1">
             <div>
-              <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500 mb-2 block">
+              <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500 dark:text-[#B4ABB8] mb-2 block">
                 Cuándo
               </label>
               <input
@@ -135,12 +135,12 @@ export default function SexRegisterModal({
                 max={today}
                 onChange={e => setFecha(e.target.value)}
                 required
-                className="w-full px-4 py-3 rounded-xl border border-pink-200 bg-pink-50/40 text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-300 text-sm"
+                className="w-full px-4 py-3 rounded-xl border border-pink-200 dark:border-[#3A2F3F] bg-pink-50/40 dark:bg-[#2A2030] text-gray-800 dark:text-[#F4F1F5] focus:outline-none focus:ring-2 focus:ring-pink-300 text-sm"
               />
             </div>
 
             <div>
-              <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500 mb-2 block">
+              <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500 dark:text-[#B4ABB8] mb-2 block">
                 ¿Hubo protección?
               </label>
               <div className="grid grid-cols-3 gap-2">
@@ -156,7 +156,7 @@ export default function SexRegisterModal({
                     className={`py-2.5 rounded-xl text-sm font-medium transition-all border ${
                       huboProteccion === o.v
                         ? 'bg-pink-500 text-white border-pink-500'
-                        : 'bg-white text-gray-600 border-gray-200 hover:border-pink-200'
+                        : 'bg-white dark:bg-[#2A2030] text-gray-600 dark:text-[#C9BFCB] border-gray-200 dark:border-[#3A2F3F] hover:border-pink-200'
                     }`}
                   >
                     {o.label}
@@ -167,13 +167,13 @@ export default function SexRegisterModal({
 
             {huboProteccion !== 'no' && (
               <div>
-                <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500 mb-2 block">
+                <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500 dark:text-[#B4ABB8] mb-2 block">
                   Tipo de método
                 </label>
                 <select
                   value={proteccion}
                   onChange={e => setProteccion(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-pink-200 bg-pink-50/40 text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-300 text-sm appearance-none"
+                  className="w-full px-4 py-3 rounded-xl border border-pink-200 dark:border-[#3A2F3F] bg-pink-50/40 dark:bg-[#2A2030] text-gray-800 dark:text-[#F4F1F5] focus:outline-none focus:ring-2 focus:ring-pink-300 text-sm appearance-none"
                   style={{
                     backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'8\' viewBox=\'0 0 12 8\'%3E%3Cpath fill=\'%23EC4899\' d=\'M6 8L0 0h12z\'/%3E%3C/svg%3E")',
                     backgroundPosition: 'right 16px center',
@@ -189,7 +189,7 @@ export default function SexRegisterModal({
             )}
 
             <div>
-              <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500 mb-2 block">
+              <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500 dark:text-[#B4ABB8] mb-2 block">
                 Nota (opcional)
               </label>
               <textarea
@@ -198,7 +198,7 @@ export default function SexRegisterModal({
                 rows={3}
                 maxLength={500}
                 placeholder="Cómo te sentiste, algo a recordar..."
-                className="w-full px-4 py-3 rounded-xl border border-pink-200 bg-pink-50/40 text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-300 text-sm resize-none"
+                className="w-full px-4 py-3 rounded-xl border border-pink-200 dark:border-[#3A2F3F] bg-pink-50/40 dark:bg-[#2A2030] text-gray-800 dark:text-[#F4F1F5] focus:outline-none focus:ring-2 focus:ring-pink-300 text-sm resize-none"
               />
             </div>
 
@@ -218,13 +218,13 @@ export default function SexRegisterModal({
                   href={WHATSAPP_INTIMIDAD}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block text-xs text-gray-500 hover:text-pink-500 underline underline-offset-2 transition-colors"
+                  className="inline-block text-xs text-gray-500 dark:text-[#B4ABB8] hover:text-pink-500 underline underline-offset-2 transition-colors"
                 >
                   🤍 mejor lo anoto por WhatsApp
                 </a>
               </div>
 
-              <p className="text-[10px] text-gray-400 text-center leading-relaxed">
+              <p className="text-[10px] text-gray-400 dark:text-[#8A8190] text-center leading-relaxed">
                 Tu data es privada y solo vos podés verla.
               </p>
             </div>

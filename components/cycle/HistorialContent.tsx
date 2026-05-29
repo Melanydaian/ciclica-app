@@ -94,7 +94,7 @@ export default function HistorialContent({
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={() => shiftMonth(-1)}
-            className="text-gray-400 dark:text-[#8A8190] hover:text-gray-700 dark:text-[#E5DBE8] px-2 py-1 text-sm"
+            className="text-gray-400 dark:text-[#8A8190] hover:text-gray-700 dark:hover:text-[#E5DBE8] px-2 py-1 text-sm"
             aria-label="Mes anterior"
           >
             ←
@@ -102,7 +102,7 @@ export default function HistorialContent({
           <h2 className="text-sm font-semibold text-gray-600 dark:text-[#C9BFCB] capitalize">{monthName}</h2>
           <button
             onClick={() => shiftMonth(1)}
-            className="text-gray-400 dark:text-[#8A8190] hover:text-gray-700 dark:text-[#E5DBE8] px-2 py-1 text-sm"
+            className="text-gray-400 dark:text-[#8A8190] hover:text-gray-700 dark:hover:text-[#E5DBE8] px-2 py-1 text-sm"
             aria-label="Mes siguiente"
           >
             →
