@@ -1,0 +1,105 @@
+{
+  "name": "journal_save",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [-200, 0],
+      "id": "trigger-journal-save",
+      "name": "When called by another workflow"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.item.json;\nconst telefono = String(item.telefono || '').replace(/[^\\d]/g, '');\nconst texto = String(item.texto || '').trim().slice(0, 4000);\nconst fecha = new Date().toISOString().split('T')[0];\nif (!telefono || !texto) {\n  return { ok: false, error: 'falta telefono o texto' };\n}\nreturn { telefono, texto, fecha };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "id": "validate-input",
+      "name": "validate"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT fecha_inicio_ciclo, duracion_ciclo, promedio_duracion_ciclo FROM usuarias WHERE telefono = '{{ $json.telefono }}' LIMIT 1;"
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [220, 0],
+      "id": "fetch-usuaria",
+      "name": "fetch usuaria",
+      "credentials": {
+        "postgres": {
+          "id": "EbjxUtHQIlbXl1hj",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const ctx = $input.item.json;\nconst usuarias = $('fetch usuaria').all().map(i => i.json);\nconst u = usuarias[0];\nlet fase = null;\nif (u && u.fecha_inicio_ciclo) {\n  const lastPeriod = new Date(u.fecha_inicio_ciclo);\n  const cycleLength = u.promedio_duracion_ciclo || u.duracion_ciclo || 28;\n  const today = new Date(ctx.fecha + 'T00:00:00');\n  const diffDays = Math.max(0, Math.floor((today - lastPeriod) / (1000*60*60*24)));\n  const day = (diffDays % cycleLength) + 1;\n  const ovulation = Math.max(8, cycleLength - 14);\n  if (day <= 5) fase = 'menstrual';\n  else if (day < ovulation - 2) fase = 'folicular';\n  else if (day <= ovulation + 2) fase = 'ovulatoria';\n  else fase = 'lutea';\n}\nreturn { ...ctx, fase };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [440, 0],
+      "id": "calc-fase",
+      "name": "calcular fase"
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "tableId": "journal_entries",
+        "fieldsUi": {
+          "fieldValues": [
+            { "fieldId": "telefono", "fieldValue": "={{ $json.telefono }}" },
+            { "fieldId": "fecha", "fieldValue": "={{ $json.fecha }}" },
+            { "fieldId": "fase", "fieldValue": "={{ $json.fase }}" },
+            { "fieldId": "texto", "fieldValue": "={{ $json.texto }}" }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [660, 0],
+      "id": "insert-journal",
+      "name": "insert journal",
+      "credentials": {
+        "supabaseApi": {
+          "id": "UMMgPoJJiiA3RdpM",
+          "name": "Supabase ciclic"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return { ok: true, fecha: $input.item.json.fecha, fase: $input.item.json.fase };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [880, 0],
+      "id": "ok-response",
+      "name": "ok"
+    }
+  ],
+  "connections": {
+    "When called by another workflow": {
+      "main": [[{ "node": "validate", "type": "main", "index": 0 }]]
+    },
+    "validate": {
+      "main": [[{ "node": "fetch usuaria", "type": "main", "index": 0 }]]
+    },
+    "fetch usuaria": {
+      "main": [[{ "node": "calcular fase", "type": "main", "index": 0 }]]
+    },
+    "calcular fase": {
+      "main": [[{ "node": "insert journal", "type": "main", "index": 0 }]]
+    },
+    "insert journal": {
+      "main": [[{ "node": "ok", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": { "executionOrder": "v1" }
+}
