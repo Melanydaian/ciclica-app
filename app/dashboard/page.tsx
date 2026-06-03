@@ -13,6 +13,7 @@ import PrimerPeriodoCard from '@/components/cycle/PrimerPeriodoCard'
 import StreakCard from '@/components/cycle/StreakCard'
 import DailyCheckIn from '@/components/cycle/DailyCheckIn'
 import QuickAccessCard from '@/components/cycle/QuickAccessCard'
+import { ChartLine, CalendarHeart, HeartHandshake, NotebookPen } from 'lucide-react'
 
 export default async function DashboardPage() {
   const { telefono, webUser } = await requireUsuaria()
@@ -212,7 +213,7 @@ export default async function DashboardPage() {
             <div className="grid grid-cols-2 gap-3">
               <QuickAccessCard
                 href="/dashboard/sintomas"
-                emoji="📊"
+                Icon={ChartLine}
                 label="Tus síntomas"
                 primary={totalSintomas}
                 primarySuffix={totalSintomas === 1 ? 'registro' : 'registros'}
@@ -224,7 +225,7 @@ export default async function DashboardPage() {
               />
               <QuickAccessCard
                 href="/dashboard/historial"
-                emoji="📅"
+                Icon={CalendarHeart}
                 label="Tu historial"
                 primary={pastCycles.length}
                 primarySuffix={pastCycles.length === 1 ? 'ciclo' : 'ciclos'}
@@ -237,7 +238,7 @@ export default async function DashboardPage() {
               />
               <QuickAccessCard
                 href="/dashboard/intimidad"
-                emoji="💗"
+                Icon={HeartHandshake}
                 label="Tu intimidad"
                 primary={sexCount}
                 primarySuffix={sexCount === 1 ? 'registro' : 'registros'}
@@ -249,7 +250,7 @@ export default async function DashboardPage() {
               />
               <QuickAccessCard
                 href="/dashboard/journal"
-                emoji="📔"
+                Icon={NotebookPen}
                 label="Tu diario"
                 primary={journalRows?.length ? 'Última nota' : '0'}
                 primarySuffix={journalRows?.length ? '' : 'notas'}

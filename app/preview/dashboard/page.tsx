@@ -10,6 +10,7 @@ import DailyCheckIn from '@/components/cycle/DailyCheckIn'
 import StreakCard from '@/components/cycle/StreakCard'
 import QuickAccessCard from '@/components/cycle/QuickAccessCard'
 import NavBar from '@/components/layout/NavBar'
+import { ChartLine, CalendarHeart, HeartHandshake, NotebookPen } from 'lucide-react'
 
 // Página de PREVIEW con datos mock — pública, solo para screenshots y diseño.
 // NO mostrar en producción a usuarias reales.
@@ -99,7 +100,7 @@ export default function PreviewDashboardPage() {
             <div className="grid grid-cols-2 gap-3">
               <QuickAccessCard
                 href="/dashboard/sintomas"
-                emoji="📊"
+                Icon={ChartLine}
                 label="Tus síntomas"
                 primary={6}
                 primarySuffix="registros"
@@ -107,7 +108,7 @@ export default function PreviewDashboardPage() {
               />
               <QuickAccessCard
                 href="/dashboard/historial"
-                emoji="📅"
+                Icon={CalendarHeart}
                 label="Tu historial"
                 primary={5}
                 primarySuffix="ciclos"
@@ -116,7 +117,7 @@ export default function PreviewDashboardPage() {
               />
               <QuickAccessCard
                 href="/dashboard/intimidad"
-                emoji="💗"
+                Icon={HeartHandshake}
                 label="Tu intimidad"
                 primary={4}
                 primarySuffix="registros"
@@ -124,7 +125,7 @@ export default function PreviewDashboardPage() {
               />
               <QuickAccessCard
                 href="/dashboard/journal"
-                emoji="📔"
+                Icon={NotebookPen}
                 label="Tu diario"
                 primary="Última nota"
                 hint='"Hoy me sentí súper energética y con muchas ganas de empezar..."'

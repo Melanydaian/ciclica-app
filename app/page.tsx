@@ -94,7 +94,7 @@ function LoginForm() {
     <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-[#FFF9FB] dark:bg-[#14101A] overflow-x-hidden transition-colors">
       <div className="w-full max-w-sm">
         <div className="flex justify-center mb-6">
-          <img src="/logo.png" alt="Cíclica" className="h-24 w-auto" />
+          <img src="/logo.png" alt="Cíclica" className="h-32 w-auto" />
         </div>
 
         {sent ? (

@@ -1,8 +1,10 @@
 import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 export default function QuickAccessCard({
   href,
-  emoji,
+  Icon,
   label,
   primary,
   primarySuffix,
@@ -10,7 +12,7 @@ export default function QuickAccessCard({
   accent = '#EC4899',
 }: {
   href: string
-  emoji: string
+  Icon: LucideIcon
   label: string
   primary: string | number
   primarySuffix?: string
@@ -24,10 +26,16 @@ export default function QuickAccessCard({
     >
       <div>
         <div className="flex items-center justify-between mb-2">
-          <span className="text-2xl leading-none">{emoji}</span>
-          <span className="text-gray-300 group-hover:text-pink-500 transition-colors text-lg leading-none">
-            →
+          <span
+            className="inline-flex items-center justify-center w-9 h-9 rounded-xl"
+            style={{ background: `${accent}1A`, color: accent }}
+          >
+            <Icon size={18} strokeWidth={2.2} />
           </span>
+          <ArrowRight
+            size={16}
+            className="text-gray-300 dark:text-[#5A4F62] group-hover:text-pink-500 transition-colors"
+          />
         </div>
         <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-[#8A8190]">
           {label}
