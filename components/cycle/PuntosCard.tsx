@@ -71,13 +71,13 @@ export default function PuntosCard({
 
       {codigoReferido && (
         <div className="rounded-2xl overflow-hidden border border-pink-100 dark:border-[#3A2F3F]">
-          <div className="bg-gradient-to-r from-pink-50 to-purple-50 px-4 py-4">
-            <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-pink-700 mb-2">
+          <div className="bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-500/10 dark:to-purple-500/10 px-4 py-4">
+            <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-pink-700 dark:text-pink-300 mb-2">
               Invitá a una amiga
             </div>
             <div className="text-xs text-gray-600 dark:text-[#C9BFCB] mb-4">Ambas suman puntos (vos +50, ella +10)</div>
 
-            <div className="flex items-center gap-3 bg-white rounded-xl px-4 py-3 border border-pink-100 dark:border-[#3A2F3F]">
+            <div className="flex items-center gap-3 bg-white dark:bg-[#2A2030] rounded-xl px-4 py-3 border border-pink-100 dark:border-[#3A2F3F]">
               <span className="flex-1 text-xl font-bold text-gray-800 dark:text-[#F4F1F5] tracking-[0.25em] tabular-nums">
                 {codigoReferido}
               </span>

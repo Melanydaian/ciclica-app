@@ -153,7 +153,7 @@ export default async function DashboardPage() {
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400">
           Hola, {nombre} 👋
         </p>
-        <h1 className="text-2xl font-bold text-gray-800 mt-1">Tu ciclo hoy</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-[#F4F1F5] mt-1">Tu ciclo hoy</h1>
       </div>
 
       {phaseData && lastPeriod && (

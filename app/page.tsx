@@ -125,7 +125,7 @@ function LoginForm() {
             <button
               onClick={handleGoogle}
               disabled={loadingGoogle || loadingEmail}
-              className="w-full py-3 rounded-xl bg-white border border-gray-200 text-gray-700 dark:text-[#E5DBE8] font-medium text-sm hover:bg-gray-50 active:bg-gray-100 transition-colors disabled:opacity-60 flex items-center justify-center gap-3"
+              className="w-full py-3 rounded-xl bg-white border border-gray-200 text-gray-700 dark:text-[#E5DBE8] font-medium text-sm hover:bg-gray-50 dark:hover:bg-[#2A2030] active:bg-gray-100 transition-colors disabled:opacity-60 flex items-center justify-center gap-3"
             >
               <GoogleIcon />
               {loadingGoogle ? 'Conectando...' : 'Continuar con Google'}
@@ -163,7 +163,7 @@ function LoginForm() {
               <button
                 type="button"
                 onClick={() => setShowEmail(true)}
-                className="w-full py-3 rounded-xl bg-transparent border border-pink-200 text-pink-600 font-medium text-sm hover:bg-pink-50 transition-colors"
+                className="w-full py-3 rounded-xl bg-transparent border border-pink-200 text-pink-600 font-medium text-sm hover:bg-pink-50 dark:hover:bg-[#2A2030] transition-colors"
               >
                 Recibir enlace por email
               </button>

@@ -232,7 +232,7 @@ export default function PerfilContent({
       <button
         type="button"
         onClick={handleLogout}
-        className="w-full py-3 rounded-xl border border-gray-200 dark:border-[#3A2F3F] text-gray-500 dark:text-[#B4ABB8] text-sm hover:text-gray-700 dark:hover:text-[#E5DBE8] hover:bg-gray-50 transition-colors"
+        className="w-full py-3 rounded-xl border border-gray-200 dark:border-[#3A2F3F] text-gray-500 dark:text-[#B4ABB8] text-sm hover:text-gray-700 dark:hover:text-[#E5DBE8] hover:bg-gray-50 dark:hover:bg-[#2A2030] transition-colors"
       >
         Cerrar sesión
       </button>

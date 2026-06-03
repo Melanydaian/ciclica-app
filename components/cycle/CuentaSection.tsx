@@ -95,7 +95,7 @@ export default function CuentaSection() {
                   await fetch(`/api/share?token=${shareToken.token}`, { method: 'DELETE' })
                   setShareToken(null)
                 }}
-                className="py-2 rounded-lg bg-white border border-gray-200 dark:border-[#3A2F3F] text-gray-600 dark:text-[#C9BFCB] text-xs font-medium hover:bg-gray-50"
+                className="py-2 rounded-lg bg-white dark:bg-[#2A2030] border border-gray-200 dark:border-[#3A2F3F] text-gray-600 dark:text-[#C9BFCB] text-xs font-medium hover:bg-gray-50 dark:hover:bg-[#2A2030]"
               >
                 Revocar
               </button>
@@ -124,7 +124,7 @@ export default function CuentaSection() {
             type="button"
             onClick={exportar}
             disabled={exporting}
-            className="w-full py-2.5 px-4 rounded-xl border border-gray-200 dark:border-[#3A2F3F] text-gray-700 dark:text-[#E5DBE8] text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-3 disabled:opacity-60"
+            className="w-full py-2.5 px-4 rounded-xl border border-gray-200 dark:border-[#3A2F3F] text-gray-700 dark:text-[#E5DBE8] text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#2A2030] transition-colors flex items-center gap-3 disabled:opacity-60"
           >
             <span>📥</span>
             <span className="flex-1 text-left">
@@ -137,7 +137,7 @@ export default function CuentaSection() {
             href="/privacidad"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-2.5 px-4 rounded-xl border border-gray-200 dark:border-[#3A2F3F] text-gray-700 dark:text-[#E5DBE8] text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-3"
+            className="w-full py-2.5 px-4 rounded-xl border border-gray-200 dark:border-[#3A2F3F] text-gray-700 dark:text-[#E5DBE8] text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#2A2030] transition-colors flex items-center gap-3"
           >
             <span>📄</span>
             <span className="flex-1 text-left">Política de privacidad</span>
@@ -148,7 +148,7 @@ export default function CuentaSection() {
             href="/terminos"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-2.5 px-4 rounded-xl border border-gray-200 dark:border-[#3A2F3F] text-gray-700 dark:text-[#E5DBE8] text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-3"
+            className="w-full py-2.5 px-4 rounded-xl border border-gray-200 dark:border-[#3A2F3F] text-gray-700 dark:text-[#E5DBE8] text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#2A2030] transition-colors flex items-center gap-3"
           >
             <span>📋</span>
             <span className="flex-1 text-left">Términos de uso</span>

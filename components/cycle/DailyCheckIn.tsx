@@ -86,7 +86,7 @@ export default function DailyCheckIn({ yaRegistroHoy = false }: { yaRegistroHoy?
               className={`flex flex-col items-center justify-center py-2.5 rounded-2xl border transition-all ${
                 active
                   ? 'bg-pink-50 dark:bg-pink-500/10 border-pink-300 scale-105'
-                  : 'bg-white border-gray-100 dark:border-[#3A2F3F] hover:border-pink-200'
+                  : 'bg-pink-50/50 dark:bg-[#2A2030] border-pink-100 dark:border-[#3A2F3F] hover:border-pink-300'
               }`}
             >
               <span className="text-2xl leading-none">{m.emoji}</span>
@@ -114,7 +114,7 @@ export default function DailyCheckIn({ yaRegistroHoy = false }: { yaRegistroHoy?
                   className={`px-2.5 py-1 rounded-full text-xs font-medium border transition-all ${
                     active
                       ? 'bg-pink-500 text-white border-pink-500'
-                      : 'bg-white text-gray-600 dark:text-[#C9BFCB] border-gray-200 dark:border-[#3A2F3F] hover:border-pink-200'
+                      : 'bg-pink-50/40 dark:bg-[#2A2030] text-gray-600 dark:text-[#C9BFCB] border-pink-100 dark:border-[#3A2F3F] hover:border-pink-300'
                   }`}
                 >
                   {s}

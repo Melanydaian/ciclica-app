@@ -121,7 +121,7 @@ export default function ExportarPDFButton({
   return (
     <button
       onClick={handleExport}
-      className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-pink-200 text-pink-600 text-sm font-medium hover:bg-pink-50 transition-colors"
+      className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-pink-200 text-pink-600 text-sm font-medium hover:bg-pink-50 dark:hover:bg-[#2A2030] transition-colors"
     >
       📄 Exportar resumen para el médico
     </button>
