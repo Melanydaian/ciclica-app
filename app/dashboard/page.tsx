@@ -13,6 +13,7 @@ import PrimerPeriodoCard from '@/components/cycle/PrimerPeriodoCard'
 import StreakCard from '@/components/cycle/StreakCard'
 import DailyCheckIn from '@/components/cycle/DailyCheckIn'
 import QuickAccessCard from '@/components/cycle/QuickAccessCard'
+import AsistenteCard from '@/components/cycle/AsistenteCard'
 import { ChartLine, CalendarHeart, HeartHandshake, NotebookPen } from 'lucide-react'
 
 export default async function DashboardPage() {
@@ -162,6 +163,8 @@ export default async function DashboardPage() {
           yaRegistroHoy={registros.some(r => r.fecha === new Date().toISOString().split('T')[0])}
         />
       )}
+
+      <AsistenteCard />
 
       {phaseData && lastPeriod ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

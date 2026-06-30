@@ -4,13 +4,14 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import type { User } from '@supabase/supabase-js'
-import { Home, CalendarHeart, Sparkles, HeartHandshake, UserRound, LogOut } from 'lucide-react'
+import { Home, CalendarHeart, Sparkles, HeartHandshake, UserRound, LogOut, MessageCircleHeart } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
 type NavLink = { href: string; label: string; Icon: LucideIcon }
 
 const links: NavLink[] = [
   { href: '/dashboard',            label: 'Inicio',     Icon: Home },
+  { href: '/dashboard/asistente',  label: 'Asistente',  Icon: MessageCircleHeart },
   { href: '/dashboard/historial',  label: 'Historial',  Icon: CalendarHeart },
   { href: '/dashboard/sintomas',   label: 'Síntomas',   Icon: Sparkles },
   { href: '/dashboard/intimidad',  label: 'Intimidad',  Icon: HeartHandshake },
